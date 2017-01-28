@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		{{ partial "meta.html" . }}
+
+		<title>{{ .Title }} | {{ .Site.Title }}</title>
+	</head>
+	<body class="single">
+		{{ partial "header.html" . }}
+
+		<main>
+			<header>
+				<div>
+					<h1>{{ .Title }}</h1>
+					{{ if .Params.author }}
+					<p>
+						<span>by {{ .Params.author }}</span>
+					</p>
+					{{ end }}
+				</div>
+			</header>
+			<section>
+				<article id="markdown">
+					{{ .Content }}
+				</article>
+			</section>
+		</main>
+
+		{{ partial "footer.html" . }}
+	</body>
+</html>

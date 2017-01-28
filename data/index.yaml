@@ -1,0 +1,20 @@
+cards:
+  - title: User Guide
+    icon: school
+    description: Start here to lean how to use the Waylay platform
+    url: /usage/
+
+  - title: API Guide
+    icon: code
+    description: Documentation and guides on using the Waylay REST APIs
+    url: /api/
+
+  - title: Plugins
+    icon: extension
+    description: Learn more about Waylay Sensors & Actuators
+    url: /plugins/
+
+  - title: Architecture
+    icon: device_hub
+    description: Get more familiar with the Waylay architecture
+    url: /architecture/overview

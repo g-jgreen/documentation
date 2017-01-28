@@ -1,0 +1,29 @@
+title: "Waylay.io Documentation"
+baseURL: "http://130.211.103.225/"
+theme: "drone"
+
+defaultContentLanguage: en
+
+copyright: Copyright © 2017 Waylay BVBA
+
+menu:
+  main:
+    - identifier: documentation
+      weight: 1
+      name: Documentation
+      url: /
+
+    - identifier: tutorial
+      weight: 2
+      name: Tutorials
+      url: /tutorials/
+
+    - identifier: support
+      weight: 3
+      name: Support
+      url: /support/
+
+    - identifier: plugin
+      weight: 4
+      name: Plugins
+      url: /plugins/

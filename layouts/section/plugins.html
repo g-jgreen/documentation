@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		{{ partial "meta.html" . }}
+
+		<title>{{ .Title }} | {{ .Site.Title }}</title>
+	</head>
+	<body class="list">
+		{{ partial "header.html" . }}
+
+		<main>
+			<header>
+				<div>
+					<h1>Plugins</h1>
+					<p>A collection of Waylay sensors and actuators</p>
+					<input type="text" placeholder="Search plugins" />
+				</div>
+			</header>
+
+			<section class="plugins">
+				{{- range .Data.Pages.ByTitle }}
+				{{ .Render "card" }}
+				{{ end }}
+			</section>
+		</main>
+		{{ partial "footer.html" . }}
+	</body>
+</html>

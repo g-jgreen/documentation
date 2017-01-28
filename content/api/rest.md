@@ -1,0 +1,864 @@
+---
+title: REST APIs
+description: Learn how to use the Waylay REST API
+---
+
+# API keys
+
+Before you can start using the REST API, you must visit your profile page in the waylay application and fetch your API keys:
+
+![enter image description here](https://raw.githubusercontent.com/waylayio/documentation/master/images/profile.png)
+
+Once you have retrieved your keys, you can verify whether your keys and the REST server work E2E by issuing the following command:
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/ping
+```
+
+{{% alert info %}}
+you can test the same from the UI (see picture above), but since in the rest of the document we will be using curl command, the best is that you at this point in time do the same from the command line.
+{{% /alert %}}
+
+---
+
+## TASK related calls
+
+### Get information about a single task
+Response will include template definition and task's type and settings.
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/tasks/{taskID}
+```
+
+### Task querying
+You can also query more tasks and once using the following command:
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/tasks
+```
+
+This call gives first 10 tasks (default behaviour), and if you need to filter your tasks, you can use a query language as defined below.
+
+
+#### Task querying filtering
+
+Query parameters are:
+
+* filter (fuzzy search on multiple properties)
+* name
+* resource
+* type (scheduled, periodic, ...)
+* status (running, stopped, failed)
+* ids (comma separated string)
+* id (can be added multiple times)
+* tags (comma separated string)
+* tag (can be added multiple times)
+* plugin (`mySensor` or `mySensor:1.0.3`)
+
+_All query parameters are combined with logical AND operator_. That means that if you combine more than one parameter together you will only receive tasks that match all conditions.
+
+
+##### Query by name
+You query task by a name using * characters to get a list of tasks that matches the input string. For instance in this call you can retrieve all tasks that start with _taskName_.
+
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks?name=taskName*"
+```
+
+If you query task by resource, input must match the resource name exactly. You can still receive more tasks in case they all have the same resource name.
+
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks?resource=resource1"
+```
+
+##### Task query paging
+
+Related parameters:
+
+* startIndex
+* hits (default 10, max. 100)
+
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks?startIndex=1"
+```
+
+Default number of returned results is 10, and you can change this using _hits_ parameter. For instance, this call will retrieve maximum 50 tasks, starting search from the task index 50. (second page of 50-per-page results)
+
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks?startIndex=50&hits=50"
+```
+
+#### Get the total count
+In order to retrieve the total task count, check the header of the response (X-Count). In this example, we receive back 27 tasks:
+
+```bash
+$ curl --user <KEY>:<SECRET> -I "https://sandbox.waylay.io/api/tasks"
+
+HTTP/1.1 200 OK
+Server: nginx/1.6.2
+Date: Wed, 07 Jan 2015 10:50:32 GMT
+Content-Type: application/json
+Content-Length: 0
+Connection: keep-alive
+X-Count: 27
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Expose-Headers: X-Count
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+```
+
+#### Get the count of running tasks
+
+```bash
+$ curl --user <KEY>:<SECRET> -I "https://sandbox.waylay.io/api/tasks?status=running"
+
+HTTP/1.1 200 OK
+Server: nginx/1.6.2
+Date: Wed, 07 Jan 2015 10:50:32 GMT
+Content-Type: application/json
+Content-Length: 0
+Connection: keep-alive
+X-Count: 5
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Expose-Headers: X-Count
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+```
+
+### Creating a task
+There are mainly 2 ways to create a task, either by specifying the rule in the request, or by specifying the template with which the task needs to be instantiated.
+
+#### Create a task with rule defined in the request
+You can create a task without a need to create a template first. In order to create a task you will need to specify the following in the request:
+
+* sensors, list of sensors with required properties
+* actuators, list of actuators with required properties
+* relations, list of relations(gates) between sensors
+* triggers, list of conditions under which actuators get executed.
+* task, task related settings
+
+##### Sensor and actuator settings are:
+* label , node label
+* name , sensor/actuator name
+* version,
+* position, array such as [245, 205],
+* properties, key-value object of required properties
+* resource , resource - applicable only for sensors
+* sequence , sequence - applicable only for sensors, if omitted default is 1
+
+##### Trigger settings are:
+* destinationLabel, label of the actuator
+* sourceLabel, label of the sensor
+* invocationPolicy, integer number that defines how long to wait before firing the same actuator again, even if the condition is met.
+statesTrigger, array of states under which to fire the actuator
+
+##### Relations settings are:
+Relations express logical gates that can be defined between sensors. There are 3 types of relations: AND, OR and GENERAL.
+
+* combinations, array of arrays, such as ["Above", "Above"], ["Below", "Below"]. Only GENERAL gate will have more than one array of combinations
+label: "ANDGate_1"
+* parentLabels, array of labels of sensors that are attached to this relation
+* position, array such as [245, 205],
+* type,  "AND", "OR" or "GENERAL"
+
+##### Task settings are:
+* name
+* start, flag to start a task, default yes
+* type (onetime, cron, reactive, periodic)
+* other task type related settings, see further below
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+  "sensors": [
+    {
+      "label": "currentWeather_1",
+      "name": "currentWeather",
+      "version": "1.0.3",
+      "sequence": 1,
+      "properties": {
+        "city": "Gent, Belgium"
+      },
+      "position": [173, 158]
+    },
+    {
+      "label": "isWeekend_1",
+      "name": "isWeekend",
+      "version": "1.0.3",
+      "sequence": 1,
+      "position": [179, 369]
+    }
+  ],
+  "actuators": [
+    {
+      "label": "TwitterDM_1",
+      "name": "sendTwitterDM",
+      "version": "1.0.1",
+      "properties": {
+        "screenName": "pizuricv",
+        "message": "Great weekend!"
+      },
+      "position": [600, 199]
+    }
+  ],
+  "relations": [
+    {
+      "label": "ANDGate_1",
+      "type": "AND",
+      "position": [353, 264],
+      "parentLabels": ["currentWeather_1", "isWeekend_1"],
+      "combinations": [["Clear", "TRUE"]]
+    }
+  ],
+  "triggers": [
+    {
+      "destinationLabel": "TwitterDM_1",
+      "sourceLabel": "ANDGate_1",
+      "statesTrigger": ["TRUE"],
+      "invocationPolicy": 1
+    }
+  ],
+  "task": {
+    "type": "periodic",
+    "start": true,
+    "name": "Rule created on 12/8/2015, 1:38:56 PM by veselin@waylay.io",
+    "pollingInterval": 900
+  }
+}' "https://sandbox.waylay.io/api/tasks"
+```
+
+#### Creating a task from a template
+In order to start a task from the template, you need to provide the following inputs:
+
+* name: task name
+* template: template name
+* resource: resource name
+* start: whether task is started after creation
+
+##### Cron task
+Cron specific input settings:
+
+* type : scheduled
+* cron: cron expression as defined in [Cron format](http://www.quartz-scheduler.org/documentation/quartz-1.x/tutorials/crontrigger)
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+  "name": "test1",
+  "template": "internet.json",
+  "resource": "hello",
+  "start": false,
+  "type": "scheduled",
+  "cron": "0/30 * * * * ?"
+}' "https://sandbox.waylay.io/api/tasks"
+```
+
+##### Periodic task
+Periodic specific input settings:
+
+* type : periodic
+* frequency: polling frequency in milliseconds (default 10 seconds)
+* pollingFixedRate : fixed rate or fixed delay (default fixed false - meaning fixed delay)
+* resetObservations: whether to clear observation before next invocation (default false)
+* parallel: whether to run sensors in parallel or sequentially (default true, meaning parallel)
+
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+  "name": "test2",
+  "template": "internet.json",
+  "resource": "hello",
+  "start": false,
+  "type": "periodic",
+  "frequency": 1000
+}' "https://sandbox.waylay.io/api/tasks"
+```
+
+{{% alert info %}}
+In case that you set the task to run sequentially (parallel flag=false), order of sensor's execution will be based on the cost of the sensor (from lower to higher).
+{{% /alert %}}
+
+##### Onetime task
+Onetime specific input settings:
+
+* type: onetime
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+  "name": "test3",
+  "template": "internet.json",
+  "resource": "hello",
+  "type": "onetime"
+}' "https://sandbox.waylay.io/api/tasks"
+```
+
+#### Creating a task with sensor properties in the request
+
+You can also override node/sensor/actuator settings of the template before starting the task. These are the fields you can override:
+
+-   nodes.[\*].properties.cost (sequence number)
+-   nodes.[\*].properties.resource (string)
+-   nodes.[\*].properties.evictionTime (millis)
+-   nodes.[\*].properties.pollingPeriod (millis)
+-   nodes.[\*].properties.pollingFixedRate (boolean)
+-   nodes.[\*].properties.sensor.requiredProperties.\*
+-   nodes.[\*].properties.actions.[\*].requiredProperties.\*
+
+In this example, we change addresses of the `Ping` sensors and the resource of node `Ping_2`:
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+"name": "test4",
+"template": "internet.json",
+"resource": "hello",
+"start": false,
+"type": "scheduled",
+"cron": "0/30 * * * * ?",
+"nodes": [{
+  "name": "Ping_1",
+  "properties": {
+    "sensor": {
+      "name": "Ping",
+      "version": "1.0.1",
+      "label": "Ping_1",
+      "requiredProperties": [
+        {"address": "www.waylay.io"}
+      ]
+    }
+  }
+}, {
+  "name": "Ping_2",
+  "properties": {
+    "resource": "newresource"
+    "sensor": {
+      "name": "Ping",
+      "version": "1.0.1",
+      "label": "Ping_2",
+      "requiredProperties": [
+        {"address": "sandbox.waylay.io"}
+      ]
+    }
+  }
+}]}' "https://sandbox.waylay.io/api/tasks"
+```
+
+#### Deleting a task
+
+```bash
+curl --user <KEY>:<SECRET> -X DELETE "https://sandbox.waylay.io/api/tasks/1"
+```
+
+#### Starting and stoping a task
+
+```bash
+curl --user <KEY>:<SECRET> -X POST "https://sandbox.waylay.io/api/tasks/1/command/stop"
+```
+
+```bash
+curl --user <KEY>:<SECRET> -X POST "https://sandbox.waylay.io/api/tasks/1/command/start"
+```
+
+### Task Node related calls
+
+#### Get current states(posteriors) and raw data for the node
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1"
+```
+
+#### Get supported states for the node
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1/states"
+```
+
+#### Set the state for the node
+```bash
+curl --user <KEY>:<SECRET> -X POST  -d 'state=Alive' "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1"
+```
+
+#### Execute sensor attached to the node
+At any time you can execute a sensor attached to the node. Please be aware that the state change will be inferred in that task right after the sensor execution. For instance, in this call below, we will execute Ping sensor on the task 759:
+
+```bash
+curl --user <KEY>:<SECRET> -X POST  -d 'operation=start' "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1"
+```
+
+### Batch operations on tasks
+
+All the batch operations work with the same filters as querying for tasks, except the `filter` parameter which is not allowed because it's not exact.
+
+#### Deleting multiple tasks
+
+```bash
+curl --user <KEY>:<SECRET> -X DELETE "https://sandbox.waylay.io/api/tasks?ids=1,3,9"
+```
+
+#### Modifying existing tasks
+
+These calls will modify existing tasks in-place. Below an example of what such a request looks like:
+
+```bash
+curl --user <KEY>:<SECRET> -X PATCH "https://sandbox.waylay.io/api/tasks?ids=1,3,9" -H "Content-Type:application/json" -d '{"operation": "xxx", ...}'
+```
+
+##### Commands
+
+This allows to start or stop a bunch of tasks
+
+The body should look like this
+```json
+{
+  "operation": "command",
+  "command": "stop"
+}
+```
+
+##### Plugin updates
+
+This will apply plugin version updates and re-instantiate the tasks.
+
+The body should look like this (fromVersion can be an exact version or `any`)
+```json
+{
+  "operation": "updatePlugins",
+  "updates": [
+    {
+      "name": "myActuator",
+      "fromVersion": "1.0.1",
+      "toVersion": "1.0.3"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "1.1.0",
+      "toVersion": "1.3.2"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "any",
+      "toVersion": "2.0.0"
+    }
+  ]
+}
+```
+
+{{% alert warn %}}
+You are responsible to make sure this new plugin version stays compatible with the old provided properties
+{{% /alert %}}
+
+{{% alert warn %}}
+This is only allowed for tasks that have no linked template. For updating tasks that have been instantiated from a template you have to update the template and restart the tasks
+{{% /alert %}}
+
+##### Reloading tasks
+
+This is mainly for applying template updates to existing tasks
+
+```json
+{
+  "operation": "command",
+  "command": "reload"
+}
+```
+
+##### Modifying task properties
+
+This allows you to modify sensor / actuator properties while keeping the task Id.
+
+The format used to modify properties is the same as when you create a [task from a template](#task_with_props). Updates will be merged with any previously provided properties.
+
+```json
+{
+  "operation" : "updateProperties",
+  "nodes" : [ {
+    "name" : "node1",
+    "properties" : {
+      "sensor" : {
+        "requiredProperties" : [ {
+          "prop1" : "updatedValue"
+        }, {
+          "prop1" : "updatedValue"
+        } ]
+      }
+    }
+  }, {
+    "name" : "node2",
+    "properties" : {
+      "actions" : [ {
+        "label" : "actuator1",
+        "requiredProperties" : [ {
+          "prop1" : "updatedValue"
+        } ]
+      } ]
+    }
+  } ]
+}
+```
+
+## Templates
+
+### List all templates
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/templates
+```
+
+### Get one template
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/templates/internet.json
+```
+
+### Delete template
+
+```bash
+curl --user <KEY>:<SECRET> -X DELETE https://sandbox.waylay.io/api/templates/internet.json
+```
+
+### Submit a new template
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{ posterior: [ { nodes: [ "CONNECTION", "Ping_1", "Ping_2", "Ping_3" ], function: [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] } ], nodes: [ { states: [ "OK", "NOK" ], name: "CONNECTION", properties: { position: [ 497, 235 ], comment: "created by waylay", cost: 1 }, type: "discrete", mode: "nature" }, { states: [ "Not Alive", "Alive" ], name: "Ping_1", properties: { position: [ 214, 317 ], comment: "created by waylay", cost: 1, sensor: { name: "Ping", version: "1.0.1", label: "Ping_1", requiredProperties: [ { address: "www.google.com" } ] } }, type: "discrete", mode: "nature", priors: [ 0.5, 0.5 ] }, { states: [ "Not Alive", "Alive" ], name: "Ping_2", properties: { position: [ 144, 163 ], comment: "created by waylay", cost: 1, sensor: { name: "Ping", version: "1.0.1", label: "Ping_2", requiredProperties: [ { address: "www.waylay.io" } ] } }, type: "discrete", mode: "nature", priors: [ 0.5, 0.5 ] }, { states: [ "Not Alive", "Alive" ], name: "Ping_3", properties: { position: [ 359, 62 ], comment: "created by waylay", cost: 1, sensor: { name: "Ping", version: "1.0.1", label: "Ping_3", requiredProperties: [ { address: "www.yahoo.com" } ] } }, type: "discrete", mode: "nature", priors: [ 0.5, 0.5 ] } ], name: "internet2.json" }' https://sandbox.waylay.io/api/templates
+```
+
+## Plugs
+### Sensors
+#### Get list of all sensors
+
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/sensors
+```
+#### Execute sensor
+You can test any sensor using REST. Of course, you will need to provide sensor specific parameters in the call, like in this example where we provide city name to the weather sensor:
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{properties: {"city" : "Gent"}}' "https://sandbox.waylay.io/api/sensors/weatherSensor/versions/1.0.1"
+```
+
+### Actuators
+#### Get list of all actuators
+
+```bash
+curl --user <KEY>:<SECRET> "https://sandbox.waylay.io/api/actions"
+```
+#### Execute actuator
+
+You can test any actuator using REST. Of course, you will need to provide actuator specific parameters in the call, like in this example where we provide e-mail address and message to mail actuator:
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{properties: {"address" : "veselin@waylay.io", "subject":"test", "message": "hello world"}}' "https://sandbox.waylay.io/api/actions/Mail/versions/1.0.1"
+```
+
+## Provisioning API
+
+Provisioning API allows you to associate metadata with resource. Resources are either discovered by Waylay (as soon as data is pushed towards Waylay Broker) or you can as well create them using REST call. Next to the resource CRUD related calls, waylay also allows you to create ResourceType entities, and let you link resource to a type using metadata (please see example below). As soon as a resource is linked to a resource type, all metadata values of that type are linked to that resource. Resource can still overwrite any specific attribute in its metadata model. Let's see how this work in practice:
+
+### Resource based API calls
+
+#### Create resource
+
+In this example, we create a resource _mydevice_id_ and add two additional attributes: _tenant_ and _label_:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST \
+    -d '{"id":"mydevice_id", "tenant":"tenant1", "label": "helloWorld"}' \
+    https://sandbox.waylay.io/api/resources
+```
+
+##### Reserved keywords for metadata:
+
+Symbol|Type|Meaning
+--- | --- |--- |
+`resourceTypeId`|optional[String]||
+`name`|optional[String]|name of the resource, like testresource
+`provider`|optional[String]|LoRA, Sigfox..
+`providerId`|optional[String]|provder_123
+`tenant`|optional[String]|customer tenant name
+`tags`|optional[List[String]]|(sequence of strings) // example ["Proximus", "myTag", "locationC"]
+`location`|optional [Location type]| see below
+`firmware`|optional[String]|1.2_1234
+`lastMessageTimestamp`|optional[Integer]|(epoch time of the last contact)
+`metrics`|optional[list[ResourceMetric]]| see below
+
+Example of creating a resource and immediately linking it to the resource type:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "id": "myDevice_id",
+    "resourceTypeId": "resourceType_Id",
+    "tenant": "tenant1",
+    "name": "helloWorld"
+  }'
+  "https://sandbox.waylay.io/api/resources"
+```
+
+##### Reserved keywords for Location type:
+
+Symbol|Type|
+--- | --- |
+`lat`|Double|
+`lon`|Double|
+
+##### Reserved keywords for ResourceMetric:
+
+Symbol|Type|Example
+--- | --- |--- |
+`name`|String|Temperature
+`valueType`|String|integer, double, boolean, string, enum
+`valueChoices`|optional[list[String]]| ["OK", "NOK"]
+`metricType`|String|count / gauge / counter / timestamp (for events) _default gauge_
+`unit`|optional[String]|SI units or non-SI units like Fahrenheit...
+`maximum`|optional[Double]|0
+`minimum`|optional[Double]|60
+
+##### Reserved keywords for Metric type:
+
+Symbol|Meaning
+--- | --- |
+`rate`|a number per second (implies that unit ends on ‘/s’)
+`count`|a number per a given interval (such as a statsd flushInterval)
+`gauge`|values at each point in time
+`counter`|keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”
+`timestamp`|value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.
+
+More about metric types you can find here [metric20org](http://metrics20.org/spec/)
+
+Example of creating a resource with a metric:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST \
+-d '{"id":"mydevice_id3", "tenant":"tenant1", "label":"helloWorld", "metrics" : [{"name" :"Temperature", "unit":"C", "valueType": "double", "metricType": "counter" }]}' \
+"https://sandbox.waylay.io/api/resources"
+```
+
+Example of creating a resource with location:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST \
+-d '{"id":"mydevice_id4", "tenant":"tenant1", "label":"helloWorld", "location" : {"lat" : 51, "lon":  3.71 }}' \
+"https://sandbox.waylay.io/api/resources"
+```
+
+#### Update resource
+
+In order to update a resource, you need to put your resource Id in the path as in the example below:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X PUT \
+    -d '{"resourceTypeId":"resourceType_Id", "tenant":"tenant1", "name": "helloWorld"}' \
+    "https://sandbox.waylay.io/api/resources/myDevice_id"
+```
+
+#### Partial update resource
+
+Partial updates allow you to add/modify individual fields on a resource.
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X PATCH \
+    -d '{"resourceTypeId":"resourceType_Id"}' \
+    "https://sandbox.waylay.io/api/resources/myDevice_id"
+```
+
+{{% alert info %}}
+This call also allows you to do upserts, if the resource for the provided id does not exist it will be created
+{{% /alert %}}
+
+#### Delete resource
+
+In order to delete a resource, you need to put your resource Id in the path as in the example below:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X DELETE \
+    "https://sandbox.waylay.io/api/resources/mydevice_id"
+```
+
+#### Retrieve resource
+
+In order to get a resource, you need to put your resource Id in the path as in the example below:
+
+```bash
+curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resources/mydevice_id"
+```
+
+#### Query resources
+
+Resources can be queried by doing a GET request, if needed you can filter on these fields using the query string:
+
+ * filter (partial match on multiple fields)
+ * tag (can be added multiple times)
+ * id (can be added multiple times)
+ * provider
+ * customer
+ * resourceTypeId
+ * lat, lon and distance (like 200km, 100m, ...)
+
+Paging is handled by `skip` and `limit` parameters
+
+```bash
+curl -i --user apiKey:apiSecret https://sandbox.waylay.io/api/resources?filter=car
+```
+
+### Resource type based API calls
+
+#### Create resource type
+
+In this example, we create a resource type and at the same time, we define metric types:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST \
+  -d '{"id":"resourceType_Id", "customeField":"value", "metrics" : [{"name" :"Temperature", "unit":"C", "valueType": "double", "metricType": "counter" }]}' \
+   "https://sandbox.waylay.io/api/resourcetypes"
+```
+
+
+##### Reserved keywords for resource type:
+
+Symbol|Type|Example
+--- | --- | --- |
+`id`|String|D12345 or UUID
+`name`|Option[String]| device_123
+`provider`|optional[String]|Proximus
+`providerId`|optional[String]|123
+`tenant`|optional[String]|customer1
+`metrics`|optional[List[ResourceMetric]]| list of metrics, see below
+
+#### Delete resource type
+
+Similarly, in order to delete a resource type:
+
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X DELETE \
+   https://sandbox.waylay.io/api/resourcetypes/resourceType_Id
+```
+
+#### Retrieve resource type
+
+In order to get a resource type, you need to put your resource type Id in the path as in the example below:
+
+```bash
+curl -i --user apiKey:apiSecret https://sandbox.waylay.io/api/resourcestypes/resourceType_Id
+```
+
+#### Automatically create tasks by associating a template with a resource type
+
+The waylay task engine can automatically provision tasks for each new resource. This is configured in the metadata of the resource type. All you need to add is a field `templates` that contains what templates should be used and what task configuration should be applied to these managed tasks.
+
+Resource type definition:
+
+```
+{
+    "id": "4b80d00a-89f0-41a0-b6e5-d4423caca844",
+     ...
+     "templates": [
+        {
+            "templateName": "templatex",
+            "type": "periodic",
+            "frequency": 60000 // every minute
+        },
+        {
+            "templateName": "templatey",
+            "type": "scheduled",
+            "cron": "0 0 12 * * ?" // Fire at 12pm (noon) every day       
+        }
+     ]  
+}
+```
+
+If for example an existing resource's type is set to the above type type then 2 tasks will be created.
+
+In general these managed tasks are created/removed for these actions:
+
+ * Resource created
+ * Resource removed
+ * Resource's resourceType field updated
+ * ResourceType's templates field is updated
+ * ResourceType is removed
+
+## How to work with real-time (STREAM) data
+
+The waylay application allows you to push raw data and states to the running tasks. Normally this is done via WaylayBroker which allows you to terminate many different protocols (MQTT, WebSockets and REST), but if you wish, you can as well do it directly, calling STREAM related API call on the engine itself.
+
+### Push real-time raw data
+
+If you need to process real time data in your sensors (like location, temperature etc.), you have two options:
+
+* use configuration property (see the interface spec) and fetch the data at runtime in the execute call
+* ask the framework to provide you with real time data and fetch the data from the task context (during the execution call of the sensor).
+
+In case that real time data is provided to the sensors via the context (option 2), the plugin developer has put the responsibility of providing the real time data to the person that implements the REST call. That person could e.g. implement an MQTT to REST bridge to accomplish this.
+When making use of this REST call, you must use the resource parameter as the identifier of your device (or any other "thing"). This is the same resource identifier that is associated with the task when you create it. In this way, the waylay framework can link the pushed raw data and the tasks(and sensors) that require this data.
+
+When tasks gets invoked, the framework will provide the pushed raw data to all tasks (and the sensors) that match the resource identifier. You can create as many tasks as you want using the same resource identifier.
+Here is a REST invocation call that pushes temperature:
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+        resource: "home_X_room1",
+        data:{
+          object:"home_X_room1",
+          type: {
+            unit:"C",
+            dataType:"double",
+            collectedType: "instant"
+          },
+          parameterName: "temperature",
+          value: 23.0,
+          collectedTime: 1420629467,
+          validPeriodSecs:600
+        }
+      }' "https://sandbox.waylay.io/api/data"
+```
+
+
+Here is the app view where you can test this feature(designer in debug mode):
+
+![](https://raw.githubusercontent.com/waylayio/documentation/master/images/global.png)
+
+
+You can also push several parameters at once, and you can as well skip most of the parameter's attributes. For instance, with this call, we are pushing geolocation to the waylay platform, by specifying only longitude and latitude values. By default, waylay puts the _validPeriodSecs_ of the parameter to 60 seconds, and _collectedTime_ to the time the data was received:  
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{ resource: "datasource",  data: [{ parameterName: "latitude", value: 51}, { parameterName: "longitude", value: 3.73}] }' https://sandbox.waylay.io/api/data
+```
+
+For more information please check *Plugin SDK document*.
+
+### Pushing states to the task
+
+For example, if you have a door with two states OPEN/CLOSED, you can push a state change from an external system to the task. There are 2 ways to do this:
+
+1. You can inject the state directly to the particular node in the task (as described before in the node section):
+
+```bash
+curl --user <KEY>:<SECRET>  --data "state=OPEN" -X POST https://sandbox.waylay.io/api/tasks/4/nodes/Door
+```
+
+2.  By specifying a  resource name, as shown below (in which case waylay will push the state change to all tasks that have a node Door and a resource name that matches the one in the request):
+
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{
+        resource: "room_1",
+        nodes: [ {node:"Door", state: "OPEN"}]
+      }' https://sandbox.waylay.io/api/data
+```
+
+## Bucket
+With bucket feature you can associate a task with a resource and keep it as an item in the bucket till you want to invoke it (by resource name). You can have multiple bucket items for the same resource, and all items that match that particular resource will be invoked.
+
+### Start bucket item(s) for resource
+```bash
+curl --user <KEY>:<SECRET> -X POST -d '{}' -H "Content-Type:application/json" https://sanbox.waylay.io/api/bucket/resources/{resource}
+```
+
+### Get bucket item
+```bash
+curl --user <KEY>:<SECRET> https://sandbox.waylay.io/api/bucket/items/1
+```
+
+### Delete bucket item
+```bash
+curl --user <KEY>:<SECRET>  -X DELETE  https://sandbox.waylay.io/api/bucket/items/1
+```
+
+### Create bucket item
+```bash
+curl --user <KEY>:<SECRET> -H "Content-Type:application/json" -X POST -d '{"name": "test4", "template": "internet.json", "resource": "hello", "start": false, "type": "scheduled", "cron": "0/30 * * * * ?", "nodes": [{"name": "Ping_1", "properties": {"sensor": {"name": "Ping", "version": "1.0.1", "label": "Ping_1", "requiredProperties": [{"address": "www.waylay.io"} ] } } }, {"name": "Ping_2", "properties": {"sensor": {"name": "Ping", "version": "1.0.1", "label": "Ping_2", "requiredProperties": [{"address": "sandbox.waylay.io"} ] } } }, {"name": "Ping_3", "properties": {"sensor": {"name": "Ping", "version": "1.0.1", "label": "Ping_3", "requiredProperties": [{"address": "www.google.com"} ] } } } ] }' https://sandbox.waylay.io/api/bucket/items
+```

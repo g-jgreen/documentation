@@ -1,0 +1,29 @@
+{{- $base := .Site.BaseURL -}}
+
+<article>
+	<div>
+		<h2>
+			<a href="{{ .Permalink }}">{{ .Title }}</a>
+			<!-- {{- if .Params.version }}
+			<span class="version">v{{ .Params.version }}</span>
+			{{ end -}} -->
+		</h2>
+
+
+		{{- if .Params.image }}
+		<div class="logo" style="background-image: url({{ .Params.image }})"></div>
+		{{ end -}}
+
+		{{- if .Params.author }}
+		<span class="author">by {{ .Params.author }}</span>
+		{{ end -}}
+
+		<ul class="tags">
+		{{- range .Params.tags }}
+			<li>
+				<a class="tag" href="{{ $base }}tags/{{ . }}">{{ . }}</a>
+			</li>
+		{{ end -}}
+		</ul>
+	</div>
+</article>
