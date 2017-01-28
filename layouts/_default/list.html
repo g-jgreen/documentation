@@ -9,13 +9,7 @@
 		{{ partial "header.html" . }}
 
 		<main>
-			<header>
-				<div>
-					<h1>Documentation</h1>
-					<p>Everything you need to know to get you up and running with Waylay.</p>
-					<input type="text" placeholder="Search" />
-				</div>
-			</header>
+			{{ partial "search.html" }}
 
 			<section>
 				{{- range .Data.Pages }}
