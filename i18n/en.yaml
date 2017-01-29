@@ -1,0 +1,8 @@
+- id: documentation
+  translation: Documentation
+- id: tutorial
+  translation: Tutorial
+- id: support
+  translation: Support
+- id: plugin
+  translation: Plugin
