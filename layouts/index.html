@@ -17,6 +17,13 @@
 				{{ end }}
 			</div>
 
+			<div class="infobar">
+				<i class="material-icons">help_outline</i>
+				<span>
+					Can't find what you're looking for? Ask <a href="mailto:{{ .Site.Params.supportEmail }}">{{ .Site.Params.supportEmail }}</a>.
+				</span>
+			</div>
+
 		</main>
 		{{ partial "footer.html" . }}
 	</body>

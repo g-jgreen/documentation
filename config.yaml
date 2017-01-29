@@ -3,8 +3,10 @@ baseURL: "https://docs.waylay.io/"
 theme: "drone"
 
 defaultContentLanguage: en
-
 copyright: Copyright © 2017 Waylay BVBA
+
+params:
+  supportEmail: support@waylay.io
 
 menu:
   main:
