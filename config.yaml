@@ -1,5 +1,5 @@
 title: "Waylay.io Documentation"
-baseURL: "http://130.211.103.225/"
+baseURL: "https://docs.waylay.io/"
 theme: "drone"
 
 defaultContentLanguage: en
