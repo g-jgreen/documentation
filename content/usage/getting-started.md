@@ -13,6 +13,8 @@ Waylay consists of the following building blocks:
 * Logic consisting of mathematical preprocessing and actual logic.
 * Actuators - a generalized form of output connectors.
 
+![Introduction](https://raw.githubusercontent.com/waylayio/documentation/master/images/schema.png)
+
 # Data Cache
 
 Waylay supports both push and pull models for data, see also the sensor section below. Data can get pushed to the waylay platform over REST, Websockets or MQTT. Sensor data can get pushed directly from gateways or devices or from SW systems that have already collected device data. A broker inside the waylay platform will then push that data to:
