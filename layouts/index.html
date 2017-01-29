@@ -12,7 +12,7 @@
 			{{ partial "search.html" }}
 
 			<div class="cards">
-				{{ range $.Site.Data.index.cards }}
+				{{ range .Site.Data.home.cards }}
 					{{ partial "card.html" . }}
 				{{ end }}
 			</div>
