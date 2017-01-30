@@ -1,6 +1,6 @@
 title: "Waylay.io Documentation"
 baseURL: "https://docs.waylay.io/"
-theme: "drone"
+theme: "waylay"
 
 defaultContentLanguage: en
 copyright: Copyright © 2017 Waylay BVBA
