@@ -19,3 +19,10 @@ pipeline:
     when:
       branch: master
       event: push
+
+  deploy:
+    image: google/cloud-sdk
+    commands:
+    - kubectl set image deployment/documentation documentation=eu.gcr.io/quiet-mechanic-140114/documentation:latest
+    when:
+      status: success
