@@ -4,7 +4,6 @@ description: Learn how to connect and integrate your Sigfox devices
 tags:
 - sigfox
 weight: 5
-draft: true
 ---
 
 Waylay's native Sigfox integration allows you to add many Sigfox enabled devices to automatically forward data to the Waylay platform.
@@ -44,4 +43,4 @@ If you are unsure about your payload configuration, get in touch with your hardw
 
 # Visualisation
 
-some link to the Grafana documentation
+To visualize your devices we recommend using our [Waylay Grafana application](usage/grafana).
