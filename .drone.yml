@@ -8,7 +8,7 @@ pipeline:
   build:
     image: webhippie/hugo:latest
     commands:
-      - hugo --baseUrl http://130.211.103.225/
+      - hugo
 
   docker:
     image: plugins/docker
