@@ -7,6 +7,8 @@ copyright: Copyright © 2017 Waylay BVBA
 
 params:
   supportEmail: support@waylay.io
+  algolia_index: waylay
+  algolia_key: b0f1edc2d90ee692ed3ee599fc4d7403
 
 menu:
   main:
