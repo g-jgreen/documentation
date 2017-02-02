@@ -3,7 +3,7 @@ baseURL: "https://developers.waylay.io/"
 theme: "waylay"
 
 defaultContentLanguage: en
-copyright: Copyright © 2017 Waylay BVBA
+copyright: Copyright © 2017 Waylay NV
 
 params:
   supportEmail: support@waylay.io
