@@ -1,5 +1,5 @@
 title: "Waylay.io Documentation"
-baseURL: "http://developers.waylay.io/"
+baseURL: "https://developers.waylay.io/"
 theme: "waylay"
 
 defaultContentLanguage: en
