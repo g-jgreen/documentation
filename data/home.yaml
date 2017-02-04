@@ -12,7 +12,7 @@ cards:
   - title: Plugins
     icon: extension
     description: Learn more about Waylay Sensors & Actuators
-    url: /plugins/
+    url: "https://waylayio.github.io/sensor_actuators/"
 
   - title: Architecture
     icon: device_hub
