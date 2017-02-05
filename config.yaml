@@ -9,6 +9,12 @@ params:
   supportEmail: support@waylay.io
   algolia_index: waylay
   algolia_key: b0f1edc2d90ee692ed3ee599fc4d7403
+  search: true # API docs search feature
+  language_tabs:
+    - key: shell
+      name: cURL
+    - key: javascript
+      name: JavaScript
 
 menu:
   main:
