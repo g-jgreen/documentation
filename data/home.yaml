@@ -7,7 +7,7 @@ cards:
   - title: API Guide
     icon: code
     description: Documentation and guides on using the Waylay REST APIs
-    url: "https://waylayio.github.io/rest/"
+    url: /api/
 
   - title: Plugins
     icon: extension
