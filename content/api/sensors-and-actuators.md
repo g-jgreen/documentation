@@ -5,7 +5,8 @@ description: Learn how to create your own sensors and actuators
 
 # Introduction
 
-Waylay is a cloud-based agent architecture that observes its environment via **software-defined sensors** and acts on its environment through **software-defined actuators**. A (very) high level blog about it you can find here [blog](http://www.waylay.io/when-iot-meets-artificial-intelligence).
+Waylay is a cloud-based agent architecture that observes its environment via **software-defined sensors** and acts on its environment through **software-defined actuators**. A (very) high level blog about it you can find here [blog](http://www.waylay.io/blog-iot-meets-artificial-intelligence.html).
+![Smart agent concept](http://www.waylay.io/images/blog/figure1b.jpg)
 
 In short, if you implement a weather sensor, it should return a state such as "Rain" or "Sunny", but it can as well provide information (rawData) such as temperature, humidity etc. Every sensor must either return **state** or **rawData** (it can also return both). Obviously, in order to execute a sensor, you will need some input, like _city_. How to declare what you need in the plug, and how the framework will provide this input to the sensor will be explained later in the document.
 
@@ -13,7 +14,7 @@ For the actuator implementation, there is no need to return any data, you just n
 
 Actuator must be attached to sensors or gates, and it gets triggered when a particular condition is met. That condition can be a state or the state change of a sensor or gate. That implies that **only sensors that return states can be linked to actuators**.
 
-Note: there is also possibility to write **java based plugs, but this feature is only supported in OEM package**. Java based plugs can be of your interest in case you want to write complex mathematical calculations which can't be handled by the [Functional node](#utility-functions). For more information how to write such plugs, please e-mail to info@waylay.io
+Note: there is also possibility to write **java based plugs, but this feature is only supported in OEM package**. Java based plugs can be of your interest in case you want to write complex mathematical calculations which can't be handled by the [Functional node](#function-node). For more information how to write such plugs, please e-mail to info@waylay.io
 
 # Javascript plugs
 Via waylay platform you can write plugins in javascript. This is a sensor editor window that you get in the app:
