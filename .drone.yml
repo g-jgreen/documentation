@@ -3,7 +3,7 @@ pipeline:
   clone_theme:
     image: plugins/git
     commands:
-      - git clone https://github.com/waylayio/waylay-hugo-theme.git themes/waylay
+      - git clone --depth 1 https://github.com/waylayio/waylay-hugo-theme.git themes/waylay
 
   build:
     image: webhippie/hugo:latest
