@@ -6,18 +6,16 @@ weight: 6
 
 # Prerequisites
 
-To use the Waylay Grafana application you must already have [Grafana](https://grafana.org/) installed and configured. If you're unsure about how to do this, please check out the [Grafana installation documentation](http://docs.grafana.org/installation/).
+Waylay offers a hosted service that includes the Grafana dashboard and the Waylay plugin.
 
-The minimum supported version is 3.2.0, but we recommend installing the latest version.
-
-We also assume you already have a Waylay account or installation ready to connect to.
+We assume you already have a Waylay account or installation ready to connect to, and have also requested a hosted version of the dashboard.
 
 # Installation
 
-Installing the Waylay plugin is easy. Simply [download the plugin](https://github.com/waylayio/grafana-plugin/releases/latest) from Github and install it in your Grafana plugin folder (`/var/lib/grafana/plugins` by default).
+The Waylay plugin will be pre-installed on our hosted offering of the Grafana dashboard, no installation is required.
 
 {{% alert info %}}
-If you are unsure on how to install the plugin, please refer to the [official documentation](http://docs.grafana.org/plugins/installation/).
+Don't have a Grafana dashboard yet? Request one by [contacting us](support@waylay.io).
 {{% /alert %}}
 
 # Configuration
