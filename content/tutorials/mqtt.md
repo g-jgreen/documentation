@@ -66,6 +66,6 @@ This is the exciting part. The Waylay broker allows us to bridge protocols — s
 
 Works like a charm!
 
-If you want to know more, you can find more detailed information on our [documentation portal](http://docs.waylay.io/Submitting-and-fetching-data.html#MQTT).
+If you want to know more, you can find more detailed information on our [documentation portal](/usage/broker-and-storage/)
 
 If you're excited to give it a try, [request a demo](https://waylay.io/)!
