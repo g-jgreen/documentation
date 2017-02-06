@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Bosch XDK support available with mqtt"
-date:       2016-10-18 17:05
+date:       2016-10-18T15:05:00.000Z
 author:     Lorenzo Van De Sijpe
 ---
 
