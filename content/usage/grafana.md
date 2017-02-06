@@ -15,7 +15,7 @@ We assume you already have a Waylay account or installation ready to connect to,
 The Waylay plugin will be pre-installed on our hosted offering of the Grafana dashboard, no installation is required.
 
 {{% alert info %}}
-Don't have a Grafana dashboard yet? Request one by [contacting us](support@waylay.io).
+Don't have a Grafana dashboard yet? Request one by [contacting us](mailto:support@waylay.io).
 {{% /alert %}}
 
 # Configuration
