@@ -30,8 +30,8 @@ menu:
 
     - identifier: support
       weight: 3
-      name: Support
-      url: /support/
+      name: Labs
+      url: http://labs.waylay.io
 
     - identifier: plugin
       weight: 4
