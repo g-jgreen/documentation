@@ -4,6 +4,10 @@
 
 `brew update && brew install hugo`
 
+Install the theme
+
+`git clone https://github.com/waylayio/waylay-hugo-theme.git themes/waylay`
+
 ## Development
 
 run `hugo server` and visit `http://localhost:1313/`
