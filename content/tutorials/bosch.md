@@ -62,11 +62,9 @@ These leds have different meanings in bootloader and running state.
 All the meanings below apply for the running state except for the green led, this applies for both states.
 
 1. Green: charging
-2. Yellow: timer active, sending data every 5 minutes
-  * Button 1 turns this on or off.
+2. Yellow: timer active, sending data every 5 minutes (Button 1 turns this on or off.)
 3. Orange: active wifi connection
-3. Red: should only blink when force send data
-  * Button 2 force sends data to the server
+4. Red: should only blink when force send data (Button 2 force sends data to the server)
 
 ## Output json
 
@@ -103,6 +101,7 @@ This is the json you have to send to the device over mqtt to make it do some act
     }
 ```
 This json uses booleans to activate the function.
+
 1. forceDataSend = same as button 2 press, force send the data before the timing interval.
 2. redLed = turn on red led.
 3. reboot = remoteReboot the device
