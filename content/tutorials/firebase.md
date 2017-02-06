@@ -1,5 +1,5 @@
 ---
-title:      Firebase: the fastest way to integrate different API backends?
+title:      "Firebase: the fastest way to integrate different API backends?"
 author:     waylay
 date:       2016-02-18 14:59:06
 ---
