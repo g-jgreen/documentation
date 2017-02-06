@@ -20,9 +20,10 @@ Waylay consists of the following building blocks:
 Waylay supports both push and pull models for data, see also the sensor section below. Data can get pushed to the waylay platform over REST, Websockets or MQTT. Sensor data can get pushed directly from gateways or devices or from SW systems that have already collected device data. A broker inside the waylay platform will then push that data to:
 
 * the data cache, where a limited number of samples are kept.
+* time series database
 * the global context of related tasks, where push sensors pick up the data.
 
-As shown in the drawing above, you can also create sensors that pull short-term historical data from the short-term data cache.
+As shown in the drawing above, you can also create sensors that pull short-term historical data from the short-term data cache or time series database.
 
 # Sensors
 
