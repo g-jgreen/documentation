@@ -59,7 +59,7 @@ In case of a sensor implementation, you want to send back a result, so you must 
 * rawData (JSON with key:value pairs)
 Note that if you want to send a valid response back, the fist argument *must* be a *null*, otherwise, the framework will treat a first argument as the error. In case you wonder why, well, let us just say that we try to be compatible to [JSON-RPC spec](http://en.wikipedia.org/wiki/JSON-RPC)
 
-## How to create sensor
+## How to create a sensor
 
 > If you start by clicking "Create Sensor", you can see the following script created for you:
 
@@ -83,7 +83,7 @@ As you can see, this is just simple javascript, nothing fancy. The only thing yo
 
 
 ## Sensor example
-> This sensor is also handy if you want to get familiar with boolean gates or if you want to test formula computation using a [Function node](#utility-functions).
+> This sensor is also handy if you want to get familiar with boolean gates or if you want to test formula computation using a [Function node](#function-node).
 
 ```javascript
 var randomValue = Math.random();
@@ -142,7 +142,76 @@ Below you see an example of a result of a sensor invocation returned by the wayl
 ![](https://raw.githubusercontent.com/waylayio/documentation/master/images/sensorResult.png)
 
 <aside class="notice">
-If you want to send an error with errorMessage, just call `send(errorMessage)`.
+If you want to send an error with errorMessage, just call send(errorMessage).
+</aside>
+
+
+## How to create an actuator
+You create an actuator the same way you create a sensor. 
+
+> If you start by clicking "Create Actuator", you can see the following script created for you:
+
+```javascript
+// actuators should never throw exceptions but instead send an error back
+
+if(options.requiredProperties.testProperty1){
+  console.log("hello " + options.requiredProperties.testProperty1);
+  send();
+}else{
+  send(new Error("Missing property testProperty1"));
+}
+```
+
+## Actuator example
+> This actuator creates a zendesk ticket.
+
+```javascript
+var username =  options.globalSettings.ZENDESK_USER;
+var token = options.globalSettings.ZENDESK_KEY;
+var subject = options.requiredProperties.subject;
+var message = waylayUtil.template(options, options.requiredProperties.message);
+var domain = options.globalSettings.ZENDESK_DOMAIN || "waylay";
+
+console.log(message);
+
+if(username && token && subject && message){
+
+  var url = "https://"+domain+".zendesk.com/api/v2/tickets.json";
+  var data = {
+      "ticket" : {
+          "requester" : {
+              "name" : "waylayPlatform",
+          }, "subject" : subject,
+              "comment" : message
+      }
+  }
+  var options = {
+    url: url,
+    json: data,
+    auth:{
+        user: username+"/token",
+        pass: token
+    }
+  };
+
+  var callback = function(error, response, body) {
+    if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
+      send();
+    }else{
+      console.log(response);
+      send(new Error(JSON.stringify(response)));
+    }
+  };
+
+  request.post(options, callback);
+}else{
+  send(new Error("Missing properties"));
+}
+```
+Actuators are triggered as the result of the sensor execution (sensor state, or state changes). Writing actuator code is very similar to writing the sensor call. The only exception is that actuars are "fire and forget calls". They don't return states or rawData. In case you want to pass some data to the task context, please check this  [link](#actuator-related-raw-data). This actuator also makes use of [global settings](#global-settings) and [template call from utility package](#template)
+
+<aside class="notice">
+Note that you always must return send() from the actuator. If you want to send an error with errorMessage, just call send(errorMessage).
 </aside>
 
 # Metadata
@@ -339,7 +408,7 @@ else{
 }
 ```
 
-Similar to raw data context, an actuator also can push some (limited) results back to the context.
+Similar to raw data context, an actuator also can push some (limited) results back to the task context.
 
 
 Note: we will learn later how do the same with one liner, using [**waylay utility package**](#utility-functions).
