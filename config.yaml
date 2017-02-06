@@ -28,12 +28,17 @@ menu:
       name: Tutorials
       url: /tutorials/
 
-    - identifier: support
+    - identifier: labs
       weight: 3
       name: Labs
       url: http://labs.waylay.io
 
-    - identifier: plugin
+    - identifier: videos
       weight: 4
+      name: Videos
+      url: https://www.youtube.com/watch?v=oHGSCq1m9DE&list=PLy54mo7VaB1hMsaTA6gVYn2XJSov3dnSK
+
+    - identifier: plugin
+      weight: 5
       name: Plugins
       url: /plugins/
