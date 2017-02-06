@@ -27,19 +27,19 @@ Replace `yourUserName` with the username that you used when creating Cumulocity 
 
 You should end up at the Cumulocity dashboard
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_dashboard.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_dashboard.png)
 
 Now we have to create a device.
 
 If you have one of these devices on the [Certificated Devices list](https://www.cumulocity.com/dev-center/) you can add it.
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_dashboard2.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_dashboard2.png)
 
 Choose Devicemanagament from list on the top right.
 
 # Configuring your device
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_device.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_device.png)
 On the Devicemanagament page choose ‘All devices’ there will be a device named ‘A Demo Device’ click that and customize device according to your pleasure and click ‘Save the changes’ at bottom.
 
 Now we have a device and we will use waylay to get signal measurements of this devices.
@@ -47,7 +47,7 @@ For details check the [Cumulocity Measurement API documentation page](http://www
 
 Now go to your Waylay account and click 'Your User Name' --> Profile on top menu.
 
-![Waylay Dashboard](https://waylayio.github.io/assets/images/cumulocity_waylay.png)
+![Waylay Dashboard](/tutorials/cumulocity/cumulocity_waylay.png)
 
 Choose ‘Global settings’ on left panel.
 
@@ -98,11 +98,11 @@ if(token !== undefined && source !== undefined)
 }
 ```
 
-You can find this sensor's code on Github too. [Cumulocity Sensor](https://github.com/waylayio/Sensors/blob/master/cumulocityGetMeasurements)
+You can find this sensor's code on Github too. [Cumulocity Sensor](/tutorials/images/cumulocityGetMeasurements)
 
 Change ‘States’ , ‘Properties’ and ‘Raw data’ according to the below picture.
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_options.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_options.png)
 
 If you did both of steps click ‘Save’ on the top and go to the designer from main waylay menu.
 
@@ -110,11 +110,11 @@ Now select sensor that you create and drop it on designer and add an actuator.
 
 I choose the mail actuator. You should end up with something like this.
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_sensor.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_sensor.png)
 
 Now we have to modify the mail actuator properties.
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_properties.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_properties.png)
 
 Cumulocity uses the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) time/date format.
 
@@ -126,6 +126,6 @@ Let’s enter properties.
 
 The source parameter is ID of device which you can find on the Cumulocity device page.
 
-![Cumulocity Dashboard](https://waylayio.github.io/assets/images/cumulocity_deviceID.png)
+![Cumulocity Dashboard](/tutorials/cumulocity/cumulocity_deviceID.png)
 
 After entering the mail properties and starting the task you should be receiving your device’s signal measurements by mail.

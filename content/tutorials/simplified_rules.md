@@ -17,7 +17,7 @@ For more info, please check the documentation.
 We have created a small boostrap/jquery app that shows how you can create an application on top of waylay. 
 The application is available in [github] [repo]. In this application, the end user selects the airco machine (as an asset ID), the condition under which the e-mail should be sent, whether the e-mail should be sent during the week AND/OR weekends and it also shows how to template a message in the body of the e-mail with the exact conditions and measurements under which the incident is reported.
 
-![UI application](http://waylayio.github.io/assets/images/application.png)
+![UI application](/tutorials/rules/application.png)
 
 This application creates a template object that is send using a REST call towards the waylay platform. Here is the template object:
 

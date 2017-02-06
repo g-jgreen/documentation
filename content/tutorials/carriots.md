@@ -25,7 +25,7 @@ Let’s start
 
 First login your Carriots account you will see a page like this.
 
-![Carriots Dashboard](https://waylayio.github.io/assets/images/carriots_dashboard.png)
+![Carriots Dashboard](/tutorials/carriots/carriots_dashboard.png)
 
 In this dashboard you can find everything you want including documentation. You can reach your API keys from top menu; My Settings-->My Account
 
@@ -33,7 +33,7 @@ Now we need to create a device, choose ‘Devices’ from left panel and click �
 
 Now you have a running device.
 
-![Carriots Device](https://waylayio.github.io/assets/images/carriots_device.png)
+![Carriots Device](/tutorials/carriots/carriots_device.png)
 
 This is my device’s properties, now it is ready to integrate.
 
@@ -78,29 +78,29 @@ request.get(options, callback);
 }
 ```
 
-You can reach this sensor's source on [github](https://github.com/waylayio/Sensors/blob/master/carriotsGetDataStream)
+You can reach this sensor's source on [github](/tutorials/carriots/carriotsGetDataStream)
 
 This code created according to Data Stream API of Carriots you can reach to documentation from [Carriots Data Management](https://www.carriots.com/documentation/api/data_management)
 
 
 If you are done with code now you have to change properties on right panel like in bottom picture.
 
-![Carriots Device](https://waylayio.github.io/assets/images/carriots_options.png)
+![Carriots Device](/tutorials/carriots/carriots_options.png)
 
 When you are done click ‘Upload’ on top and open Designer.
 
 Now we are ready to test.
 
-![Carriots Device](https://waylayio.github.io/assets/images/carriots_sensor.png)
+![Carriots Device](/tutorials/carriots/carriots_sensor.png)
 
 Drag&Drop Carriots sensor from Sensors list and connect to mail actuator from Actuators list.
 
 Then enter properties of sensor.
 
-![Carriots Device](https://waylayio.github.io/assets/images/carriots_properties.png)
+![Carriots Device](/tutorials/carriots/carriots_properties.png)
 
 On Carriots sensor property you should enter ‘Id developer’ from devices properties which you can see above pictures. You can find it by clicking ‘show’ on device.
 
-![Carriots Device](https://waylayio.github.io/assets/images/carriots_deviceID.png)
+![Carriots Device](/tutorials/carriots/carriots_deviceID.png)
 
 After entering your 'Id developer' to sensor properties you can reach your device's data stream via mail over waylay.

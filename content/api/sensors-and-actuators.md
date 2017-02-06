@@ -19,7 +19,7 @@ Note: there is also possibility to write **java based plugs, but this feature is
 # Javascript plugs
 Via waylay platform you can write plugins in javascript. This is a sensor editor window that you get in the app:
 
-![Sensor view](https://raw.githubusercontent.com/waylayio/documentation/master/images/sensorview.png)
+![Sensor view](/api/images/sensorview.png)
 
 ## Sandbox
 Every script is executed in the sandbox environment with a number of packages pre-installed. You can simply access them from the script, no need to require them. You have access to these (and only these) NPM packages:
@@ -140,7 +140,7 @@ Note that you **always must return the value from the script**. It is either a s
 
 
 Below you see an example of a result of a sensor invocation returned by the waylay webapp:
-![](https://raw.githubusercontent.com/waylayio/documentation/master/images/sensorResult.png)
+![](/api/images/sensorResult.png)
 
 <aside class="notice">
 If you want to send an error with errorMessage, just call send(errorMessage).
@@ -697,7 +697,7 @@ The Function node operates on the raw data that is stored in the task context.
 ## Function computation
 
 If you have correctly created the metadata file of your sensor plugin, then the function editor will autocomplete the raw data that it can use for calculation. In case you have not defined the raw data as part of the sensor metadata, you will need to type everything manually. The screenshot below shows the autocompletion:
-![](https://raw.githubusercontent.com/waylayio/documentation/master/images/formulaEditor.png)
+![](/api/images/formulaEditor.png)
 
 The function processing has a number of built-in capabilities that are described below:
 
@@ -729,7 +729,7 @@ Built-in functions:
 * tanh: hyperbolic tangent
 
 When raw data values are used in a function, arrows between their corresponding nodes and the function processing node will be auto-created by the waylay application:
-![](https://raw.githubusercontent.com/waylayio/documentation/master/images/formulaNodes.png)
+![](/api/images/formulaNodes.png)
 
 Note that you should never try to connect sensors to the Function node, this is not going to work, just start typing the function in the Function node, that is all.
 
@@ -818,4 +818,4 @@ In the Function node, you MUST omit options.rawData and use only this notation: 
 
 Before deploying a new task, you can always check in the debug window that computation is actually happening. In the example below we used a dice sensor and couple of Function nodes. Note that you can as well put one Function node on top of others:
 
-![](https://raw.githubusercontent.com/waylayio/documentation/master/images/formulaDebug.png)
+![](/api/images/formulaDebug.png)

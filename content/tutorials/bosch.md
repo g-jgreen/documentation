@@ -20,11 +20,11 @@ The firmware uses eclipse paho mqtt c (1.1.0) and cJSON, both are already includ
 ## Project import
 In the XDK workbench go to file -> import -> existing project 
 
-![Import step1](https://waylayio.github.io/assets/images/bosch_xdk/importStep1.png)
+![Import step1](/tutorials/bosch/importStep1.png)
 
 -> select folder where you extracted the firmware zip or cloned the github project.
 
-![Import step1](https://waylayio.github.io/assets/images/bosch_xdk/importStep2.PNG)
+![Import step1](/tutorials/bosch/importStep2.PNG)
 
 Right click the project and press build, normally this should run without problems. If you encounter 'path not found' or something similar you need to right click the project and rebuild the index (index -> rebuild).
 
@@ -32,11 +32,11 @@ Right click the project and press build, normally this should run without proble
 
 To get the connection parameters for the device you need to go to https://app.waylay.io/#/devicegateway, add a device and pass the parameters into the config file, explained in the next step.
 
-![Device info](https://waylayio.github.io/assets/images/bosch_xdk/deviceInfo.png)
+![Device info](/tutorials/bosch/deviceInfo.png)
 
 In the "source/mqttConfig.h" file you can change all the settings to connect to the wifi, stream rate and what data you want to send to the broker.
 
-![Config settings](https://waylayio.github.io/assets/images/bosch_xdk/configSettings.png)
+![Config settings](/tutorials/bosch/configSettings.png)
 
 ## Flash firmware onto device
 Before you can flash the firmware on the device you need to put it in bootloader mode. You can do this in one of two ways.
@@ -49,11 +49,11 @@ Confirm that the device is in bootloader mode. You can do this in one of two way
 1. In the workbench on the upper left side (where your device is displayed) you can see 'Mode:bootloader'.
 2. On the device the red and orange light is on.
 
-![Config settings] (https://waylayio.github.io/assets/images/bosch_xdk/bootloader.jpg)
+![Config settings](/tutorials/bosch/bootloader.jpg)
 
 Press the flash button on the upper left side. After flashing the device should boot and after a couple seconds the orange and yellow led should be on.
 
-![Config settings](https://waylayio.github.io/assets/images/bosch_xdk/running.jpg)
+![Config settings](/tutorials/bosch/running.jpg)
 
 ## ## Led and buttons meaning
 

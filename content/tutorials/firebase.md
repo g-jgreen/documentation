@@ -19,7 +19,7 @@ Instead of doing this, we figured it out that would be much easier to allocate o
 Another challenge was to inform a driver on which route to take between two locations. This time, we used a [pushover] service, which allows you to send messages towards Android/iOS devices or web clients via the API. So, next to a firebase actuator, we also created a pushover actuator in waylay and embedded in the message a URL that pointed to the web app. When a "driver" clicked the URL on the phone (pushover notification), his phone would open a web app (in order to accept or deny the assignment). That web app would then use the firebase to send the feedback back to the waylay platform. That in return would either trigger a new calculation on Solvice, or start tracking the delivery (in case the driver accepted the assignment). 
 Done! Uber in 4hours!
 
-![Hackathon demo](https://waylayio.github.io/assets/images/hackapost.png)
+![Hackathon demo](/tutorials/firebase/hackapost.png)
 
 
 

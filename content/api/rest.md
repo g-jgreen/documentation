@@ -12,7 +12,7 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/ping"
 
 Before you can start using the REST API, you must visit your profile page in the waylay application and fetch your API keys:
 
-![enter image description here](https://raw.githubusercontent.com/waylayio/documentation/master/images/profile.png)
+![enter image description here](/api/images/profile.png)
 
 
 <aside class="notice">
@@ -924,7 +924,7 @@ When tasks gets invoked, the framework will provide the pushed raw data to all t
 
 Here is the app view where you can test this feature(designer in debug mode):
 
-![](https://raw.githubusercontent.com/waylayio/documentation/master/images/global.png)
+![](/api/images/global.png)
 
 
 You can also push several parameters at once, and you can as well skip most of the parameter's attributes. For instance, with this call, we are pushing geolocation to the waylay platform, by specifying only longitude and latitude values. By default, waylay puts the _validPeriodSecs_ of the parameter to 60 seconds, and _collectedTime_ to the time the data was received:  
