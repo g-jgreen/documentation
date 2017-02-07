@@ -12,7 +12,7 @@ In this example, we will learn how to trigger a polling sensor after stream data
 Please note the use we use exactly the same way the resource field as in the first example.
 {{% /alert %}}
 
-If you start a task using this template (e.g. saved as "template3") in the reactive mode like this:
+If we start a task using this template (e.g. saved as "template3") in the reactive mode like this:
 ```
  curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
     "name": "Stream processing",
@@ -41,7 +41,7 @@ and if data gets pushed via [broker](/usage/broker-and-storage/):
       "https://data.waylay.io/messages?store=false"
  ```
 
-You can see the debug message any time new data arrives (with temperature above 21)
+We can see the debug message any time new data arrives (with temperature above 21)
 
 ![image](/rules/push_pull1/mix_push_pull1_fig2.png)
 
