@@ -20,8 +20,9 @@ Whenever the logic of the task gets evaluated it is checked whether the sensor, 
 
 Whenever the logic of a task is evaluated, it is checked whether the sensor to which the actuator is attached has gone through a state change, e.g. from state A to state B.
 There is a special symbol *:
-* For a state change: * -> A, the actuator will trigger if the state changes from any state different from A to A (so it will not trigger if the previous state was A). The actuator will also trigger if the previous state was not 100% known , e.g. before the first sensor observation or because the eviction time of the sensor was exceeded (see below for more details on eviction time).
-* For a state change: A-> *, the actuator will trigger if the state changes from state A to any other state (so it will not trigger if the new state is A).
+
+* For a state change : * -> A, the actuator will trigger if the state changes from any state different from A to A (so it will not trigger if the previous state was A). The actuator will also trigger if the previous state was not 100% known , e.g. before the first sensor observation or because the eviction time of the sensor was exceeded (see below for more details on eviction time).
+* For a state change : A-> *, the actuator will trigger if the state changes from state A to any other state (so it will not trigger if the new state is A).
 
 ### Combining state trigger and state change trigger
 
@@ -30,9 +31,10 @@ State trigger and state change trigger can be combined. In that case, the logic 
 ### Trigger policy
 
 The trigger policy allows you to control the frequency of execution of the actuators.
-* **Every time**: the actuator will trigger whenever a condition is met for it to be triggered, as explained above.
-* **Only once**: the actuator will trigger only once and never after, independent whether conditions are met or not.
-* **Frequency**: the actuator will trigger at most once within the specified time window.
+
+* **Every time** : the actuator will trigger whenever a condition is met for it to be triggered, as explained above.
+* **Only once** : the actuator will trigger only once and never after, independent whether conditions are met or not.
+* **Frequency** : the actuator will trigger at most once within the specified time window.
 
 
 ## Sensor configuration panel
@@ -44,9 +46,10 @@ Sometimes you want to control the sensor execution order and/or timing. One way 
 ### State change trigger
 
 Assume a sensor_y that should be triggered upon a state change of sensor_x. This can be done by connecting sensor_x to sensor_y and specifying the desired state change in the right panel for sensor_y, e.g. state change from state A to state B.
-There is a special symbol *:
-* For a state change: * -> A, the sensor_y will execute if the sensor_x state changes from any state different from A to A (so it will not execute if the previous state was A). The sensor_y will also execute if the previous state of sensor_x was not 10% known, e.g. because the eviction time of the sensor_x was exceeded.
-* For a state change: A-> *, the sensor_y will execute if the sensor_x state changes from state A to any other state (so it will not execute if the new state is A).
+There is a special symbol * : 
+
+* For a state change : * -> A, the sensor_y will execute if the sensor_x state changes from any state different from A to A (so it will not execute if the previous state was A). The sensor_y will also execute if the previous state of sensor_x was not 10% known, e.g. because the eviction time of the sensor_x was exceeded.
+* For a state change : A-> *, the sensor_y will execute if the sensor_x state changes from state A to any other state (so it will not execute if the new state is A).
 
 ### Resource
 
