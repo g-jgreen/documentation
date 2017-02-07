@@ -18,3 +18,13 @@ cards:
     icon: device_hub
     description: Get more familiar with the Waylay architecture
     url: /architecture/overview
+
+  - title: Rule patterns
+    icon: developer_board
+    description: Best practices, learm how to create rules
+    url: /rule_patterns
+
+  - title: Tutorials
+    icon: folder_shared
+    description: Developers blog
+    url: /tutorials
