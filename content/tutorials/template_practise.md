@@ -6,9 +6,9 @@ date:       2015-11-01 10:19:06
 
 With our visual designer tool you can debug and create new [templates] [doc]. Using waylay application portal, or via REST [calls] [rest] you instantiate these templates as _tasks_. For instance, if you create a template that gathers smart meter data and sends mail with consumption every Friday, you will instantiate this template for every newly provisioned meter. In this post I will show you the easiest way to create a template that will allow you to instantiate a task with resource name as the only input argument. In order to achieve that, I will create a sensor that as the input argument can take a resource name:
 
-{% highlight javascript linenos %}
+```
 var meterNumber = options.requiredProperties.meterNumber || waylayUtil.getResource(options)
-{% endhighlight %}
+```
 
 In this example, the sensor that will fetch the data from the external system needs only one input argument _meterNumber_. The rest of the code is omitted, since this can be either a REST call, db query etc..  The input argument can be either defined on the sensor level (via properties as _options.requiredProperties.meterNumber_), or like in this case, via the resource [concept] [resource]. When you associate the sensor with a resource name, you need specify a resource on the node level as: 
 
