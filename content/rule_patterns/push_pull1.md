@@ -1,5 +1,5 @@
 ---
-title: Mixing push and pull events, lesson 1
+title: Mixing push and pull events, with conditional sensor execution
 description: Learn how to execute pull sensor after stream processing
 weight: 3
 ---
