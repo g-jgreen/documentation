@@ -1,5 +1,5 @@
 cards:
-  - title: User Guide
+  - title: The Basics
     icon: school
     description: Start here to lean how to use the Waylay platform
     url: /usage/
