@@ -26,7 +26,7 @@ If we start a task using this template (e.g. saved as "template3") in the reacti
 Note that we stared a task with resource named `testresource`,
 {{% /alert %}}
 
-and if data gets pushed via [broker](/usage/broker-and-storage/):
+and if data gets pushed via [broker](/api/broker-and-storage/):
 
 ```
  curl --user apiKey:apiSecret 

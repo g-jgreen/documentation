@@ -16,6 +16,11 @@ params:
     - key: javascript
       name: JavaScript
 
+taxonomies:
+  tag: "tags"
+  category: "categories"
+  series: "series"
+
 menu:
   main:
     - identifier: documentation

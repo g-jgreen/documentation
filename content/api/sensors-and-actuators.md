@@ -1,6 +1,7 @@
 ---
 title: Sensors and Actuators
 description: Learn how to create your own sensors and actuators
+weight: 2
 ---
 
 # Introduction

@@ -39,7 +39,7 @@ We can see that the temp sensor has already collected wheather information (it w
 
 ![image](/rules/push_pull2/fig3.png)
 
-Let's now send some data via [broker](/usage/broker-and-storage/):
+Let's now send some data via [broker](/api/broker-and-storage/):
 
 ```
  curl --user apiKey:apiSecret 

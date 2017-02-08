@@ -24,7 +24,7 @@ We will start a task using this template (e.g. saved as "mix_streams_formula") i
   }' https://sandbox.waylay.io/api/tasks
  ```
 
-Let's pushed data for both resources via [broker](/usage/broker-and-storage/):
+Let's pushed data for both resources via [broker](/api/broker-and-storage/):
 
 ```
 curl --user apiKey:apiSecret 

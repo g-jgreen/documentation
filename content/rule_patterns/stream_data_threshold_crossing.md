@@ -2,6 +2,9 @@
 title: Threshold crossing with stream data
 description: Learn how to use stream data for simple threshold crossing
 weight: 1
+tags: [ "Development", "Rules"]
+categories: [ "Development" ]
+series: [ "Go Web Dev" ]
 ---
 
 This is the simplest rule to create. Just use the streamDataSensor, put in the input properties metric that we are interested in and set the threshold. 
@@ -69,7 +72,7 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
 Note that we stared a task with resource named `testresource`,
 {{% /alert %}}
 
-and if data gets pushed via [broker](/usage/broker-and-storage/):
+and if data gets pushed via [broker](/api/broker-and-storage/):
 
 ```
  curl --user apiKey:apiSecret 

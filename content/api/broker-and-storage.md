@@ -4,9 +4,21 @@ description: How to use the Waylay broker and storage APIs
 weight: 3
 ---
 
-Waylay Broker url is: [https://data.waylay.io](https://data.waylay.io)
+# Waylay Broker 
+
+Waylay Broker is at this URL: [https://data.waylay.io](https://data.waylay.io)
 
 We also have a small [test application](https://data.waylay.io/test?domain=yourdomain) that lets you play with the different options.
+
+# Authentication
+
+You will most of the time need to provide 2 things when connecting to the broker:
+
+* your domain, eg customer.waylay.io can be provided in the url or in the body of the request
+* credentials (apiKey, apiSecret), provided by http basic authentication or where not possible in the url (websockets)
+
+For more sensitive environments we also have a device gateway where you can get per-device credentials. These credentials only allow sending or receiving data on the device's channel.
+
 
 # Resources
 
@@ -18,16 +30,6 @@ For each `resource` we provide two channels:
 
 * `events` are messages emitted by the `resource`. eg temperature readings or alarms
 * `commands` are messages directed at the `resource`. eg turn on the light, send an email, apply new configuration
-
-# Authentication
-
-You will most of the time need to provide 2 things when connecting to the broker:
-
-* your domain, eg customer.waylay.io can be provided in the url or in the body of the request
-* credentials (apiKey, apiSecret), provided by http basic authentication or where not possible in the url (websockets)
-
-For more sensitive environments we also have a device gateway where you can get per-device credentials. These credentials only allow sending or receiving data on the device's channel.
-
 
 # Posting messages towards Broker
 
@@ -55,7 +57,9 @@ First you will need to fetch your API key from the profile page.
 
 ## Available urls
 
-```text
+> Available urls
+
+```bash
 GET           /resources/:resourceId/events              // last n / sse / ws publish
 GET           /resources/:resourceId/events/subscribe    // ws
 GET           /resources/:resourceId/events/publish      // ws
@@ -71,33 +75,67 @@ POST          /resources/:resourceId/commands
  * *Server-Sent Events* urls are marked with `sse`
  * The resources return the last n events or a stream in case of websocket or server sent events
 
-### Posting data to storage
+## Posting data (object) to storage
+
+> Example of posting data to storage using resource events endoint:
 
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d '{"foo":123, "bar":"hello"}' \
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+    -d '{
+          "foo":123, 
+          "bar":"hello"
+      }' 
     https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io
 ```
 
-or
+> Example of posting data to storage, the same as above, with domain defined in the payload:
+
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d '{"foo":123, "bar":"hello", "domain":"sandbox.waylay.io"}' \
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
+    -d '{
+          "foo":123, 
+          "bar":"hello", 
+          "domain":"sandbox.waylay.io"
+      }' 
     https://data.waylay.io/resources/testresource/events
 ```
-or
+
+> Example of posting data to storage, the same as above, with domain and resource defined in the payload:
+
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
-    -H "Content-Type: application/json" \
+curl -i  --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
+    -d '{
+        "foo":123, 
+        "bar":"hello", 
+        "resource":"testresource", 
+        "domain":"sandbox.waylay.io"}
+      ' 
+    https://data.waylay.io/messages
+```
+
+There are multiple ways to post the same message towards the Broker.
+
+## Posting array of objects 
+You can post objects as an array.
+
+> BULK import
+
+```bash
+curl -i  --user apiKey:apiSecret 
+    -H "Content-Type: application/json" 
     -X POST \
-    -d '{"foo":123, "bar":"hello", "resource":"testresource", "domain":"sandbox.waylay.io"}' \
+    -d '[
+      {   
+          "foo": 12, 
+          "bar":"hello", 
+          "resource":"testresource1", 
+          "domain":"sandbox.waylay.io"
+      },  {   
+          "foo": 33, 
+          "bar":"world", 
+          "resource":"testresource2", 
+          "domain":"sandbox.waylay.io"
+      }]' 
     https://data.waylay.io/messages
 ```
 
@@ -107,9 +145,9 @@ curl -i \
 
 You can also set up web sockets for a specific resource
 
-Endpoints to connect to using secure web sockets:
+> Endpoints to connect to using secure web sockets:
 
-```text
+```bash
 wss://data.waylay.io/resources/:resourceId/commands/subscribe (listening to commands)
 wss://data.waylay.io/resources/:resourceId/commands/publish (publishing commands to an other device)
 wss://data.waylay.io/resources/:resourceId/events/subscribe (listening to events from a device)
@@ -117,23 +155,6 @@ wss://data.waylay.io/resources/:resourceId/events/publish (publishing events)
 ```
 
 The [test application](https://data.waylay.io/test?domain=yourdomain) lets you play with websocket support.
-
-## Global
-
-The global websocket API is mainly meant for publish functionality, like connecting other brokers to the waylay data endpoint.
-
-`wss://data.waylay.io/socket?domain=sandbox.waylay.io` with HTTP BASIC authentication using your waylay API key and secret
-
-The endpoint allows you to submit messages in JSON format.
-
-```json
-{
-  "resource": "car_1ABC123",
-  "engine_temp_c": 80,
-  "doors_locked": false,
-  ...
-}
-```
 
 When submitting invalid data you will get a response back with an error message.
 
@@ -159,15 +180,27 @@ More info is available in this blog post:
 
 ### Getting raw time series data
 
-You can specify *from* (epoch time in milliseconds) and *to* (it can be omitted, then it will take a current time), example:
+> Getting raw time series data
+
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
+curl -i --user apiKey:apiSecret 
     https://data.waylay.io/resources/testresource/series/temperature? \
     domain=sandbox.waylay.io&from=1472947200000&until=1474588800000
 ```
 
+You can specify *from* (epoch time in milliseconds) and *to* (it can be omitted, then it will take a current time), example:
+
+
 ### Aggregates
+
+> Group by example:
+
+```bash
+curl -i \
+     --user apiKey:apiSecret \
+     https://data.waylay.io/resources/testresource/series/temperature? \
+     domain=sandbox.waylay.io&&from=1472947200000&until=1474588800000&grouping=hour&aggregate=mean
+```
 
 You can get data on which already grouping and/or aggregation is computed:
 
@@ -187,37 +220,38 @@ Grouped by
 * day
 * week
 
-Example:
-```bash
-curl -i \
-     --user apiKey:apiSecret \
-     https://data.waylay.io/resources/testresource/series/temperature? \
-     domain=sandbox.waylay.io&&from=1472947200000&until=1474588800000&grouping=hour&aggregate=mean
-```
 
 ## Document data
 
-You can always retrieve up to the last 100 data points for every resource over the REST calls. Coming back to the example where resource is the phone, waylay platform would store 100 data points, where each data point would hold information about underlying parameters (temperature, humidity etc.)
-
-### Getting latest value from storage
+> Getting latest value from storage
 
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
+curl -i --user apiKey:apiSecret 
     https://data.waylay.io/resources/testresource/current?domain=sandbox.waylay.io
 ```
 
-### Getting history from storage
+> Getting history from storage
+
 ```bash
-curl -i \
-    --user apiKey:apiSecret \
+curl -i --user apiKey:apiSecret 
     https://data.waylay.io/resources/testresource/series?domain=sandbox.waylay.io
 ```
 
+You can always retrieve up to the last 100 data points for every resource over the REST calls. Coming back to the example where resource is the phone, waylay platform would store 100 data points, where each data point would hold information about underlying parameters (temperature, humidity etc.)
+
+<aside class="notice">
+In default pricing, we offer up to 100 latest points. This can as well be much higher if required.
+</aside>
+
+
+
 ## Streaming using WebSockets
+
+> Streaming using WebSockets
+
+```bash
+wss://data.waylay.io/resources/testresource/socket?domain=app.waylay.io&apiKey=...&apiSecret=...
+```
 
 You can stream data for a specific resource by setting up a WebSocket to the following url
 
-```text
-wss://data.waylay.io/resources/testresource/socket?domain=app.waylay.io&apiKey=...&apiSecret=...
-```

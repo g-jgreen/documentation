@@ -1,6 +1,7 @@
 ---
 title: API Reference
 description: Learn how to use the Waylay REST API
+weight: 1
 ---
 
 # API keys
