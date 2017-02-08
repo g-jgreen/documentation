@@ -209,6 +209,7 @@ You can create a task without a need to create a template first. In order to cre
 * task, task related settings
 
 Sensor and actuator settings are:
+
 * label , node label
 * name , sensor/actuator name
 * version,
@@ -218,13 +219,15 @@ Sensor and actuator settings are:
 * sequence , sequence - applicable only for sensors, if omitted default is 1
 
 Trigger settings are:
+
 * destinationLabel, label of the actuator
 * sourceLabel, label of the sensor
 * invocationPolicy, integer number that defines how long to wait before firing the same actuator again, even if the condition is met.
 statesTrigger, array of states under which to fire the actuator
 
-Relations settings are:
 Relations express logical gates that can be defined between sensors. There are 3 types of relations: AND, OR and GENERAL.
+
+Relations settings are:
 
 * combinations, array of arrays, such as ["Above", "Above"], ["Below", "Below"]. Only GENERAL gate will have more than one array of combinations
 label: "ANDGate_1"
@@ -233,6 +236,7 @@ label: "ANDGate_1"
 * type,  "AND", "OR" or "GENERAL"
 
 Task settings are:
+
 * name
 * start, flag to start a task, default yes
 * type (onetime, cron, reactive, periodic)
