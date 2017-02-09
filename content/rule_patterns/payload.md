@@ -1,7 +1,7 @@
 ---
 title: JSON payload transfomation and enrichment
 description: Learn how apply paylaod transformation using streamBridgeSensor and script sensor
-weight: 3
+weight: 4
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
 series: [ "Go Web Dev" ]

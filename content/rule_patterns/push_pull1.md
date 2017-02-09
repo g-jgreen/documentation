@@ -1,7 +1,7 @@
 ---
 title: Mixing push and pull events, with conditional sensor execution
 description: Learn how to execute pull sensor after stream processing
-weight: 4
+weight: 5
 ---
 In this example, we will learn how to trigger a polling sensor after stream data is processed. We used the same template from the first [example](/rule_patterns/stream_data_threshold_crossing/). Now we have added a polling sensor that triggers on * -> *, meaning that it will trigger every time after the stream data node is executed (which results in the new state: Below, Equal or Above). 
 

@@ -1,7 +1,7 @@
 ---
 title: Threshold crossing with stream data
 description: Learn how to use stream data for simple threshold crossing
-weight: 1
+weight: 2
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
 series: [ "Go Web Dev" ]
@@ -13,10 +13,10 @@ This is the simplest rule to create. Just use the streamDataSensor, put in the i
 ![image](/rules/stream_data_threshold_crossing/stream_threshold_crossing.png)
 
 {{% alert info %}}
-Please note the use of the resource field on the node level and only execute on data option enabled.
+Please note the use of the resource field **$** on the node level and **execute on data** option enabled.
 {{% /alert %}}
 
-The `resource` is a unique identifier of a ‘thing’. When a ‘thing’ pushes streaming data to the Waylay platform, it provides its unique identifier, i.e. a resource name. Each resource can push multiple parameters to the Waylay broker. The Waylay framework will automatically distribute resource parameters to tasks and nodes with the corresponding resource name. E.g. with the `execute on data` option, sensors with the corresponding resource name will automatically get invoked when new streamed data with the same resource name becomes available. The resource name can be specified at the task level and at the node level. In case we have many sensors in the task that share the same resource name, or if we want to invoke tasks that share the same template for different sensors (e.g. water meters), we may want to specify it at the task level and inherit it at the node level via the **$** symbol.
+The `resource` is a unique identifier of a ‘thing’. When a ‘thing’ pushes streaming data to the Waylay platform, it provides its unique identifier, i.e. a resource name. Each resource can push multiple parameters to the Waylay broker. The Waylay framework will automatically distribute resource parameters to tasks and nodes with the corresponding resource name. E.g. with the `execute on data` option, sensors with the corresponding resource name will automatically get invoked when new streamed data with the same resource name becomes available. The resource name can be specified at the task level and at the node level. In case we have many sensors in the task that share the same resource name, or if we want to invoke tasks that share the same template for different sensors (e.g. water meters), we may want to specify it at the task level and inherit it at the node level via the **$** symbol. More about this you can find [here](/usage/tasks-and-templates/)
 
 If we start a task using this template (e.g. saved as "template1") in the reactive mode like this:
 ```

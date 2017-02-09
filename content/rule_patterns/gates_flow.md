@@ -1,7 +1,7 @@
 ---
 title: Using gates as the control flow
 description: Learn how to use gates to control the formula computation
-weight: 8
+weight: 9
 ---
 
 This example will build on top of [the previous example](/rule_patterns/sequence/), which explores the use of eviciton policy. Both streamDataSensors are configured with eviction time of 5 seconds. Compared to previous example, we have added a Gate, that will be true only if both sensors are in Above state. 

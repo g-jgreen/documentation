@@ -1,7 +1,7 @@
 ---
 title: State pattern matching
 description: Learn how to use Function node for pattern matching
-weight: 9
+weight: 10
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
 series: [ "Go Web Dev" ]

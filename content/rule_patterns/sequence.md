@@ -1,7 +1,7 @@
 ---
 title: Control flow using sequence feature
 description: Learn how to control execution of sensors with sequency feature
-weight: 7
+weight: 8
 ---
 
 The waylay engine belongs to the group of inference engines, and it is based on the Bayesian Networks. What does it mean? Without going too much into maths, let’s just say that every node in the graph infers its state to all other nodes, and that each node “feels” what other node is experiencing at any moment in time. More about that is described in this [blog](http://www.waylay.io/blog-one-rules-engine-to-rule-them-all.html)
