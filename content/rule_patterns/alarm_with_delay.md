@@ -1,13 +1,16 @@
 ---
 title: Raise the alarm if the stream data is above the threshold for predifined period of time
 description: Learn how to use Delay node
-weight: 9
+weight: 10
 ---
 
-Stream node is configured the same way as in one of the previous [examples](rule_patterns/stream_data_threshold_crossing/). In order to track stream sensor state changes, we will use the `Delay` sensor. `Delay` sensor, which comes in default waylay installation is very simple: when it gets executed, it waits for a fixed amount of milliseconds before returning the state `Triggered`. In case that it gets executed again while already counting, it will reset the count and start counting from 0 again. Which means that if the delay period was defined to 5 seconds, and it was executed at `t0`, then again at `t0`+3sec, it will eventualy be in the state `Triggered` after `t0`+8 seconds.
+This example builds on top of the previous [one](rule_patterns/no_data/). If you have not studied that one, please read it first.
+In order to track stream sensor state changes, we will use the `Delay` sensor. `Delay` sensor, which comes in default waylay installation is very simple: when it gets executed, it waits for a fixed amount of milliseconds before returning the state `Triggered`. In case that it gets executed again while already counting, it will reset the count and start counting from 0 again. Which means that if the delay period was defined to 5 seconds, and it was executed at `t0`, then again at `t0`+3sec, it will eventualy be in the state `Triggered` after `t0`+8 seconds.
 
 
 Here is our template. Condition to raise the alarm if the stream data is above the threshold for predifined period of time was achived using `AND Gate`, which was configured to be `TRUE` when  both `Delay` sensor was in the state `Triggered` and the `stream` sensor was above the threshold. 
+
+We have configured the state transition of the `Delay` sensor as * -> Above and with the **eviction policy**. That would mean that we would fire the alarm if the stream data was above the threshold longer than 5 seconds. Have a look
 
 ![image](/rules/alarm_delay/alarm_delay1.png)
 
@@ -17,10 +20,6 @@ We used **eviction policy** on the delay sensor, which means that we will reset 
 
 {{% alert info %}}
 We also used [**state transition**](/rule_patterns/flow_contrl/) `* -> Above` to trigger Delay node if the stream data was above the threshold.
-{{% /alert %}}
-
-{{% alert info %}}
-What if we had configured the state transition to * -> *? That would mean that we would fire the alarm if there was no new data coming!! That we will see in the next post.
 {{% /alert %}}
 
 If we start a task using this template (e.g. saved as "delay") in the reactive mode like this:
