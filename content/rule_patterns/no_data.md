@@ -11,7 +11,7 @@ We have configured the state transition of the `Delay` sensor as * -> * and with
 ![image](/rules/no_data/no_data1.png)
 
 {{% alert info %}}
-We used **eviction policy** on the delay sensor, which means that we will reset `Triggered` state once it is fired. That way we can search for multiple cases when the stream data stays above the threshold value.
+We used **eviction policy** on the delay sensor, which means that we will reset `Triggered` state once it is fired.
 {{% /alert %}}
 
 {{% alert info %}}
