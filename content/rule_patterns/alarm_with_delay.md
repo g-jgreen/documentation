@@ -1,6 +1,6 @@
 ---
 title: Raise the alarm if the stream data is above the threshold for predifined period of time
-description: Learn how to use Delay node
+description: Learn how to use Delay node, stream sensor and AND Gate
 weight: 10
 ---
 
