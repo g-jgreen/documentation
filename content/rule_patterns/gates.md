@@ -28,6 +28,11 @@ In this case, we were interested in only 2 special cases, when both nodes are in
 ## Multiple selection (GENERAL) gate
 ![image](/rules/gates/general.png)
 
-Now let's try to use external API's. In the following example, we will use the weather API and the air quality API. For the first AND gate, we are only interested to see if the weather is in state `Mist` and if the air quality is `Unhealthy`, while in the other Gate (Gate_1), we are checking if the weather is bad (`Rain`, `Mist`, `Fog`) and if at the same time, air quality is bad (with different severity levels). As we can see from the picture, at the moment of writing, we had a miserable weather and very unhealthy air in Belgium. Sad.   
+Now let's try to use external API's. In the following example, we will use the weather API and the air quality API. For the first AND gate, we are only interested to see if the weather is in state `Mist` and if the air quality is `Unhealthy`, while in the other Gate (Gate_1), we are checking if the weather is bad (`Rain`, `Mist`, `Fog`) and if at the same time, air quality is bad (with different severity levels). Here is the general gate:
+
+![image](/rules/gates/gates_general.png)
+
+
+Now let's check the weather outside. As we can see from the picture, at the moment of writing, we had a miserable weather and very unhealthy air in Belgium. Sad.   
 
 ![image](/rules/gates/air_quality_weather.png)
