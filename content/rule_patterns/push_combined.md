@@ -1,7 +1,7 @@
 ---
 title: How to synchronized different data streams
 description: Learn how to combine events from parallel streams
-weight: 5
+weight: 6
 ---
 
 This is one of the most existing feature of Waylay!

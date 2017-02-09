@@ -1,7 +1,7 @@
 ---
 title: Mixing push and pull events, general case
 description: Learn how to combine push and pull events in parallel
-weight: 4
+weight: 5
 ---
 This example will be very similar to [the previos one](/rule_patterns/push_pull1/), where we conditionally executed wheather sensor every time we received the stream data. This example is a little bit different, in a sense that both sensors will be executed independently. Stream data sensor will be executed as soon as it receives stream data, while the polling sensor will be checking outside temperature every 5 minutes (300 seconds). 
 
