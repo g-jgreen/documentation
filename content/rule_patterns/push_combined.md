@@ -1,5 +1,5 @@
 ---
-title: How to syncronized different data streams
+title: How to synchronized different data streams
 description: Learn how to combine events from parallel streams
 weight: 5
 ---
