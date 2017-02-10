@@ -1,6 +1,6 @@
 ---
 title: Simple control using gates
-description: How to create simple rules
+description: How to create simple rules - better alternative to decision trees
 weight: 1
 ---
 
