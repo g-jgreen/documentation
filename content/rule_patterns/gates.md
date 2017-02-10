@@ -20,13 +20,19 @@ Waylay rule engine allows compact representation of logic. Combining two objects
 
 ![image](/rules/gates/rule1.png)
 
-In this case, we were interested in only 2 special cases, when both nodes are in the state `Above`, or when both nodes were `Equal` or `Above` the threshold. This is how we define these two rules:
+In this case, we were interested in only 2 special cases, when both nodes are in the state `Above`, or when both nodes were `Equal` or `Above` the threshold. This is how we define these two rules, using two different gates `AND` gate and `GENERAL` gate:
 
 ## AND gate configuration
+With AND gate, we simply define which combination of states we are interested in. We can add as many nodes as we want, in this example we only have two nodes:
+
 ![image](/rules/gates/AND.png)
 
 ## Multiple selection (GENERAL) gate
+With this gate, we simple define which multiple combinations of nodes/states we are interested in. 
+
 ![image](/rules/gates/general.png)
+
+## Example with REST API's
 
 Now let's try to use external API's. In the following example, we will use the weather API and the air quality API. For the first AND gate, we are only interested to see if the weather is in state `Mist` and if the air quality is `Unhealthy`, while in the other Gate (Gate_1), we are checking if the weather is bad (`Rain`, `Mist`, `Fog`) and if at the same time, air quality is bad (with different severity levels). Here is the general gate:
 
