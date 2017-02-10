@@ -1,7 +1,7 @@
 ---
 title: State pattern matching - within a time window
 description: Learn how to detect a pattern within a time window
-weight: 12
+weight: 13
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
 series: [ "Go Web Dev" ]

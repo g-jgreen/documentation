@@ -79,6 +79,7 @@ if(options.requiredProperties.testProperty1) {
   send(new Error("Missing property testProperty1"));
 }
 ```
+Every sensor must return `state`, `rawData` or both. For instance, if you implement a weather sensor, it should return a state such as “Rain” or “Sunny”, but it can as well provide information (rawData) such as temperature, humidity etc. Obviously, in order to execute a sensor, you will need some input, like city. How to declare what you need in the plug, and how the framework will provide this input to the sensor will be explained later in the document.
 
 As you can see, this is just simple javascript, nothing fancy. The only thing you need to know at this point is that these scripts will be executed by a Node.js server, somewhere in the cloud. More precisely Node.js 4.x LTS. For details on supported ES6 api you can visit [node.green](http://node.green/).
 

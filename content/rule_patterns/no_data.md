@@ -1,7 +1,7 @@
 ---
 title: Raise the alarm if there is no data for predifined period of time
 description: Learn how to use Delay node and stream sensor
-weight: 11
+weight: 12
 ---
 
 Stream node is configured the same way as in one of the previous [examples](rule_patterns/stream_data_threshold_crossing/). In order to track stream sensor state changes, we will use the `Delay` sensor. `Delay` sensor, which comes in default waylay installation is very simple: when it gets executed, it waits for a fixed amount of milliseconds before returning the state `Triggered`. In case that it gets executed again while already counting, it will reset the count and start counting from 0 again. Which means that if the delay period was defined to 5 seconds, and it was executed at `t0`, then again at `t0`+3sec, it will eventualy be in the state `Triggered` after `t0`+8 seconds.
