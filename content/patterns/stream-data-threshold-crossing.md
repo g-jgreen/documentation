@@ -4,13 +4,13 @@ description: Learn how to use stream data for simple threshold crossing
 weight: 2
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
-series: [ "Go Web Dev" ]
+series: [ "Common Patterns" ]
 ---
 
 This is the simplest rule to create. Just use the streamDataSensor, put in the input properties metric that we are interested in and set the threshold. 
 
 
-![image](/rules/stream_data_threshold_crossing/stream_threshold_crossing.png)
+![image](/rules/stream-data-threshold-crossing/stream_threshold_crossing.png)
 
 {{% alert info %}}
 Please note the use of the resource field **$** on the node level and **execute on data** option enabled.
@@ -89,7 +89,7 @@ and if data gets pushed via [broker](/api/broker-and-storage/):
 
 We can see the debug message any time new data arrives (with temperature above 21)
 
-![image](/rules/stream_data_threshold_crossing/stream_data_fig2.png)
+![image](/rules/stream-data-threshold-crossing/stream_data_fig2.png)
 
 {{% alert info %}}
 debug actuator was formatted with message:

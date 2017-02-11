@@ -17,9 +17,9 @@ params:
       name: JavaScript
 
 taxonomies:
-  tag: "tags"
-  category: "categories"
-  series: "series"
+  tag: tags
+  category: categories
+  series: series
 
 menu:
   main:

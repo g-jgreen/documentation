@@ -21,8 +21,8 @@ cards:
 
   - title: Rule patterns
     icon: developer_board
-    description: Best practices, learm how to create rules
-    url: /rule_patterns
+    description: Best practices and common rule patterns
+    url: /patterns
 
   - title: Tutorials
     icon: folder_shared

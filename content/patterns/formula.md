@@ -4,7 +4,7 @@ description: Learn how to use formula computation on raw data
 weight: 9
 ---
 
-This example will build on top of [the previous example](/rule_patterns/sequence/), where we used `Dice` sensor. Here is the sensor script that we will use in the example, which returns one of 6 states, depending on the random number:
+This example will build on top of [the previous example](/patterns/sequence/), where we used `Dice` sensor. Here is the sensor script that we will use in the example, which returns one of 6 states, depending on the random number:
 
 ```
 var randomValue = Math.random(); 
@@ -34,7 +34,7 @@ More about Sensors you can find [here](/api/sensors-and-actuators/#how-to-create
 {{% /alert %}}
 
 
-One thing we should always keep in mind that every sensor runs independently. If the sensor is in the `polling mode` (executes on tick) its execution can still be conrolled by [the state trigger](/rule_patterns/flow_contrl/) or [sequence](/rule_patterns/sequence/) number. In case that the sensor executes on data (streaming), script will execute every time a new data stream arrives. 
+One thing we should always keep in mind that every sensor runs independently. If the sensor is in the `polling mode` (executes on tick) its execution can still be conrolled by [the state trigger](/patterns/flow-control/) or [sequence](/patterns/sequence/) number. In case that the sensor executes on data (streaming), script will execute every time a new data stream arrives. 
 
 Most of the time, we assume that the rule is some sort of the `state machine`. We can use the sensor `state` to control the execution between different sensors, we can also use different sensors and states to wire the logic (using gates) and we can also attach actuators to the sensor states. Nevertheles, in this example, we will learn how to use **rawData** which can also be 'produced' by the sensors. This is the extract from the script above:
 ```
@@ -73,7 +73,7 @@ Note how we used the sequence numbers to make sure that rawData was available to
 {{% /alert %}}
 
 {{% alert info %}}
-In [the next example](rule_patterns/gates_flow/) we will learn how to compute the Formula node in case we want to be absolutely sure that previous nodes have succeeded before executing formula computation.
+In [the next example](patterns/gates-flow/) we will learn how to compute the Formula node in case we want to be absolutely sure that previous nodes have succeeded before executing formula computation.
 {{% /alert %}}
 
 So, let's roll the dice and see what happens!

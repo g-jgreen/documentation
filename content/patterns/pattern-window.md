@@ -4,17 +4,17 @@ description: Learn how to detect a pattern within a time window
 weight: 13
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
-series: [ "Go Web Dev" ]
+series: [ "Common Patterns" ]
 ---
 
-This example builds on top of the other two examples: [state pattern matching](/rule_patterns/pattern/) and [raise the alarm if the event found for predefined period of time](/rule_patterns/alarm_with_delay/). If you have not read them yet, please studied them first.
+This example builds on top of the other two examples: [state pattern matching](/patterns/pattern/) and [raise the alarm if the event found for predefined period of time](/patterns/alarm-with-delay/). If you have not read them yet, please studied them first.
 
 In this example (like in the previous), the function node formula is defined as `<sequence([Below,Above, Below], streamingDataSensor_1.state)>` with `threshold` 1.
 
 ![image](/rules/pattern_delay/pattern_delay.png)
 
 {{% alert info %}}
-Please note that we also used [state transition](/rule_patterns/flow_contrl/) * -> Equal to execute Delay node. That means that it will only be triggered in the Function node found the right pattern.
+Please note that we also used [state transition](/patterns/flow-control/) * -> Equal to execute Delay node. That means that it will only be triggered in the Function node found the right pattern.
 {{% /alert %}}
 
 If we start a task using this template (e.g. saved as "pattern_matching_delay") in the reactive mode like this:

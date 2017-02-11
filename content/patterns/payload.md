@@ -1,20 +1,20 @@
 ---
-title: JSON payload transfomation and enrichment
-description: Learn how apply paylaod transformation using streamBridgeSensor and script sensor
+title: JSON payload transformation and enrichment
+description: Learn how apply payload transformation using streamBridgeSensor and script sensor
 weight: 4
 tags: [ "Development", "Rules"]
 categories: [ "Development" ]
-series: [ "Go Web Dev" ]
+series: [ "Common Patterns" ]
 ---
-In this example, we will assume that we get the room temperature via the stream interface (device connected using sigfox, LoRA, MQTT,...), and that we want to enrich the payload with the outside temperature before pushing that message further (either for storage, email, SMS etc...). 
+In this example, we will assume that we get the room temperature via the stream interface (device connected using Sigfox, LoRA, MQTT,...), and that we want to enrich the payload with the outside temperature before pushing that message further (either for storage, email, SMS etc...).
 
-This rule will be using conditional sensor execution feature (flow control), as described in the previous [example](/rule_patterns/flow_contrl/). We are this time using `streamBridgeSensor`, eventhough we could have used the `streamDataSensor` as well. `StreamBridge` sensor actually does nothing with stream data, it only forwards it [via rawData](/api/sensors-and-actuators/#sensor-example). Every time it receives new data, it also toggles its state. And that's it.
+This rule will be using conditional sensor execution feature (flow control), as described in the previous [example](/patterns/flow-control/). We are this time using `streamBridgeSensor`, even though we could have used the `streamDataSensor` as well. `StreamBridge` sensor actually does nothing with stream data, it only forwards it [via rawData](/api/sensors-and-actuators/#sensor-example). Every time it receives new data, it also toggles its state. And that's it.
 
 In order to fetch the outside temperature, we will use the sensor that uses external API service, called `temperature_1`. This sensor is configure to execute on the [state change](usage/tasks-and-templates/) * -> *, which means that any time bridgeSensor receives the data, this sensor will fetch the new measurement via the API call.
 
 ![image](/rules/payload/payload1.png)
 
-For payload transformation, we used the script sensor. Waylay allows you to store [new sensors and actuators](api/sensors-and-actuators/) (similar to lamda functions), or like in this case, you can as well define the script inside the template, without storing it:
+For payload transformation, we used the script sensor. Waylay allows you to store [new sensors and actuators](api/sensors-and-actuators/) (similar to lambda functions), or like in this case, you can as well define the script inside the template, without storing it:
 ```
 var stream = waylayUtil.getRawData(options, "streamBridgeData")
 var temp = waylayUtil.getRawData(options, "temperature_1")
@@ -28,7 +28,7 @@ var rawData = {
 send(null, {observedState : "done", rawData : rawData})
 ```
 
-Inside the script, you can use all javascript funcitons, a lot of [sanboxed packages](api/sensors-and-actuators/#sandbox) and many waylay specific [utility functions](api/sensors-and-actuators/#utility-functions).
+Inside the script, you can use all javascript functions, a lot of [sandboxed packages](api/sensors-and-actuators/#sandbox) and many waylay specific [utility functions](api/sensors-and-actuators/#utility-functions).
 
 
 Let's start a task using this template (e.g. saved as "payload") in the reactive mode like this:
@@ -45,12 +45,12 @@ Let's start a task using this template (e.g. saved as "payload") in the reactive
 now let's push some data via [broker](/api/broker-and-storage/):
 
 ```
- curl --user apiKey:apiSecret 
+ curl --user apiKey:apiSecret
     -H "Content-Type: application/json"
     -X POST  
-    -d '{ 
-         "temperature": 21, 
-         "resource": "testresource", 
+    -d '{
+         "temperature": 21,
+         "resource": "testresource",
          "domain": "sandbox.waylay.io"
       }'
       "https://data.waylay.io/messages?store=false"
@@ -67,18 +67,18 @@ If we run this task in the debug mode, we can also see the debug messages any ti
 13:43:32.774 DEBUG Node scriptSensor_1 sensor scriptSensor rawData = { "insideTemperature" : 21, "outsideTemperature" : 0.59, "condition" : "Cold" }
 ```
 
-As we can see, the payload script has transfored the message into this:
+As we can see, the payload script has transformed the message into this:
 ```
 {   
-    "insideTemperature" : 21, 
-    "outsideTemperature" : 0.59, 
-    "condition" : "Cold" 
+    "insideTemperature" : 21,
+    "outsideTemperature" : 0.59,
+    "condition" : "Cold"
 }
 ```
 
 Let's now send this message via email and store it into Azure Cloud:
 
-![image](/rules/payload/payload_store.png) 
+![image](/rules/payload/payload_store.png)
 
 {{% alert info %}}
 debug actuator was formatted with message:

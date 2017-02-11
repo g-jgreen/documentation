@@ -3,10 +3,10 @@ title: Mixing push and pull events, with conditional sensor execution
 description: Learn how to execute pull sensor after stream processing
 weight: 5
 ---
-In this example, we will learn how to trigger a polling sensor after stream data is processed. We used the same template from the first [example](/rule_patterns/stream_data_threshold_crossing/). Now we have added a polling sensor that triggers on * -> *, meaning that it will trigger every time after the stream data node is executed (which results in the new state: Below, Equal or Above). 
+In this example, we will learn how to trigger a polling sensor after stream data is processed. We used the same template from the first [example](/patterns/stream-data-threshold-crossing/). Now we have added a polling sensor that triggers on * -> *, meaning that it will trigger every time after the stream data node is executed (which results in the new state: Below, Equal or Above).
 
 
-![image](/rules/push_pull1/mix_push_pull1_fig1.png)
+![image](/rules/push-and-pull-1/mix_push_pull1_fig1.png)
 
 {{% alert info %}}
 Please note the use we use exactly the same way the resource field as in the first example.
@@ -29,13 +29,13 @@ Note that we stared a task with resource named `testresource`,
 and if data gets pushed via [broker](/api/broker-and-storage/):
 
 ```
- curl --user apiKey:apiSecret 
+ curl --user apiKey:apiSecret
     -H "Content-Type: application/json"
     -X POST  
-    -d '{ 
-         "temperature": 23, 
-         "humidity": 73, 
-         "resource": "testresource", 
+    -d '{
+         "temperature": 23,
+         "humidity": 73,
+         "resource": "testresource",
          "domain": "sandbox.waylay.io"
       }'
       "https://data.waylay.io/messages?store=false"
@@ -43,10 +43,9 @@ and if data gets pushed via [broker](/api/broker-and-storage/):
 
 We can see the debug message any time new data arrives (with temperature above 21)
 
-![image](/rules/push_pull1/mix_push_pull1_fig2.png)
+![image](/rules/push-and-pull-1/mix_push_pull1_fig2.png)
 
 {{% alert info %}}
 debug actuator was formatted with message:
-`Temparature is {{streamingDataSensor_1.parameter}} and outside temperature {{currentWeather_1.temperature}}`
+`Temperature is {{streamingDataSensor_1.parameter}} and outside temperature {{currentWeather_1.temperature}}`
 {{% /alert %}}
-
