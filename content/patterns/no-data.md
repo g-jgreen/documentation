@@ -1,5 +1,5 @@
 ---
-title: Raise the alarm if there is no data for predefined period of time
+title: Raise the alarm if there is no data within a time window
 description: Learn how to use Delay node and stream sensor
 weight: 12
 ---
