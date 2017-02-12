@@ -243,7 +243,7 @@ Task settings are:
 * type (onetime, cron, reactive, periodic)
 * other task type related settings, see further below
 
-## Creat a task from a template
+## Create a task from a template
 
 ```bash
 curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{

@@ -1,8 +1,13 @@
 ---
 title: Tasks and Templates
 description: Learn about Waylay tasks and templates
-weight: 4
+weight: 2
 ---
+# Tasks
+In waylay terminology, tasks are instantiated rules. There are two ways tasks can be instantiated:
+
+* one-off tasks, where sensors, actuators, logic and task settings are configured at the time the task is instantiated.  
+* tasks instantiated from templates, where task creation is based on the template(which describes sensors, actuators and logic) and the task settings. 
 
 # Template configuration settings
 ## Actuator configuration panel
@@ -67,13 +72,17 @@ The resource is a unique identifier of a ‘thing’. When a ‘thing’ pushes 
 
 # Task settings
 
+In case that the task is deployed as "one-off", where sensors, actuators, logic and task settings are configured at the time the task is instantiated, you can deploy the task either via waylay designer or [REST calls](/api/rest/#create-a-task-with-rule-defined-in-the-request). In the screenshot below, you can see how this can be done from UI.
 
 ![](https://raw.githubusercontent.com/waylayio/documentation/master/images/taskDeploy.png)
+
+As mentioned earlier, tasks can also be instantiated from templates, via [REST](api/rest/#create-a-task-from-a-template)
+
+In both case, the following settings apply:
 
 * **Task name**: Name of the task. Does not need to be unique, Waylay assigns a unique taskID to each task.
 * **Task resource**: is the resource name defined at the task level. Please see the section ‘Advanced Settings” in the Sensor section on how to inherit the task resource at the node level.
 * **Start task**: Will start the task immediately upon creation. This is the default behaviour.
-* **Put in the bucket**: Experimental feature. Will not start the task, but put it in a waiting mode. Task in the bucket wait for an external trigger before being started.
 * **Task type**:
  * **Periodic**: The task tick is at a configurable periodicity.
  *  **Cron**: allows to execute tasks according to a cron expression.
@@ -82,4 +91,4 @@ The resource is a unique identifier of a ‘thing’. When a ‘thing’ pushes 
 * **Advanced settings**:
  * **Execute in parallel**: execute all sensors and functions in parallel. When sequence numbers are defined, this option will be unchecked. When still selecting this option, it will override the sequence number and still execute sensors in parallel.
  * **Reset observations on each invocation**: This will reset the states of sensors to their default values right before the next task tick. This feature is useful in scenarios where you do not need to maintain states across task ticks. When you invoke sensors, the state updates provided as output of the sensor invocations may arrive asynchronously. In order to avoid accidental actuator triggering based on old states (from the previous task tick), you may need to reset observations before each task tick.
-
+
