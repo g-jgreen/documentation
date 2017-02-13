@@ -132,6 +132,11 @@ Task settings are:
 * type (onetime, cron, reactive, periodic)
 * other task type related settings, see further below
 
+<aside class="notice">
+Once task is deployed, you can still change task/node/sensor/actuator settings using PATCH calls (see later)
+</aside>
+
+
 ## Create a task from a template
 
 ```bash
@@ -339,7 +344,6 @@ Related parameters:
 * hits (default 10, max. 100)
 
 
-
 ## Get the total count of tasks
 In order to retrieve the total task count, check the header of the response (X-Count)
 
@@ -501,27 +505,103 @@ The format used to modify properties is the same as when you create a [task from
 # Templates
 Templates are generic rules that have not yet been associated to a particular device or instance. The same template can be instantiated many times as tasks, by associating device specific parameters to a specific template. This mechanism is operationally very efficient in the sense that templates only need to be developed once, but can then be instantiated many times. As an example, assume you generate a template for an appliance and in the field, you have 100k appliances deployed: then you would have one template and 100k tasks running on the waylay platform. 
 
+## Create a new template
+You can create a template using "simplified" logic representation (without Bayesian Network):
 
-## List all templates
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates"
-```
-
-## Get one template
+> Template with sensors, actuators and relations
 
 ```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.json"
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
+  "name" : "testSimpleJSON",
+  "sensors": [
+    {
+      "label": "currentWeather_1",
+      "name": "currentWeather",
+      "version": "1.0.3",
+      "sequence": 1,
+      "properties": {
+        "city": "Gent, Belgium"
+      },
+      "position": [173, 158]
+    },
+    {
+      "label": "isWeekend_1",
+      "name": "isWeekend",
+      "version": "1.0.3",
+      "sequence": 1,
+      "position": [179, 369]
+    }
+  ],
+  "actuators": [
+    {
+      "label": "TwitterDM_1",
+      "name": "sendTwitterDM",
+      "version": "1.0.1",
+      "properties": {
+        "screenName": "pizuricv",
+        "message": "Great weekend!"
+      },
+      "position": [600, 199]
+    }
+  ],
+  "relations": [
+    {
+      "label": "ANDGate_1",
+      "type": "AND",
+      "position": [353, 264],
+      "parentLabels": ["currentWeather_1", "isWeekend_1"],
+      "combinations": [["Clear", "TRUE"]]
+    }
+  ],
+  "triggers": [
+    {
+      "destinationLabel": "TwitterDM_1",
+      "sourceLabel": "ANDGate_1",
+      "statesTrigger": ["TRUE"],
+      "invocationPolicy": 1
+    }
+  ]
+}' "https://sandbox.waylay.io/api/templates"
 ```
 
-## Delete template
+In order to create a template you will need to specify the following in the request:
 
-```bash
-curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/internet.json"
-```
+* sensors, list of sensors with required properties
+* actuators, list of actuators with required properties
+* relations, list of relations(gates) between sensors
+* triggers, list of conditions under which actuators get executed.
+* template name
 
-## Submit a new template
-You can submit a new template that is defined as a Bayesian Network. In case you find this too hard, you may as well consider simplified form [create a task from simplified template](#create-a-task-with-rule-defined-in-the-request)
+Sensor and actuator settings are:
+
+* label , node label
+* name , sensor/actuator name
+* version,
+* position, array such as [245, 205],
+* properties, key-value object of required properties
+* resource , resource - applicable only for sensors
+* sequence , sequence - applicable only for sensors, if omitted default is 1
+
+Trigger settings are:
+
+* destinationLabel, label of the actuator
+* sourceLabel, label of the sensor
+* invocationPolicy, integer number that defines how long to wait before firing the same actuator again, even if the condition is met.
+statesTrigger, array of states under which to fire the actuator
+
+Relations express logical gates that can be defined between sensors. There are 3 types of relations: AND, OR and GENERAL.
+
+Relations settings are:
+
+* combinations, array of arrays, such as ["Above", "Above"], ["Below", "Below"]. Only GENERAL gate will have more than one array of combinations
+label: "ANDGate_1"
+* parentLabels, array of labels of sensors that are attached to this relation
+* position, array such as [245, 205],
+* type,  "AND", "OR" or "GENERAL"
+
+
+
+## Create a new template using BN
 
 ```bash
 curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
@@ -594,6 +674,25 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
               } ],
             name: "internet2.json"
           }' "https://sandbox.waylay.io/api/templates"
+```
+You can also create a new template that is defined as a Bayesian Network. Compared to previous call, this call allows you to define gates as a **Conditional Probability Table** (CPT) and also allows you to attach actuators to the **likehood** of a node being in a given state:
+
+## List all templates
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates"
+```
+
+## Get one template
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.json"
+```
+
+## Delete template
+
+```bash
+curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/internet.json"
 ```
 
 # Plugs (Sensors and Actuators)
