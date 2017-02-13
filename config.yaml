@@ -5,6 +5,9 @@ theme: "waylay"
 defaultContentLanguage: en
 copyright: Copyright © 2017 Waylay NV
 
+googleAnalytics: "UA-50877508-2"
+
+
 params:
   supportEmail: support@waylay.io
   algolia_index: waylay
