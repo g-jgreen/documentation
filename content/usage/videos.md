@@ -1,7 +1,7 @@
 ---
 title: How-To videos
 description: Introduction videos
-weight: 3
+weight: 4
 ---
 
 Watch our demo playlist below to get a pretty good overview of waylay or skip to a topic further below.

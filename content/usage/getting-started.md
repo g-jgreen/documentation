@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 description: Learn how to first get started with the Waylay platform
-weight: 1
+weight: 2
 ---
 
 This document provides a quick introduction to the basic concepts behind the waylay application. It will allow you to get up to speed faster by providing you an insight in why waylay was built the way it is built.

@@ -1,7 +1,7 @@
 ---
 title: Tasks and Templates
 description: Learn about Waylay tasks and templates
-weight: 2
+weight: 3
 ---
 # Tasks
 In waylay terminology, tasks are instantiated rules. There are two ways tasks can be instantiated:

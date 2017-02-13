@@ -7,7 +7,7 @@ weight: 2
 # Introduction
 
 Waylay is a cloud-based agent architecture that observes its environment via **software-defined sensors** and acts on its environment through **software-defined actuators**. A (very) high level blog about it you can find here [blog](http://www.waylay.io/blog-iot-meets-artificial-intelligence.html).
-![Smart agent concept](http://www.waylay.io/images/blog/figure1b.jpg)
+![Smart agent concept](/api/images/smart_agent.jpg)
 
 In short, if you implement a weather sensor, it should return a state such as "Rain" or "Sunny", but it can as well provide information (rawData) such as temperature, humidity etc. Every sensor must either return **state** or **rawData** (it can also return both). Obviously, in order to execute a sensor, you will need some input, like _city_. How to declare what you need in the plug, and how the framework will provide this input to the sensor will be explained later in the document.
 
