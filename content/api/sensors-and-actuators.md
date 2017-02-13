@@ -61,7 +61,7 @@ In case of a sensor implementation, you want to send back a result, so you must 
 * rawData (JSON with key:value pairs)
 Note that if you want to send a valid response back, the fist argument *must* be a *null*, otherwise, the framework will treat a first argument as the error. In case you wonder why, well, let us just say that we try to be compatible to [JSON-RPC spec](http://en.wikipedia.org/wiki/JSON-RPC)
 
-## How to create a sensor
+## Sensor
 
 > If you start by clicking "Create Sensor", you can see the following script created for you:
 
@@ -80,6 +80,21 @@ if(options.requiredProperties.testProperty1) {
 }
 ```
 Every sensor must return `state`, `rawData` or both. For instance, if you implement a weather sensor, it should return a state such as “Rain” or “Sunny”, but it can as well provide information (rawData) such as temperature, humidity etc. Obviously, in order to execute a sensor, you will need some input, like city. How to declare what you need in the plug, and how the framework will provide this input to the sensor will be explained later in the document.
+You can create sensors to acquire data from physical devices, databases, applications or online services. You do this by means of writing Javascript and defining metadata. Waylay provides many examples which you can use as a baseline to create your own sensors, specific to your application. On a technical level, a sensor can be considered as a function that, when called, returns the state it is in.
+
+### Output
+
+A sensor has two possible outputs:
+
+#### Output State
+
+ Each sensor has a limited amount of discrete states which it can be in, eg ON/OFF or LOW/MEDIUM/HIGH.
+These states will be used when logic is applied. As an example, for the temperature sensor, you could define states as HOT (>30C), WARM (20C-30C), MILD (10C-20C), COLD (0C-10C) and FREEZING (<0C).
+The sensor then returns the state information back to the logic and you can start building logic using these states.
+
+#### Output Raw Data
+
+This is the data that was collected or pushed in its raw form, like continuous value parameters such as eg temperature, light and memory used. In some cases, you may also want to use this raw data in the mathematical preprocessing step of your logic. Therefore this data is stored in the task context that can be used in your logic.
 
 As you can see, this is just simple javascript, nothing fancy. The only thing you need to know at this point is that these scripts will be executed by a Node.js server, somewhere in the cloud. More precisely Node.js 4.x LTS. For details on supported ES6 api you can visit [node.green](http://node.green/).
 
@@ -111,6 +126,20 @@ send(null,value);
 ```
 
 In this example, this sensor will roll the dice, return one of the six states, and also return a random value. Random value can later been access via the RAW Data context (see below).
+
+<aside class="notice">
+In order to properly execute the script, sensor must return back send(null, value), where value is JSON object in form 
+{ 
+  observedState: "state",
+  rawData : {
+    key:value
+  }
+}
+</aside>
+
+<aside class="notice">
+If you want to send an error with errorMessage, just call send(errorMessage).
+</aside>
 
 
 ## Returning value from the sensor
@@ -149,7 +178,7 @@ If you want to send an error with errorMessage, just call send(errorMessage).
 </aside>
 
 
-## How to create an actuator
+## Actuator
 You create an actuator the same way you create a sensor. 
 
 > If you start by clicking "Create Actuator", you can see the following script created for you:
@@ -211,6 +240,7 @@ if(username && token && subject && message){
   send(new Error("Missing properties"));
 }
 ```
+Similar to the sensor framework, Waylay provides a built­in framework that support actuators towards different systems. Actuators allow to execute actions based on the outcome of rules. 
 Actuators are triggered as the result of the sensor execution (sensor state, or state changes). Writing actuator code is very similar to writing the sensor call. The only exception is that actuars are "fire and forget calls". They don't return states or rawData. In case you want to pass some data to the task context, please check this  [link](#actuator-related-raw-data). This actuator also makes use of [global settings](#global-settings) and [template call from utility package](#template)
 
 <aside class="notice">

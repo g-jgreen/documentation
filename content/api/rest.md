@@ -22,121 +22,10 @@ you can test the same from the UI (see picture above), but since in the rest of 
 
 # TASK related calls
 
-## Query single task
-Get information about a single task. Response will include template definition and task's type and settings.
+In waylay terminology, tasks are instantiated rules. There are two ways tasks can be instantiated:
 
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/{taskID}"
-```
-
-
-
-## Query multiple tasks
-> This call gives first 10 tasks (default behaviour), and if you need to filter your tasks, you can use a query language.
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks"
-```
-You can also query for tasks.
-
-
-### Task querying filtering
-
-Query parameters are:
-
-* filter (fuzzy search on multiple properties)
-* name
-* resource
-* type (scheduled, periodic, ...)
-* status (running, stopped, failed)
-* ids (comma separated string)
-* id (can be added multiple times)
-* tags (comma separated string)
-* tag (can be added multiple times)
-* plugin (`mySensor` or `mySensor:1.0.3`)
-
-_All query parameters are combined with logical AND operator_. That means that if you combine more than one parameter together you will only receive tasks that match all conditions.
-
-
-> Query task by name. For instance in this call you can retrieve all tasks that start with _taskName_.
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?name=taskName*"
-```
-You query task by a name using * characters to get a list of tasks that matches the input string.
-
-
-If you query task by resource, input must match the resource name exactly. You can still receive more tasks in case they all have the same resource name.
-
-> Query to match tasks exactly by name
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?resource=resource1"
-```
-
-> Quering tasks and paging
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?startIndex=1"
-```
-
-
-> Default number of returned results is 10, and you can change this using _hits_ parameter. For instance, this call will retrieve maximum 50 tasks, starting search from the task index 50. (second page of 50-per-page results)
-
-```bash
-curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?startIndex=50&hits=50"
-```
-
-
-Related parameters:
-
-* startIndex
-* hits (default 10, max. 100)
-
-
-
-## Get the total count of tasks
-In order to retrieve the total task count, check the header of the response (X-Count)
-
-> In order to retrieve the total task count, check the header of the response (X-Count). In this example, we receive back 27 tasks:
-
-```bash
-$ curl --user apiKey:apiSecret -I "https://sandbox.waylay.io/api/tasks"
-```
-```http
-HTTP/1.1 200 OK
-Server: nginx/1.6.2
-Date: Wed, 07 Jan 2015 10:50:32 GMT
-Content-Type: application/json
-Content-Length: 0
-Connection: keep-alive
-X-Count: 27
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, POST, DELETE, PUT
-Access-Control-Allow-Headers: Content-Type, Authorization
-Access-Control-Expose-Headers: X-Count
-Strict-Transport-Security: max-age=31536000; includeSubdomains
-```
-
-> Example: get the total count of running tasks
-
-```bash
-$ curl --user apiKey:apiSecret -I "https://sandbox.waylay.io/api/tasks?status=running"
-```
-```http
-HTTP/1.1 200 OK
-Server: nginx/1.6.2
-Date: Wed, 07 Jan 2015 10:50:32 GMT
-Content-Type: application/json
-Content-Length: 0
-Connection: keep-alive
-X-Count: 5
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, POST, DELETE, PUT
-Access-Control-Allow-Headers: Content-Type, Authorization
-Access-Control-Expose-Headers: X-Count
-Strict-Transport-Security: max-age=31536000; includeSubdomains
-```
+* one-off tasks, where sensors, actuators, logic and task settings are configured at the time the task is instantiated.  
+* tasks instantiated from templates, where task creation is based on the template(which describes sensors, actuators and logic) and the task settings. 
 
 ## Create a task
 There are mainly 2 ways to create a task, either by specifying the rule in the request, or by specifying the template with which the task needs to be instantiated.
@@ -378,6 +267,121 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/tasks/1/comm
 ```bash
 curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/tasks/1/command/start"
 ```
+## Query single task
+Get information about a single task. Response will include template definition and task's type and settings.
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/{taskID}"
+```
+
+
+
+## Query multiple tasks
+> This call gives first 10 tasks (default behaviour), and if you need to filter your tasks, you can use a query language.
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks"
+```
+You can also query for tasks.
+
+
+### Task querying filtering
+
+Query parameters are:
+
+* filter (fuzzy search on multiple properties)
+* name
+* resource
+* type (scheduled, periodic, ...)
+* status (running, stopped, failed)
+* ids (comma separated string)
+* id (can be added multiple times)
+* tags (comma separated string)
+* tag (can be added multiple times)
+* plugin (`mySensor` or `mySensor:1.0.3`)
+
+_All query parameters are combined with logical AND operator_. That means that if you combine more than one parameter together you will only receive tasks that match all conditions.
+
+
+> Query task by name. For instance in this call you can retrieve all tasks that start with _taskName_.
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?name=taskName*"
+```
+You query task by a name using * characters to get a list of tasks that matches the input string.
+
+
+If you query task by resource, input must match the resource name exactly. You can still receive more tasks in case they all have the same resource name.
+
+> Query to match tasks exactly by name
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?resource=resource1"
+```
+
+> Quering tasks and paging
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?startIndex=1"
+```
+
+
+> Default number of returned results is 10, and you can change this using _hits_ parameter. For instance, this call will retrieve maximum 50 tasks, starting search from the task index 50. (second page of 50-per-page results)
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks?startIndex=50&hits=50"
+```
+
+
+Related parameters:
+
+* startIndex
+* hits (default 10, max. 100)
+
+
+
+## Get the total count of tasks
+In order to retrieve the total task count, check the header of the response (X-Count)
+
+> In order to retrieve the total task count, check the header of the response (X-Count). In this example, we receive back 27 tasks:
+
+```bash
+$ curl --user apiKey:apiSecret -I "https://sandbox.waylay.io/api/tasks"
+```
+```http
+HTTP/1.1 200 OK
+Server: nginx/1.6.2
+Date: Wed, 07 Jan 2015 10:50:32 GMT
+Content-Type: application/json
+Content-Length: 0
+Connection: keep-alive
+X-Count: 27
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Expose-Headers: X-Count
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+```
+
+> Example: get the total count of running tasks
+
+```bash
+$ curl --user apiKey:apiSecret -I "https://sandbox.waylay.io/api/tasks?status=running"
+```
+```http
+HTTP/1.1 200 OK
+Server: nginx/1.6.2
+Date: Wed, 07 Jan 2015 10:50:32 GMT
+Content-Type: application/json
+Content-Length: 0
+Connection: keep-alive
+X-Count: 5
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Expose-Headers: X-Count
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+```
 
 # Batch operations
 
@@ -495,6 +499,8 @@ The format used to modify properties is the same as when you create a [task from
 ```
 
 # Templates
+Templates are generic rules that have not yet been associated to a particular device or instance. The same template can be instantiated many times as tasks, by associating device specific parameters to a specific template. This mechanism is operationally very efficient in the sense that templates only need to be developed once, but can then be instantiated many times. As an example, assume you generate a template for an appliance and in the field, you have 100k appliances deployed: then you would have one template and 100k tasks running on the waylay platform. 
+
 
 ## List all templates
 
@@ -590,7 +596,22 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
           }' "https://sandbox.waylay.io/api/templates"
 ```
 
-# Plugs
+# Plugs (Sensors and Actuators)
+There are two types plugs in waylay: sensors and actuators.
+
+More about how to write sensors and actuators you can find [here](/api/sensors-and-actuators/)
+
+
+
+## Sensors
+
+Sensors can be considered a generalized form of input connector for the waylay platform. You can create sensors to acquire data from physical devices, databases, applications or online services. You do this by means of writing Javascript and defining metadata. Waylay provides many examples which you can use as a baseline to create your own sensors, specific to your application. On a technical level, a sensor can be considered as a function that, when called, returns the state it is in.
+
+## Actuators
+
+Based on the outcome of the logic, you may want to take action, such as sending an alert, writing something in a database or acting on a physical system. You can take action based on any node being in a particular state, by attaching actuators to the particular node. As for the sensors, the waylay framework allows you to add your own definitions of actuators.
+
+
 ## Get list of all sensors
 
 ```bash
@@ -624,7 +645,9 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
 You can test any actuator using REST. Of course, you will need to provide actuator specific parameters in the call, like in this example where we provide e-mail address and message to mail actuator:
 
 # Node related calls
+In waylay terminology, sensor is it attached to the node.
 During the runtime of the tasks, you can either inspect the node, or set the state, or execute attached sensors.
+
 
 ## Get current states
 Get current states(posteriors) and raw data for the node
@@ -893,7 +916,7 @@ In general these managed tasks are created/removed for these actions:
 
 # Real-time (STREAM) data
 
-The waylay application allows you to push raw data and states to the running tasks. Normally this is done via WaylayBroker which allows you to terminate many different protocols (MQTT, WebSockets and REST), but if you wish, you can as well do it directly, calling STREAM related API call on the engine itself.
+The waylay application allows you to push raw data and states to the running tasks. Normally this is done via [WaylayBroker](/api/broker-and-storage/) which allows you to terminate many different protocols (MQTT, WebSockets and REST), but if you wish, you can as well do it directly, calling STREAM related API call on the engine itself.
 
 ## Push real-time raw data
 > Here is a REST invocation call that pushes temperature:
