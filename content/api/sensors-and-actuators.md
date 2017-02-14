@@ -48,6 +48,8 @@ Every script is executed in the sandbox environment with a number of packages pr
 * async as async (from sandbox 0.8.8),
 * ftp as FTPClient (from sandbox 0.8.10),
 * concat-stream as concat (from sandbox 0.8.10),
+* azure-storage as asure (from sandbox 0.8.17),
+* crypto as crypto (from sandbox 0.8.18),
 * waylay util package as waylayUtil
 
 In case you need more libraries, let us now at support@waylay.io.
