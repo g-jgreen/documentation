@@ -1,7 +1,7 @@
 ---
 title: Grafana Plugin
 description: Visualize your the data from your assets
-weight: 6
+weight: 7
 ---
 
 # Prerequisites
