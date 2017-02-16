@@ -51,17 +51,21 @@ Here is the provisiong task, which was executed only once as soon as the device 
 
 We can also see in the resource view that at the same time we assosiated the customer to the same device (`abccompany`):
 
-![tasks](/features/provisioning/tasks.png)
+![resources](/features/provisioning/resources.png)
+
+In the resource view, we see the complete metamodel for that resource. Some of the properties are inhereted from the resource type.
+
+![metamodel](/features/provisioning/meta_model.png)
+
 
 # B2B Dashboard
-Once device was assigned to a customer, it immediately become available in our B2B dashboard. Great! 'Zero touch' configuration.
+Once device was assigned to a customer, it immediately become available in our B2B dashboard, in this case the customer `abccompany`. Great, all done! 'Zero touch' configuration.
 
 ![dashboard](/features/provisioning/dashboard.png)
 
 {{% alert info %}}
 More about B2B dashboard you can find [here](/usage/grafana/)
 {{% /alert %}}
-
 
 
 
