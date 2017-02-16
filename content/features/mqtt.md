@@ -1,6 +1,6 @@
 ---
-title: Using the Waylay Broker and MQTT
-description: Learn how to use MQTT, Broker and how bridge different protocols
+title: Using Waylay Broker and MQTT
+description: Learn how to use MQTT, Broker and how to bridge different protocols
 weight: 3
 ---
 
