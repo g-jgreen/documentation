@@ -9,10 +9,10 @@ cards:
     description: Documentation and guides on using the Waylay REST APIs
     url: /api/
 
-  - title: Plugins
+  - title: Features & Integrations
     icon: extension
-    description: Learn more about Waylay Sensors & Actuators
-    url: api/sensors-and-actuators/
+    description: Find out more about our features and integrations.
+    url: /features
 
   - title: Architecture
     icon: device_hub

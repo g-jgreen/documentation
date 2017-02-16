@@ -3,7 +3,7 @@ title: Migration/version upgrade feature
 description: Learn how to migrate sensors, actuators, tasks and templates at runtime
 tags:
 - migration
-weight: 5
+weight: 1
 ---
 
 # Automation challenges
@@ -20,15 +20,15 @@ Once we deploy automation tasks in production, several things can happen:
 
 Every sensor and actuator in the waylay tenant platform is versioned. When we decide to update a plug, new version will be stored in the cloud. This is the console view of waylay plugs. For each plug, you can see how many different versions have been created.
 
-![Sensor version](/usage/migration/sensor_version.png)
+![Sensor version](/features/migration/sensor_version.png)
 
 Here is the example of the Zendesk actuator
 
-![Zendesk](/usage/migration/zendesk1.png)
+![Zendesk](/features/migration/zendesk1.png)
 
 Let's now build a "devops" template using this actuator:
 
-![Zendesk](/usage/migration/devops_template.png)
+![Zendesk](/features/migration/devops_template.png)
 
 Now, let's run the task using REST call:
 ```
@@ -42,7 +42,7 @@ Now, let's run the task using REST call:
 
 Here is the newly created task in the application:
 
-![task](/usage/migration/task.png)
+![task](/features/migration/task.png)
 
 Let's imagine that zendesk API version had changed after this task was created. In the previous example, the URL for the zendesk API service was version one `v1`, coded in the plug like this: 
 
@@ -50,18 +50,18 @@ Let's imagine that zendesk API version had changed after this task was created. 
 
 Assume now that the new API version is 2. Now we need to change the zendesk ticket plug (new plug version is now `0.0.2`:
 
-![Zendesk v2](/usage/migration/zendesk2.png)
+![Zendesk v2](/features/migration/zendesk2.png)
 {{% alert info %}}
 In this example we assume that it was just a version number change. But this could as well be something else, like change it the API response, need for additional attributes etc.
 {{% /alert %}}
 
 If we look at the task view again, we can see the warning:
 
-![task warning](/usage/migration/task_warning1.png)
+![task warning](/features/migration/task_warning1.png)
 
 If we click the migrate button, we end up on the migration page. We can see that inside the template, we have the same actuator three times configured, all with the same old version `0.0.1`. 
 
-![task migration](/usage/migration/template_migration.png)
+![task migration](/features/migration/template_migration.png)
 
 Now we need to migrate templates.
 {{% alert info %}}
@@ -70,16 +70,16 @@ Please note that we couldn't migrate tasks directly without migrating the templa
 
 In the template view, we can now migrate all actuators `zendeskTicket`
 
-![update template](/usage/migration/upgrade_zendesk1.png)
+![update template](/features/migration/upgrade_zendesk1.png)
 
 
 Once we saved the template, new icon will show in the command view (left top corner)
 
-![task migration](/usage/migration/migrate_templates2.png)
+![task migration](/features/migration/migrate_templates2.png)
 
 That brings us back to the migration page. With one click of a button, all running tasks will be updated. Easy!
 
-![task migration](/usage/migration/migration_final.png)
+![task migration](/features/migration/migration_final.png)
 
 
 

@@ -3,7 +3,7 @@ title: Sigfox integration
 description: Learn how to connect and integrate your Sigfox devices
 tags:
 - sigfox
-weight: 6
+weight: 8
 ---
 
 Waylay's native Sigfox integration allows you to add many Sigfox enabled devices to automatically forward data to the Waylay platform.
