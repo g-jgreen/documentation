@@ -24,7 +24,7 @@ In waylay, **we decided to go for MQTT**.
 
 [Waylay Broker](/api/broker-and-storage/) lets you store and distribute messages. It is important to mention that **Waylay Rule engine is protocol agnostic**. That means that different protocols are terminated at the Broker. Broker supports  different protocols: HTTP(S), WebSockets and MQTT. 
 
-If the data comes directly from the devices, the appropriate choice would be MQTT.  HTTP(S), WebSockets are appropriate choice for cloud-to-cloud or intra-cloud integration. In case of HTTP(S) integration, you will always need waylay API key and secret. In case that data comes directly from the devices, you will need our identity manager:
+If the data comes directly from the devices, the appropriate choice would be MQTT (together with the identity  manager - **Device Gateway**).  HTTP(S), WebSockets are appropriate choice for cloud-to-cloud or intra-cloud integration. In case of HTTP(S) integration, you will always need waylay API key and secret. In case that data comes directly from the devices, you will need our identity manager:
 
 ![manager](/features/mqtt/device_gateway.png)
 

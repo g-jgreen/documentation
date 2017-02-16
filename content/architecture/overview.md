@@ -16,20 +16,22 @@ Waylay architecture is composed of the following components:
 * SDK and Templates (for sensors, actuators, rules)
 * Node.js executor nodes
 
-![architecture](https://raw.githubusercontent.com/waylayio/documentation/master/images/architecture.png)
+![architecture](/architecture/architecture.png)
 
-# Broker
+# Waylay Broker
 
-[Broker](api/broker-and-storage/) lets you store and distribute messages. This can be performed over different protocols: HTTP, WebSockets or MQTT. To keep your data private, you need to use waylay API key and secret. This will also enable both cloud storage and forwarding of your data towards waylay Inference Engine. As soon as data is send to the Broker, data is stored in two different databases, time series database and document database (Cloud Persisted Cache). In Cloud Persisted Cache, data is stored without any pre-processing, with original JSON object as it was received. When JSON object (or array of JSON objects) comes to the Broker, Broker also tries to save data in the time series database. In order to achieve that, broker will inspect incoming JSON object and store every metric that is found in the JSON object.
+[Waylay Broker](/api/broker-and-storage/) stores and distribute messages. It is important to mention that **Waylay Rule engine is protocol agnostic**. That means that different protocols are terminated at the Broker. Broker supports different protocols: HTTP(S), WebSockets and [MQTT](/features/mqtt). 
+
+If the data comes directly from the devices, the appropriate choice would be MQTT (together with the identity  manager - **Device Gateway**).  HTTP(S), WebSockets are appropriate choice for cloud-to-cloud or intra-cloud integration. In case of HTTP(S) integration, you will always need waylay API key and secret. 
 
 ## Cloud persisted cache REST interface
-You can always retrieve up to the last 100 messages for every resource over the [REST calls](api/broker-and-storage/#document-data).
+You can always retrieve up to the last 100 messages for every resource over the [REST calls](/api/broker-and-storage/#document-data).
 
 ## Time series database REST interface
 Waylay automatically stores metric data in the time series database. Via [REST interface](api/broker-and-storage/#time-series-data) you can retrieve raw data or aggregated data (per interval with aggregation metrics e.g. avg, mean, max, stdev etc).
 
 ## Resource metadata with REST interface
-[Provisioning API](api/rest/#provisioning-api) allows you to associate metadata with resource. Resources are either discovered by Waylay (as soon as data is pushed towards Waylay Broker) or you can as well create them using REST call. Next to the resource CRUD related calls, waylay also allows you to create ResourceType entities, and let you link resource to a type using metadata. As soon as a resource is linked to a resource type, all metadata values of that type are linked to that resource. Resource can still overwrite any specific attribute in its metadata model.
+[Provisioning API](/api/rest/#provisioning-api) allows you to associate metadata with resource. Resources are either discovered by Waylay (as soon as data is pushed towards Waylay Broker) or you can as well create them using REST call. Next to the resource CRUD related calls, waylay also allows you to create ResourceType entities, and let you link resource to a type using metadata. As soon as a resource is linked to a resource type, all metadata values of that type are linked to that resource. Resource can still overwrite any specific attribute in its metadata model. More about this you can find [here](/features/provisioning)
 
 # SDK and templates (sensors, actuators, rules)
 In waylay, [sensors, actuators and rules](/api/sensors-and-actuators/) are nothing more than small snippets of JSON files. They can be re-used between different templates. Out of the box, in PaaS offering, waylay supports only node.js based actuators and sensors (very similar approach to AWS lambda architecture). For OEM deployments, we as well provide java SDK.
