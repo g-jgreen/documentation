@@ -28,7 +28,7 @@ If the data comes directly from the devices, the appropriate choice would be MQT
 
 ![manager](/features/mqtt/device_gateway.png)
 
-Once the data is stream, waylay does both the cloud storage and forwarding of the data towards waylay Inference Engine. As soon as data is send to the Broker, data is stored in two different databases, time series database and document database (Cloud Persisted Cache). In Cloud Persisted Cache, data is stored without any pre-processing, with original JSON object as it was received. When JSON object (or array of JSON objects) comes to the Broker, Broker also tries to save data in the time series database. In order to achieve that, Broker inspects incoming JSON object and store every metric that is found in the JSON object.
+Once the data is sent, Broker does two things: it stores data and forwards it to the **Waylay Rule Engine**.  Data is stored in two different databases, **Time Series Database** and **Document Database** (Cloud Persisted Cache). In Cloud Persisted Cache, data is stored without any pre-processing, with original JSON object as it was received. When JSON object (or array of JSON objects) comes to the Broker, Broker also tries to save data in the Time Series Database. In order to achieve that, Broker inspects incoming JSON object or array of objects and stores every metric that is found in the JSON object.
 
 Now let's focus on MQTT integration.
 
