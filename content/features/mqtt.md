@@ -6,16 +6,15 @@ weight: 3
 
 # Device onboarding and authentication in Waylay
 
-Every IoT platform should offer these capabilities for the management of end devices:
+Every IoT platform should offer the following capabilities:
 
-* identity
-* security
-* choice of the protocol
+* device identity
+* secure connection
 * device model
 * data model (message payload definition)
 * firwmare upgrades
 
-In waylay, we don't manage device firwmare upgrades.
+In waylay, we don't manage device firmware upgrades. We also don't enforce device model. In that sense, waylay is not an IoT platform, we rather see ourselves as the orchestration platform that sits on top of other systems - including IoT platforms. Nevertheless, waylay offers integration with end devices with limitations as mentioned above.
 
 Boostraping of device is often the most difficult problem in IoT (and probably most ignored issue by IoT 'novice'). In waylay, we offer a unique solution for device identity management, but we don't enforce the boostrap procedure. This is up to a device manufacturer to decide. Each tenant receives a master key, with which he can generate unique device keys (see later in the document).
 
