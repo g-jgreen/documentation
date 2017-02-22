@@ -4,7 +4,7 @@ description: Learn how to use the Waylay REST API
 weight: 1
 ---
 
-# API keys
+# Authentication
 > Once you have retrieved your keys, you can verify whether your keys and the REST server work E2E by issuing the following command:
 
 ```bash
@@ -20,7 +20,7 @@ Before you can start using the REST API, you must visit your profile page in the
 you can test the same from the UI (see picture above), but since in the rest of the document we will be using curl command, the best is that you at this point in time do the same from the command line.
 </aside>
 
-# TASK related calls
+# Task related calls
 
 In waylay terminology, tasks are instantiated rules. There are two ways tasks can be instantiated:
 
