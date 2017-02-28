@@ -937,7 +937,7 @@ Resources can be queried by doing a GET request, if needed you can filter on the
  * customer
  * resourceTypeId
  * lat, lon and distance (like 200km, 100m, ...)
- * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html))
+ * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax))
 
 ## Create resource type
 
@@ -987,8 +987,8 @@ Resources can be queried by doing a GET request, if needed you can filter on the
 
  * filter (partial match on multiple fields)
  * id (can be added multiple times)
- * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html))
-
+ * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax))
+ 
 ## Automatically create tasks by associating a template with a resource type
 
 The waylay task engine can automatically provision tasks for each new resource. This is configured in the metadata of the resource type. All you need to add is a field `templates` that contains what templates should be used and what task configuration should be applied to these managed tasks.
