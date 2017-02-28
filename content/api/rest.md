@@ -937,8 +937,7 @@ Resources can be queried by doing a GET request, if needed you can filter on the
  * customer
  * resourceTypeId
  * lat, lon and distance (like 200km, 100m, ...)
-
-
+ * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html))
 
 ## Create resource type
 
@@ -977,6 +976,18 @@ curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resourcestypes/re
 
 In order to get a resource type, you need to put your resource type Id in the path
 
+## Query resource types
+> Paging is handled by `skip` and `limit` parameters
+
+```bash
+curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resourcetypes?filter=car"
+```
+
+Resources can be queried by doing a GET request, if needed you can filter on these fields using the query string:
+
+ * filter (partial match on multiple fields)
+ * id (can be added multiple times)
+ * q ([elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html))
 
 ## Automatically create tasks by associating a template with a resource type
 
