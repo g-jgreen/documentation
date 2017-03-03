@@ -39,3 +39,13 @@ You can optionally add a customer ID to filter all resources in the dashboard to
 # Usage
 
 You can use the Waylay data source you have just configured to visualize your data, please refer to the official [Grafana documentation](http://docs.grafana.org/) on [getting started](http://docs.grafana.org/guides/getting_started/) or read up on some of the Grafana [basic concepts](http://docs.grafana.org/guides/basic_concepts/).
+
+# GeoMap
+
+The GeoMap plugin is a custom map plugin developed by Waylay. To use this map simply add the plugin to a panel and add a resource through the 'edit' menu of the panel. The resource you add has to have longitude and latitude. Resources with the exact same latitude and longitude will be put on the same marker, just click the marker to view all the resources on that location.
+
+Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
+
+Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). Just click an icon and paste the name into the text box.
+
+If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
