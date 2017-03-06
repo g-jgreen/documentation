@@ -44,8 +44,12 @@ You can use the Waylay data source you have just configured to visualize your da
 
 The GeoMap plugin is a custom map plugin developed by Waylay. To use this map simply add the plugin to a panel and add a resource through the 'edit' menu of the panel. The resource you add has to have longitude and latitude. Resources with the exact same latitude and longitude will be put on the same marker, just click the marker to view all the resources on that location.
 
-Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
+Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. Make sure to check 'include time rnge' & 'include variables'. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
 
-Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). Just click an icon and paste the name into the text box.
+![Add Link](usage/grafana/drilldownLink.png)
+
+Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). Just click an icon and paste the name into the text box. You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map.
+
+![Map Options](usage/grafana/mapoptions.png)
 
 If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
