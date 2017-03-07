@@ -53,3 +53,17 @@ Markers can be configured to have one of four colors and can contain any icon fr
 ![Map Options](usage/grafana/mapoptions.png)
 
 If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
+
+
+Here is the example of the dashboard that uses geo map:
+![Map ](usage/grafana/geo_map.png)
+
+From the marker which is places on the map, you can also drill down to per device dashboards. 
+![Map drill down](usage/grafana/details.png)
+
+
+{{% alert info %}}
+In case that more than one device are placed on the same location, the marker lists all devices.
+{{% /alert %}}
+
+
