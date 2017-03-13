@@ -695,53 +695,97 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.j
 curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/internet.json"
 ```
 
-# Plugs (Sensors and Actuators)
-There are two types plugs in waylay: sensors and actuators.
+# Plugs (Sensors, Actuators and Transformers)
 
-More about how to write sensors and actuators you can find [here](/api/sensors-and-actuators/)
+Note: More about how to write plugs can be found [here](/api/sensors-and-actuators/)
 
+## Plug types
 
-
-## Sensors
+### Sensors
 
 Sensors can be considered a generalized form of input connector for the waylay platform. You can create sensors to acquire data from physical devices, databases, applications or online services. You do this by means of writing Javascript and defining metadata. Waylay provides many examples which you can use as a baseline to create your own sensors, specific to your application. On a technical level, a sensor can be considered as a function that, when called, returns the state it is in.
 
-## Actuators
+### Actuators
 
 Based on the outcome of the logic, you may want to take action, such as sending an alert, writing something in a database or acting on a physical system. You can take action based on any node being in a particular state, by attaching actuators to the particular node. As for the sensors, the waylay framework allows you to add your own definitions of actuators.
 
+### Transformers
+
+Transformers can be used to transforming incoming messages, like decoding, transforming or validation.
 
 ## Get list of all sensors
 
 ```bash
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/sensors"
 ```
+
 ## Execute sensor
+
 ```bash
-curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{properties: {"city" : "Gent"}}' "https://sandbox.waylay.io/api/sensors/weatherSensor/versions/1.0.1"
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
+    "properties": {
+      "city": "Gent"
+    }
+  }' \
+  "https://sandbox.waylay.io/api/sensors/weatherSensor/versions/1.0.1"
 ```
 
-You can test any sensor using REST. Of course, you will need to provide sensor specific parameters in the call, like in this example where we provide city name to the weather sensor:
-
+You can sensor specific parameters in the call, like in this example where we provide city name to the weather sensor:
 
 ## Get list of all actuators
 
 ```bash
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/actions"
 ```
+
 ## Execute actuator
 
 ```bash
-curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
--d '{
-  properties: {
-      "address" : "veselin@waylay.io",
-      "subject":"test",
-      "message": "hello world"}
-    }'
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
+    "properties": {
+      "address": "veselin@waylay.io",
+      "subject": "test",
+      "message": "hello world"
+    }
+  }' \
   "https://sandbox.waylay.io/api/actions/Mail/versions/1.0.1"
 ```
-You can test any actuator using REST. Of course, you will need to provide actuator specific parameters in the call, like in this example where we provide e-mail address and message to mail actuator:
+
+You can provide actuator specific parameters in the call, like in this example where we provide e-mail address and message to mail actuator.
+
+## Get list of all transformers
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/transformers"
+```
+
+## Execute a specific transformer version
+
+The payload to transform should be provided as string in `properties.data`
+
+```bash
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
+    "properties": {
+      "data": "{\"temperature\": 123.4}",
+      "resource": "resource1"
+    }
+  }' \
+  "https://sandbox.waylay.io/api/transformers/transformTemperatureFloat/versions/1.2.1"
+```
+
+## Execute the latest transformer version
+
+The payload to transform should be provided as string in `properties.data`
+
+```bash
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
+    "properties": {
+      "data": "{\"temperature\": 123.4}",
+      "resource": "resource1"
+    }
+  }' \
+  "https://sandbox.waylay.io/api/transformers/transformTemperatureFloat"
+```
 
 # Node related calls
 In waylay terminology, sensor is it attached to the node.
