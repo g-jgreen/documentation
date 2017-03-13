@@ -42,7 +42,7 @@ You can use the Waylay data source you have just configured to visualize your da
 
 # GeoMap
 
-The GeoMap plugin is a custom map plugin developed by Waylay. To use this map simply add the plugin to a panel and add a resource through the 'edit' menu of the panel. The resource you add has to have longitude and latitude. Resources with the exact same latitude and longitude will be put on the same marker, just click the marker to view all the resources on that location.
+The GeoMap plugin is a custom map plugin developed by Waylay. To use this map simply add the plugin to a panel and add a resource type ID through the 'edit' menu of the panel. The resource type you add has to have longitude and latitude. Resources with the exact same latitude and longitude will be put on the same marker, just click the marker to view all the resources on that location.
 
 Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. Make sure to check 'include time rnge' & 'include variables'. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
 
@@ -58,12 +58,10 @@ If changes to the map don't apply immediatly just press the refresh button on th
 Here is the example of the dashboard that uses geo map:
 ![Map ](usage/grafana/geo_map.png)
 
-From the marker which is places on the map, you can also drill down to per device dashboards. 
+From the marker which is placed on the map, you can also drill down to per device dashboards.
 ![Map drill down](usage/grafana/details.png)
 
 
 {{% alert info %}}
-In case that more than one device are placed on the same location, the marker lists all devices.
+In case multiple devices have the same geo-coordinates, the marker lists all devices.
 {{% /alert %}}
-
-
