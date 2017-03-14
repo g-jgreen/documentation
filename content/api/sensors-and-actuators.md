@@ -724,6 +724,19 @@ You can use this function for nodes that have geo location in the raw data in fo
 var dist = waylayUtil.getDistance(lat1, lon1, lat2, lon2);
 ```
 
+## Storage and forwad function
+> Storage and forwad function
+
+```javascript
+waylayUtil.storeData(API_KEY, API_PASS, resource, data, domain, send)
+```
+
+With this function, you can automatically store and forward data (under the name resource). 
+
+> API_KEY and API_PASS are tennant's API credentials, domain is the tenant name. You need to keep the last argument send as it is. data is any JSON object. Resource is the unique name under which data will be stored and forwarded.
+
+
+
 # Function node
 
 The Function node operates on the raw data that is stored in the task context.
