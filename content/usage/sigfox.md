@@ -6,18 +6,18 @@ tags:
 weight: 8
 ---
 
-Waylay's native Sigfox integration allows you to add many Sigfox enabled devices to automatically forward and store data to the Waylay platform. 
+Waylay Sigfox integration goes beyond simple visualization. When it comes to Sigfox support, waylay platform addresses all challenges of the enterprise grade integration:
 
-Waylay Sigfox integration goes beyond simple visualization. In Waylay we address all challanges of the enterprise grade integration:
-
-* automatic webhook registration in the sigfox backend
-* native payload processing
-* additional payload transformation (via custom functions) - if needed
-* automatic discovery of device groups and subgroups
-* automatic (meta model) assosiations of sigfox devices and device groups
-* first time provisioning
-* automatic rule creation on device type level
-* tenant based UI
+* Automatic webhook registration in the sigfox backend
+* Native payload processing
+* Additional payload transformation (via custom functions) - if needed
+* Data storage and visualization 
+* REST endpoints to retrieve captured data as a time series data (with different aggregation periods, statistical computation etc.)
+* Automatic discovery of device groups and subgroups
+* Automatic (meta model) associations of sigfox devices to device groups
+* First time provisioning
+* Automatic rule creation on device type level
+* Tenant based UI
 
 # Prerequisites
 
