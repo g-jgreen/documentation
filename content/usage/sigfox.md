@@ -63,6 +63,15 @@ In this example, we mix both sigfox payload decoding and transformers:
 
 ![transformers-sigfox](/features/transformers/sigfox-transformers.png)
 
+# Data collection and rules processing
+
+Once the Sigfox channel is configured, waylay will immediately start collecting data. Here is the video:
+[![Video](/usage/sigfox/sigfox-video.png)](https://www.youtube.com/watch?v=_sIMp1y0zaE&index=7&list=PLy54mo7VaB1gC_rDjeSDMEE2RbNHNIti1)
+
+{{% alert info %}}
+In the same video, you will learn how to create new templates in matter of minutes.
+{{% /alert %}}
+
 # Sigfox provisioning
 Provisioning involves the process of preparing and equipping a network and a device to allow it to provide (new) services to its users.
 
@@ -77,3 +86,5 @@ This is the example of the provisioning template:
 To visualize your devices we recommend using our [Waylay Grafana application](usage/grafana).
 
 ![Map drill down](usage/grafana/details.png)
+
+
