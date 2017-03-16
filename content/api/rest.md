@@ -558,6 +558,10 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
       "destinationLabel": "TwitterDM_1",
       "sourceLabel": "ANDGate_1",
       "statesTrigger": ["TRUE"],
+      "stateChangeTrigger": {
+        "stateFrom": "*",
+        "stateTo": "FALSE"
+      },
       "invocationPolicy": 1
     }
   ]
@@ -587,7 +591,8 @@ Trigger settings are:
 * destinationLabel, label of the actuator
 * sourceLabel, label of the sensor
 * invocationPolicy, integer number that defines how long to wait before firing the same actuator again, even if the condition is met.
-statesTrigger, array of states under which to fire the actuator
+* statesTrigger, array of states under which to fire the actuator
+* stateChangeTrigger, object containing stateFrom and stateTo which can be a specific state or *
 
 Relations express logical gates that can be defined between sensors. There are 3 types of relations: AND, OR and GENERAL.
 
