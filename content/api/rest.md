@@ -110,17 +110,18 @@ Sensor and actuator settings are:
 
 Trigger settings are:
 
-* destinationLabel, label of the actuator
-* sourceLabel, label of the sensor
+* destinationLabel, label of the actuator / sensor
+* sourceLabel, label of the sensor / relation
 * invocationPolicy, integer number that defines how long to wait before firing the same actuator again, even if the condition is met.
-statesTrigger, array of states under which to fire the actuator
+* statesTrigger, array of states under which to fire the actuator
+* stateChangeTrigger, object containing stateFrom and stateTo which can be a specific state or *
 
 Relations express logical gates that can be defined between sensors. There are 3 types of relations: AND, OR and GENERAL.
 
 Relations settings are:
 
 * combinations, array of arrays, such as ["Above", "Above"], ["Below", "Below"]. Only GENERAL gate will have more than one array of combinations
-label: "ANDGate_1"
+* label: "ANDGate_1"
 * parentLabels, array of labels of sensors that are attached to this relation
 * position, array such as [245, 205],
 * type,  "AND", "OR" or "GENERAL"
