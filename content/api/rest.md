@@ -689,6 +689,22 @@ You can also create a new template that is defined as a Bayesian Network. Compar
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates"
 ```
 
+### Template listing filtering
+
+Query parameters are:
+
+* filter (fuzzy search on multiple properties)
+* name
+* ids (comma separated string)
+* id (can be added multiple times)
+* plugin (`mySensor` or `mySensor:1.0.3`)
+
+_All query parameters are combined with logical AND operator_. That means that if you combine more than one parameter together you will only receive tasks that match all conditions.
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates?plugin=mySensor"
+```
+
 ## Get one template
 
 ```bash
@@ -700,6 +716,48 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.j
 ```bash
 curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/internet.json"
 ```
+
+## Modifying existing templates
+
+```bash
+curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/templates?ids=1,3,9"
+-H "Content-Type:application/json" -d '{"operation": "xxx", ...}'
+```
+
+All the batch operations work with the same filters as querying for templates, except the `filter` parameter which is not allowed because it's not exact.
+
+### Plugin updates
+
+This will apply plugin version updates to the templates.
+
+The body should look like this (fromVersion can be an exact version or *any*)
+
+```json
+{
+  "operation": "updatePlugins",
+  "updates": [
+    {
+      "name": "myActuator",
+      "fromVersion": "1.0.1",
+      "toVersion": "1.0.3"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "1.1.0",
+      "toVersion": "1.3.2"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "any",
+      "toVersion": "2.0.0"
+    }
+  ]
+}
+```
+
+<aside class="notice">
+You are responsible to make sure this new plugin version stays compatible with the old provided properties
+</aside>
 
 # Plugs (Sensors, Actuators and Transformers)
 
