@@ -281,7 +281,6 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/{taskID}"
 ```
 
 
-
 ## Query multiple tasks
 > This call gives first 10 tasks (default behaviour), and if you need to filter your tasks, you can use a query language.
 
@@ -305,6 +304,7 @@ Query parameters are:
 * tags (comma separated string)
 * tag (can be added multiple times)
 * plugin (`mySensor` or `mySensor:1.0.3`)
+* template (use `'null'` for selecting tasks that don't have a template)
 
 _All query parameters are combined with logical AND operator_. That means that if you combine more than one parameter together you will only receive tasks that match all conditions.
 
