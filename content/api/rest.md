@@ -1141,18 +1141,18 @@ The waylay application allows you to push raw data and states to the running tas
 
 ```bash
 curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
-        resource: "home_X_room1",
-        data:{
-          object:"home_X_room1",
-          type: {
-            unit:"C",
-            dataType:"double",
-            collectedType: "instant"
+        "resource": "home_X_room1",
+        "data":{
+          "object": "home_X_room1",
+          "type": {
+            "unit": "C",
+            "dataType": "double",
+            "collectedType": "instant"
           },
-          parameterName: "temperature",
-          value: 23.0,
-          collectedTime: 1420629467,
-          validPeriodSecs:600
+          "parameterName": "temperature",
+          "value": 23.0,
+          "collectedTime": 1420629467,
+          "validPeriodSecs": 600
         }
       }' "https://sandbox.waylay.io/api/data"
 ```
@@ -1178,14 +1178,15 @@ You can also push several parameters at once, and you can as well skip most of t
 ```bash
 curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST
 -d '{
-  resource: "datasource",  
-  data: [ {
-            parameterName: "latitude",
-            value: 51
+  "resource": "datasource",  
+  "data": [ {
+            "parameterName": "latitude",
+            "value": 51
           },
           {
-            parameterName: "longitude",
-            value: 3.73}
+            "parameterName": "longitude",
+            "value": 3.73
+          }
         ]
   }' "https://sandbox.waylay.io/api/data"
 ```
@@ -1203,7 +1204,7 @@ curl --user apiKey:apiSecret  --data "state=OPEN" -X POST https://sandbox.waylay
 
 ```bash
 curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
-        resource: "room_1",
-        nodes: [ {node:"Door", state: "OPEN"}]
+        "resource": "room_1",
+        "nodes": [ {"node":"Door", "state": "OPEN"}]
       }' https://sandbox.waylay.io/api/data
 ```
