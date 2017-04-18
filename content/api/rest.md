@@ -729,6 +729,7 @@ All the batch operations work with the same filters as querying for templates, e
 ### Plugin updates
 
 This will apply plugin version updates to the templates.
+Optionally you combine this with a reload of all tasks instantiated from the updated templates. (`reloadTasks` optional boolean property that defaults to false)
 
 The body should look like this (fromVersion can be an exact version or *any*)
 
@@ -751,7 +752,8 @@ The body should look like this (fromVersion can be an exact version or *any*)
       "fromVersion": "any",
       "toVersion": "2.0.0"
     }
-  ]
+  ],
+  "reloadTasks": true
 }
 ```
 
