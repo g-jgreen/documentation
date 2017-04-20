@@ -720,11 +720,15 @@ curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/
 ## Modifying existing templates
 
 ```bash
-curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/templates?ids=1,3,9"
+curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/templates?plugin=myActuator"
 -H "Content-Type:application/json" -d '{"operation": "xxx", ...}'
 ```
 
-All the batch operations work with the same filters as querying for templates, except the `filter` parameter which is not allowed because it's not exact.
+All the batch operations work with the same filters as querying for templates, except the `filter` parameter which is not allowed because it's not exact. Some examples:
+
+* `/templates?ids=mytemplate,myothertemplate` (specific templates)
+* `/templates?plugin=mySensor` (mySensor any version)
+* `/templates?plugin=mySensor%3A1.0.1` (mySensor 1.0.1)
 
 ### Plugin updates
 
