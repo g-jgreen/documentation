@@ -29,8 +29,6 @@ pipeline:
       - "gcloud container clusters get-credentials staging \
         --zone europe-west1-d \
         --project quiet-mechanic-140114"
-      # https://github.com/kubernetes/kubernetes/issues/30617
-      - export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
       # since we can't force a rolling update when the .spec.template hasn't changed
       # we'll just scale down and back up to refresh the pods
       - kubectl scale deployments/documentation --replicas=0
