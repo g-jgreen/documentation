@@ -705,10 +705,19 @@ _All query parameters are combined with logical AND operator_. That means that i
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates?plugin=mySensor"
 ```
 
-## Get one template
+## Get a template
 
 ```bash
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.json"
+```
+
+## Update a template
+
+Templates can be updated using the http PUT method. This however will not update any tasks using the template. You will need to do a batch reload operation on the tasks to accomplish that.
+
+```bash
+curl --user apiKey:apiSecret -X PUT "https://sandbox.waylay.io/api/templates/mytemplate"
+-H "Content-Type:application/json" -d '{"name": "mytemplate", ...}'
 ```
 
 ## Delete template
@@ -717,7 +726,7 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/templates/internet.j
 curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/templates/internet.json"
 ```
 
-## Modifying existing templates
+## Modifying existing templates (batch)
 
 ```bash
 curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/templates?plugin=myActuator"
