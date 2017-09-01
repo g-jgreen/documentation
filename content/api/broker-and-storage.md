@@ -75,9 +75,11 @@ POST          /resources/:resourceId/commands
  * *Server-Sent Events* urls are marked with `sse`
  * The resources return the last n events or a stream in case of websocket or server sent events
 
-## Posting data (object) to storage
+## Posting data (object) to the storage and rule engine
 
-> Example of posting data to storage using resource events endoint:
+When you post a message, by default, the message is both forwarded to the rule enging and stored in three different databases (document store, time series database and metamodel). 
+
+> Example of posting data using resource events endoint:
 
 ```bash
 curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
@@ -88,7 +90,7 @@ curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
     https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io
 ```
 
-> Example of posting data to storage, the same as above, with domain defined in the payload:
+> Example of posting data, the same as above, with domain defined in the payload:
 
 ```bash
 curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
@@ -100,7 +102,7 @@ curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST
     https://data.waylay.io/resources/testresource/events
 ```
 
-> Example of posting data to storage, the same as above, with domain and resource defined in the payload:
+> Example of posting data with domain and resource defined in the payload:
 
 ```bash
 curl -i  --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
@@ -137,6 +139,32 @@ curl -i  --user apiKey:apiSecret
           "domain":"sandbox.waylay.io"
       }]' 
     https://data.waylay.io/messages
+```
+
+## Forwarding data to the rule engine, without the storage
+
+> Example of posting data to the engine only, using resource events endoint:
+
+```bash
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+    -d '{
+          "foo":123, 
+          "bar":"hello"
+      }' 
+    https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io&storage=false
+```
+
+## Forwarding data to the storage, without forward to the engine
+
+> Example of posting data to the engine only, using resource events endoint:
+
+```bash
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+    -d '{
+          "foo":123, 
+          "bar":"hello"
+      }' 
+    https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io&forward=false
 ```
 
 # Websockets
