@@ -4,7 +4,7 @@ description: How to use the Waylay broker and storage APIs
 weight: 3
 ---
 
-# Waylay Broker 
+# Waylay Broker
 
 Waylay Broker is at this URL: [https://data.waylay.io](https://data.waylay.io)
 
@@ -77,67 +77,67 @@ POST          /resources/:resourceId/commands
 
 ## Posting data (object) to the storage and rule engine
 
-When you post a message, by default, the message is both forwarded to the rule enging and stored in three different databases (document store, time series database and metamodel). 
+When you post a message, by default, the message is both forwarded to the rule enging and stored in three different databases (document store, time series database and metamodel).
 
 > Example of posting data using resource events endoint:
 
 ```bash
-curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
     -d '{
-          "foo":123, 
+          "foo":123,
           "bar":"hello"
-      }' 
+      }'
     https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io
 ```
 
 > Example of posting data, the same as above, with domain defined in the payload:
 
 ```bash
-curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" -X POST
     -d '{
-          "foo":123, 
-          "bar":"hello", 
+          "foo":123,
+          "bar":"hello",
           "domain":"sandbox.waylay.io"
-      }' 
+      }'
     https://data.waylay.io/resources/testresource/events
 ```
 
 > Example of posting data with domain and resource defined in the payload:
 
 ```bash
-curl -i  --user apiKey:apiSecret -H "Content-Type: application/json" -X POST 
+curl -i  --user apiKey:apiSecret -H "Content-Type: application/json" -X POST
     -d '{
-        "foo":123, 
-        "bar":"hello", 
-        "resource":"testresource", 
+        "foo":123,
+        "bar":"hello",
+        "resource":"testresource",
         "domain":"sandbox.waylay.io"}
-      ' 
+      '
     https://data.waylay.io/messages
 ```
 
 There are multiple ways to post the same message towards the Broker.
 
-## Posting array of objects 
+## Posting array of objects
 You can post objects as an array.
 
 > BULK import
 
 ```bash
-curl -i  --user apiKey:apiSecret 
-    -H "Content-Type: application/json" 
+curl -i  --user apiKey:apiSecret
+    -H "Content-Type: application/json"
     -X POST \
     -d '[
       {   
-          "foo": 12, 
-          "bar":"hello", 
-          "resource":"testresource1", 
+          "foo": 12,
+          "bar":"hello",
+          "resource":"testresource1",
           "domain":"sandbox.waylay.io"
       },  {   
-          "foo": 33, 
-          "bar":"world", 
-          "resource":"testresource2", 
+          "foo": 33,
+          "bar":"world",
+          "resource":"testresource2",
           "domain":"sandbox.waylay.io"
-      }]' 
+      }]'
     https://data.waylay.io/messages
 ```
 
@@ -146,12 +146,12 @@ curl -i  --user apiKey:apiSecret
 > Example of posting data to the engine only, using resource events endoint:
 
 ```bash
-curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
     -d '{
-          "foo":123, 
+          "foo":123,
           "bar":"hello"
-      }' 
-    https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io&storage=false
+      }'
+    https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io&store=false
 ```
 
 ## Forwarding data to the storage, without forward to the engine
@@ -159,11 +159,11 @@ curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
 > Example of posting data to the engine only, using resource events endoint:
 
 ```bash
-curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST 
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
     -d '{
-          "foo":123, 
+          "foo":123,
           "bar":"hello"
-      }' 
+      }'
     https://data.waylay.io/resources/testresource/events?domain=sandbox.waylay.io&forward=false
 ```
 
@@ -211,7 +211,7 @@ More info is available in this blog post:
 > Getting raw time series data
 
 ```bash
-curl -i --user apiKey:apiSecret 
+curl -i --user apiKey:apiSecret
     https://data.waylay.io/resources/testresource/series/temperature? \
     domain=sandbox.waylay.io&from=1472947200000&until=1474588800000
 ```
@@ -254,14 +254,14 @@ Grouped by
 > Getting latest value from storage
 
 ```bash
-curl -i --user apiKey:apiSecret 
+curl -i --user apiKey:apiSecret
     https://data.waylay.io/resources/testresource/current?domain=sandbox.waylay.io
 ```
 
 > Getting history from storage
 
 ```bash
-curl -i --user apiKey:apiSecret 
+curl -i --user apiKey:apiSecret
     https://data.waylay.io/resources/testresource/series?domain=sandbox.waylay.io
 ```
 
@@ -282,4 +282,3 @@ wss://data.waylay.io/resources/testresource/socket?domain=app.waylay.io&apiKey=.
 ```
 
 You can stream data for a specific resource by setting up a WebSocket to the following url
-
