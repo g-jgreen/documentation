@@ -230,23 +230,23 @@ Grouped by
 * week
 
 
-## Document data
+## Messages
 
-> Getting latest value from storage
+> Getting latest message from storage
 
 ```bash
 curl -i --user apiKey:apiSecret
     https://data.waylay.io/resources/testresource/current
 ```
 
-> Getting history from storage
+> Getting latest messages from storage
 
 ```bash
 curl -i --user apiKey:apiSecret
     https://data.waylay.io/resources/testresource/series
 ```
 
-You can always retrieve up to the last 100 data points for every resource over the REST calls. Coming back to the example where resource is the phone, waylay platform would store 100 data points, where each data point would hold information about underlying parameters (temperature, humidity etc.)
+You can always retrieve up to the last 100 messages for every resource over the REST calls. Coming back to the example where resource is the phone, waylay platform would store 100 messages, where each message would hold information about underlying parameters (temperature, humidity etc.)
 
 <aside class="notice">
 In default pricing, we offer up to 100 latest points. This can as well be much higher if required.
@@ -263,3 +263,16 @@ wss://data.waylay.io/resources/testresource/socket?apiKey=...&apiSecret=...
 ```
 
 You can stream data for a specific resource by setting up a WebSocket to the following url
+
+# Deleting data
+
+## Messages
+
+> Removing all messages
+
+```bash
+curl -i --user apiKey:apiSecret -X DELETE
+    https://data.waylay.io/resources/testresource/messages
+```
+
+You can remove all latest messages for a resource. This will not delete timeseries data for the properties of those messages.
