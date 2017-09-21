@@ -235,14 +235,14 @@ Grouped by
 > Getting latest message from storage
 
 ```bash
-curl -i --user apiKey:apiSecret
+curl -i --user apiKey:apiSecret \
     https://data.waylay.io/resources/testresource/current
 ```
 
 > Getting latest messages from storage
 
 ```bash
-curl -i --user apiKey:apiSecret
+curl -i --user apiKey:apiSecret \
     https://data.waylay.io/resources/testresource/series
 ```
 
@@ -271,7 +271,7 @@ You can stream data for a specific resource by setting up a WebSocket to the fol
 > Removing all messages
 
 ```bash
-curl -i --user apiKey:apiSecret -X DELETE
+curl -i --user apiKey:apiSecret -X DELETE \
     https://data.waylay.io/resources/testresource/messages
 ```
 
