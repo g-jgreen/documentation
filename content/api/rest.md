@@ -181,7 +181,7 @@ Periodic specific input settings:
 * type : periodic
 * frequency: polling frequency in milliseconds (default 10 seconds)
 * pollingFixedRate : fixed rate or fixed delay (default fixed false - meaning fixed delay)
-* resetObservations: whether to clear observation before next invocation (default false)
+* resetObservations: whether to clear observation before next invocation (default true)
 * parallel: whether to run sensors in parallel or sequentially (default true, meaning parallel)
 
 
