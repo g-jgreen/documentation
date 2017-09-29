@@ -1223,3 +1223,249 @@ curl --user apiKey:apiSecret -H "Content-Type:application/json" -X POST -d '{
         "nodes": [ {"node":"Door", "state": "OPEN"}]
       }' https://sandbox.waylay.io/api/data
 ```
+
+# Alarms
+Alarms on the Waylay platform are a way of tracking/following up on a condition/state of a resource.
+
+## Create an alarm
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" 
+  -X POST 
+  -d '{ 
+          "type" : "io.waylay.alarm.test", 
+          "timestamp" : "2011-09-06T12:03:27.845Z", 
+          "text" : "Some alarm documentation", 
+          "status" : "ACTIVE", 
+          "severity" : "MAJOR",
+          "source" : { "id" : "12345", "self" : "..." } 
+        }' 
+   "https://alarms.waylay.io/alarm/alarms"
+```
+To create an alarm, you need to provide the following inputs:
+
+* type: type of the alarm
+* text: description of the alarm
+* severity: any of `CRITICAL`, `MAJOR`, `MINOR` or `WARNING`
+* source: a JSON object with an `id` field indicating the resource 
+
+Optional parameter :
+
+* status: any of `ACTIVE`, `ACKNOWLEDGED` or `CLEARED` (if not specified, created alarm will have status `ACTIVE`)
+* timestamp : ISO date string or number (indicating milliseconds since epoch) (if not specified, timestamp will be set to the receive time)
+
+If an `ACTIVE` or `ACKNOWLEDGED` alarm with the same `source.id` and `type` exists, no new alarm is created. Instead, the existing alarm is updated 
+by incrementing the `count`property and a new audit record of type `io.waylay.alarm.EventOccuredAgain` is added to the `history`. 
+
+## Update an alarm
+```bash
+curl -i --user apiKey:apiSecret -H "Content-Type: application/json" 
+  -X PUT 
+  -d '{
+        "severity" : "minor",
+        "status" : "acknowledged"
+      }'
+  "https://alarms.waylay.io/alarm/alarms"
+```
+Only `severity` and `status` can be updated. Either one or both must be specified.
+
+You can only update an `ACTIVE` or `ACKNOWLEDGED` alarm. Updating a `CLEARED` alarm will result in a response code `412 Precondition Failed`
+
+Please notice that if the update actually doesn't change anything (i.e. request body contains data that is identical to
+already present data in the database), there will be no audit record added.
+
+## Deletion of a single alarm
+```bash
+curl --user apiKey:apiSecret 
+  -X DELETE "https://alarms.waylay.io/alarm/alarms/02eee99c-cd32-4fd0-9a35-89fa15570ccc"
+```
+
+## Deletion of alarms in bulk 
+```bash
+curl --user apiKey:apiSecret 
+  -X DELETE "https://alarms.waylay.io/alarm/alarms?source=..."
+```
+You can delete multiple alarms by specifying at least one filter in the query string. 
+The possible filters are the same as the filters for quering the alarms (see below): `type`, `status`, `source`, `dateFrom`, `dateTo`
+
+## Get an alarm
+```bash
+curl --user apiKey:apiSecret "https://alarms.waylay.io/alarm/alarms/02eee99c-cd32-4fd0-9a35-89fa15570ccc"
+```
+
+> Will return someting like
+
+```json
+{
+    "id": "02eee99c-cd32-4fd0-9a35-89fa15570ccc",
+    "self": "/alarm/alarms/02eee99c-cd32-4fd0-9a35-89fa15570ccc",
+    "creationTime": "2017-09-12T15:23:33.075Z",
+    "type": "io.waylay.alarm.test",
+    "text": "Some alarm documentation",
+    "timestamp": "2017-09-12T15:23:33.074Z",
+    "source": {
+        "id": "bruno"
+    },
+    "severity": "MAJOR",
+    "status": "CLEARED",
+    "count": 1,
+    "history": [
+        {
+            "id": "02114638-5d25-4031-b22a-40c883eb4c79",
+            "type": "io.waylay.alarm.AlarmRaised",
+            "text": "Alarm raised",
+            "timestamp": "2017-09-12T15:23:33.076Z"
+        },
+        {
+            "id": "03bd1347-6d2b-4d90-bdb1-1b44972af3d1",
+            "type": "io.waylay.alarm.AlarmUpdated",
+            "text": "Alarm updated",
+            "timestamp": "2017-09-23T11:18:56.358Z",
+            "changes": [
+                {
+                    "attribute": "status",
+                    "oldValue": "ACTIVE",
+                    "newValue": "CLEARED",
+                    "type": "io.waylay.alarm.change.status"
+                }
+            ]
+         }
+    ]
+}
+```
+
+An alarm has following fields:
+
+Name          | Type | Description
+------------- | ---- | ----------------- |
+`id` | UUID |Uniquely identifies an alarm.
+`self` | URI |Link to this alarm.	
+`creationTime` | ISO date string | Time when alarm was created in the database.
+`type` | 	String	|	Identifies the type of this alarm.
+`timestamp` | 	ISO date string	|	Time of the alarm.	
+`text` | 	String	|	Text description of the alarm
+`source` | 	JSON Object | The resource that the alarm originated from, as object containing the "id" property.
+`status` | 	String	| The status of the alarm: `ACTIVE`, `ACKNOWLEDGED` or `CLEARED`. 
+`severity` | String	| The severity of the alarm: `CRITICAL`, `MAJOR`, `MINOR` or `WARNING`. 
+`count` | Long | The number of times this alarm has been sent.
+`history` | List of AuditRecord | History of modifications tracing property changes.
+
+The `history` keeps a record of changes that have happened to the alarm. There are 3 different types of changes:
+
+* `io.waylay.alarm.AlarmRaised`: creation of the alarm
+* `io.waylay.alarm.EventOccuredAgain`: a request to create an alarm happened, but an alarm of the same `type` in status `ACTIVE` or `ACKNOWLEDGED` existed 
+ on the same `source` object at that moment
+* `io.waylay.alarm.AlarmUpdated`: some attribute(s) of the alarm where updated. The audit record will contain a list of `changes` that happened.
+
+## Query multiple alarms
+```bash
+curl --user apiKey:apiSecret "https://alarms.waylay.io/alarm/alarms"
+```
+> This above call gives the first 50 alarms. If you need to filter the alarms, you can use a query language
+
+```bash
+curl --user apiKey:apiSecret 
+  "https://alarms.waylay.io/alarm/alarms?source=6&status=ACTIVE&status=CLEARED"
+```
+
+> This would give you a result like
+
+```
+{
+    "self": "/alarm/alarms?status=ACTIVE&status=CLEARED&source=6",
+    "next": "/alarm/alarms?status=ACTIVE&status=CLEARED&source=6&page=2",
+    "total": 361,
+    "alarms": [
+        {
+            "id": "586ac2f2-fbec-426a-b696-d63d6cb153ac",
+            "self": "/alarm/alarms/586ac2f2-fbec-426a-b696-d63d6cb153ac",
+            "creationTime": "2017-08-23T11:16:37.856Z",
+            "type": "alarmtest",
+            "text": "Another test alarm",
+            "timestamp": "2017-08-23T11:16:08Z",
+            "source": {
+                "stuff": "blabla",
+                "id": "6"
+            },
+            "severity": "MINOR",
+            "status": "CLEARED",
+            "count": 1,
+            "history": [
+                {
+                    "id": "54597bdb-7409-4c47-b7ba-f08922b67ca2",
+                    "type": "io.waylay.alarm.AlarmRaised",
+                    "text": "Alarm raised",
+                    "timestamp": "2017-08-23T11:16:37.856Z"
+                },
+                {
+                    "id": "03bd1347-6d2b-4d90-bdb1-1b44972af3d1",
+                    "type": "io.waylay.alarm.AlarmUpdated",
+                    "text": "Alarm updated",
+                    "timestamp": "2017-08-23T11:18:56.358Z",
+                    "changes": [
+                        {
+                            "attribute": "status",
+                            "oldValue": "ACTIVE",
+                            "newValue": "CLEARED",
+                            "type": "io.waylay.alarm.change.status"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "df036bf8-4b32-4bd8-8ee7-42800ab26bf5",
+            "self": "/alarm/alarms/df036bf8-4b32-4bd8-8ee7-42800ab26bf5",
+            "creationTime": "2017-08-18T15:54:51.180Z",
+            "type": "alarmType",
+            "text": "Another test alarm",
+            "timestamp": "2009-02-13T23:31:30.128Z",
+            "source": {
+                "id": "6"
+            },
+            "severity": "MAJOR",
+            "status": "ACTIVE",
+            "count": 2,
+            "history": [
+                {
+                    "id": "e64de65c-e3ef-482d-9eb7-32ca17d1e147",
+                    "type": "io.waylay.alarm.AlarmRaised",
+                    "text": "Alarm raised",
+                    "timestamp": "2017-08-18T15:54:51.183Z"
+                },
+                {
+                    "id": "b708f1e2-9da4-442b-ac6c-0120b0b11c08",
+                    "type": "io.waylay.alarm.EventOccuredAgain",
+                    "text": "Alarm event occured again",
+                    "timestamp": "2017-08-21T07:26:47.209Z"
+                }
+            ]
+        },
+        ...
+}
+```
+
+You can also query for alarms
+
+Query criteria can be specified in the query string. Available criteria:
+
+* `type`: filter on type
+* `status`: filter on status
+* `source`: filter on id of the source
+* `dateFrom`: long (milliseconds since epoch) to filter on timestamp ( >= dateFrom)
+* `dateTo`: long (milliseconds since epoch) to filter on timestamp ( <= dateTo)
+
+Different query parameters are combined with logical AND operator. Specifing the same query parameter (only for `type`, `status` and `source`) more then once, 
+will be handled with a logical OR operation.
+
+That means that if you combine e.g. `status` and `source` parameter, you will get only alarms on the specified `source` with the given `status`, 
+but if you specify e.g. `status` twice (like `status=ACTIVE&status=ACKNOWLEDGED`) you will get all `ACTIVE` and `ACKNOWLEDGED` alarms
+
+
+Paging is also supported through the query string with following options (results are sorted by descending `timestamp`):
+
+* `page`: page number (default: 1)
+* `size`: size of a page (default: 50)
+
+
+The response does contain `total` number of alarms that fullfill the criteria. Also the response contains links to the current page `self`, 
+to the `next` page if there is a next page and the `previous` page if there is one.
