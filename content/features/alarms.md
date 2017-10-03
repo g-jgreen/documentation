@@ -16,7 +16,7 @@ Alarm actuators are written on top of Alarm Service REST interfaces. They can be
 {{% /alert %}}
 
 ## How this feature can be used in practise?
-Dealing with the same resource in multiple tasks is not that trivial. Also, in case you need incident persistency, which spans over the lifecycle of the single task, this feature will for sure make your life simpler. Alarm Service also deals not just the status and the count of the alarms, but also provides interfaces that allow you to acknowledge alarms, change their severity or simply close them. You can also integrate Alarm Service in your own applications, over REST interface, like you would do using JIRA or zendesk.
+Dealing with the same resource in multiple tasks is not that trivial. Also, in case you need incident persistency, which spans over the lifecycle of the single task, this feature will for sure make your life simpler. Alarm Service also deals not just with the status and the count of the alarms, but also provides interfaces that allow you to acknowledge alarms, change their severity or simply close them. You can also integrate Alarm Service in your own applications, over REST interface, like you would do using JIRA or zendesk.
 
 # Example of using Alarms Service
 
