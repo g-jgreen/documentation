@@ -46,6 +46,19 @@ curl --user apiKey:apiSecret
  ```
 and we will run the similar call to push data to resource `B`. When A is 23 and B is 22, Formula will compute to `Above` threshold.
 
+If we want to push all data at once, we can use this call as well
+```
+curl -i  --user apiKey:apiSecret -H "Content-Type: application/json" -X POST \
+    -d '[
+      {
+          "temperature": 23,
+          "resource":"A"
+      },  {
+          "temperature": 22,
+          "resource":"B"
+      }]' https://data.waylay.io/messages?store=false
+```
+
 Let's watch video (till 0:00 to 3:44): {{<youtube civZ8i4YBGY >}} 
 
 What we can notice is that stream nodes keep thier states in between getting new data. They never come back to priors. Also, as soon as new data arrives, `Gate` goes to either `TRUE` or `FALSE` state. Since the `Function` node is only triggered on `*->TRUE`, it will only compute first time `Gate` goes to `TRUE` state or when one of the stream nodes goes to `Below->Above` (they both must be `Above` for the Gate to get to `TRUE`), since only then, Gate will eventually switch from `FALSE` to `TRUE` again.
