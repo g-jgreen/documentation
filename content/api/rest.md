@@ -390,15 +390,74 @@ Strict-Transport-Security: max-age=31536000; includeSubdomains
 
 # Batch operations
 
+There are 2 ways to perform batch operations. 
+* asynchronously by queueing the operation on `/batch` (beta feature)
+* synchronously by applying the operation /tasks (deprecated, might time out with 50x errors)
+
+## Batch operation queue (beta)
+
+### list the queue
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/batch"
+```
+
+You get back an array with all queued and a history of max 20 batch operations ordered descending by time submitted.
+
+```json
+[
+  {
+    "id":"f7fa8b2a-f7be-403c-9af7-e95c654b399f",
+    "time":"2017-10-05T13:21:10.389Z",
+    "operation":"Modify tasks by query: REMOVE"
+  },
+  {
+    "id":"310282dd-377a-4a32-b1ed-599d0a1e9011",
+    "time":"2017-10-05T13:21:10.388Z",
+    "operation":"Modify tasks by query: REMOVE",
+    "result":{"successful":[1,2],"failed":[]}
+  }
+]
+```
+
+### post a batch operation
+
+This api is the same as the direct batch operations api but:
+* instead of a `PATCH /tasks` you do a `POST /batch` (including query string params for filtering)
+* You get back an ID instead of the results
+* The results can then asynchronously be fetched using `GET /batch/:id`
+
+```bash
+curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/batch?resource=testResource"
+-H "Content-Type:application/json" -d '{ "operation": "command", "command": "remove" }'
+```
+
+```json
+{
+  "id":"f7fa8b2a-f7be-403c-9af7-e95c654b399f",
+  "time":"2017-10-05T13:21:10.389Z",
+  "operation":"Modify tasks by query: REMOVE"
+}
+```
+
+## Direct operations (deprecated)
+
 All the batch operations work with the same filters as querying for tasks, except the `filter` parameter which is not allowed because it's not exact.
 
-## Delete multiple tasks
+### Delete multiple tasks
+
+```bash
+curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/tasks?ids=1,3,9"
+-H "Content-Type:application/json" -d '{ "operation": "command", "command": "remove" }'
+```
+
+or
 
 ```bash
 curl --user apiKey:apiSecret -X DELETE "https://sandbox.waylay.io/api/tasks?ids=1,3,9"
 ```
 
-## Modify existing tasks
+### Modify existing tasks
 
 ```bash
 curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/tasks?ids=1,3,9"
@@ -408,9 +467,9 @@ curl --user apiKey:apiSecret -X PATCH "https://sandbox.waylay.io/api/tasks?ids=1
 These calls will modify existing tasks in-place. Below an example of what such a request looks like:
 
 
-## Commands
+### Commands
 
-This allows to start or stop a bunch of tasks
+This allows to start or stop a bunch of tasks. Valid commands are [start, stop, remove, reload]
 
 The body should look like this
 
@@ -421,7 +480,19 @@ The body should look like this
 }
 ```
 
-## Plugin updates
+#### Reload tasks
+
+This is mainly for applying template updates to existing tasks
+
+```json
+{
+  "operation": "command",
+  "command": "reload"
+}
+```
+
+
+### Plugin updates
 
 This will apply plugin version updates and re-instantiate the tasks.
 
@@ -458,18 +529,7 @@ You are responsible to make sure this new plugin version stays compatible with t
 This is only allowed for tasks that have no linked template. For updating tasks that have been instantiated from a template you have to update the template and restart the tasks
 </aside>
 
-## Reload tasks
-
-This is mainly for applying template updates to existing tasks
-
-```json
-{
-  "operation": "command",
-  "command": "reload"
-}
-```
-
-## Modify task properties
+#### Modify task properties
 
 This allows you to modify sensor / actuator properties while keeping the task Id.
 
