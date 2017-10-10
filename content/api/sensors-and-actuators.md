@@ -489,26 +489,13 @@ In the task context, you can retrieve the following task-related data:
 * resource name (task resource name)
 * task ID (task ID)
 * node name (node name of the sensor to which this call is attached at the moment of execution)
+* attached sensor name (in case that the sensor or actuator are triggered by another sensor)
+* attached sensor state (in case that the sensor or actuator are triggered by another sensor)
 
-
-Note that this way you can call any REST waylay call. The script above in this example will either start or stop a task (command input), while the task ID can either come from the input param, or if not provided, it will act on the current task. This way, for instance, you can stop the task when a particular condition is met.
 
 <aside class="notice">
-Note that there is a better way to retrieve resource name by using waylay util package.
+Note that there is a better way to retrieve resource name by using waylay util package. The same for retrieving the sensor name or the sensor attached name.
 </aside>
-
-## Node Data
-> In your plug code, you access these settings this way:
-
-```javascript
-var name = options.node.NAME
-var resource = options.node.RESOURCE
-```
-
-In the node context, you can retrieve the following node-related data:
-
-* resource name (node resource name, in case it is defined it will be different from the resource name on the task level)
-* node name (node name of the sensor to which this call is attached at the moment of execution)
 
 
 
@@ -601,6 +588,20 @@ Function to retrieve input parameter. This is a simple shortcut for the call: `o
 
 ```javascript
 var rawData =  waylayUtil.getProperty(options, "city");
+```
+
+## Retrieve sensor name
+Function to retrieve the name of the sensor (inside the script, you can find what is the node name assosiated with this call)
+
+```javascript
+var rawData =  waylayUtil.getMySensorName(options);
+```
+
+## Retrieve attached sensor name
+Function to retrieve the name of the sensor that triggered the execution of this sensor.
+
+```javascript
+var rawData =  waylayUtil.getAttachedSensorName(options);
 ```
 
 ## Evaluate inputs (eval)
