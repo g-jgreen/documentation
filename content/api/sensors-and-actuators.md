@@ -449,12 +449,20 @@ Similar to raw data context, an actuator also can push some (limited) results ba
 Note: we will learn later how do the same with one liner, using [**waylay utility package**](#utility-functions).
 
 ## Task Data
+
 > In your plug code, you access these settings this way:
 
 ```javascript
 var resource = options.task.RESOURCE
 var task = options.task.TASK_ID
 var node_name = options.task.NODE_NAME
+```
+
+> In case of an actuator or node triggered by an other node you can request the tiggering node name and it's state
+
+```javascript
+var node_triggered_name = options.task.NODE_TRIGGERED_NAME
+var node_triggered_state = options.task.NODE_TRIGGERED_STATE
 ```
 
 > For instance, if you want to create an actuator that would control the running task (please see REST documentation for more info), this is how you can do it this way:
