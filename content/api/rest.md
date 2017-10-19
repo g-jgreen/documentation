@@ -948,15 +948,6 @@ curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/759/nodes/Ping
 curl --user apiKey:apiSecret -X POST  -d 'state=Alive' "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1"
 ```
 
-## Execute attached sensor
-> In this call below, we will execute Ping sensor on the task 759:
-
-```bash
-curl --user apiKey:apiSecret -X POST  -d 'operation=start' "https://sandbox.waylay.io/api/tasks/759/nodes/Ping_1"
-```
-At any time you can execute a sensor attached to the node. Please be aware that the state change will be inferred in that task right after the sensor execution.
-
-
 # Provisioning API
 
 Provisioning API allows you to associate metadata with resource. Resources are either discovered by Waylay (as soon as data is pushed towards Waylay Broker) or you can as well create them using REST call. Next to the resource CRUD related calls, waylay also allows you to create ResourceType entities, and let you link resource to a type using metadata (please see example below). As soon as a resource is linked to a resource type, all metadata values of that type are linked to that resource. Resource can still overwrite any specific attribute in its metadata model. Let's see how this work in practice:
