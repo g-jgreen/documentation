@@ -18,7 +18,7 @@ weight: 6
 ![webscripts](/features/webscripts/webscripts_main.png)
 
 # Introduction
-There is often a need to integrate waylay with external systems that make use of webhooks or similar technologies that have hardly any possibility to intervene in a way the webhook payload is defined. In waylay, there is already possibility to use payload transformation functions to adjust or decode payloads before they enter in the waylay "ecosystem" called [transformers](/features/transformers), but there we assume that the other integration system has a possibility to define method signature that matches waylay definition of [REST transform functions](/api/rest/#execute-a-specific-transformer-version).
+There is often a need to integrate waylay with external systems that make use of webhooks or similar technologies that have hardly any possibility to intervene in a way the webhook payload is defined. In waylay, there is already possibility to use payload transformation functions to adjust or decode payloads before they enter in the waylay "ecosystem" called [transformers](/features/transformers), but there we assume that the other integration system has a possibility to define method signature that matches waylay definition of [REST transform functions](/api/rest/#execute-a-specific-transformer-version). If that is not the possible, integrator is left with option to use webscripts. Another reason to use webscripts is decribed more in detail in [LPWAN intergration document](/features/lpwan)
 
 Webscripts are **pure cloud functions**, trying not to be "too smart". They let developers define any cloud function they want, secure or not (functions are always over HTTPS, but can be either public or with authentication), which can be invoked over the REST interface.
 
