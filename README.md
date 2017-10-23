@@ -2,11 +2,11 @@
 
 ## Dependencies
 
-`brew update && brew install hugo`
+`brew install hugo`
 
 Install the theme
 
-`git clone https://github.com/waylayio/waylay-hugo-theme.git themes/waylay`
+`git clone git@github.com:waylayio/waylay-hugo-theme.git themes/waylay`
 
 ## Development
 
