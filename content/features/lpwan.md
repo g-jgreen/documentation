@@ -39,14 +39,15 @@ In case that we use one webscript for all backends, our configuration will look 
 Every time a new LoRa backend server is added, which has a different payload format, we must update this webscript. Advantage of doing the integration this way is that there is always one single script that manages all different integration use cases for the same device type. On the other hand, every time a new backend server is added, the existing script must be adjusted. Editing the existing webscript, which is already in production, always introduces a small but possible risk of making some mistakes, breaking all existing integrations.
 Another possible difficulty is that based on the payload, a developer must somehow guess the "routing algorithm", knowing which exactly payload transformation to apply - before calling the transformer. More over, as the input object might come as a XML, JSON or a string, special care must be taken that the existing script doesn't break somewhere in the middle.
 
+One interesting integration pattern can be to use webscripts only for different LoRa backends, while directly connecting transformer to the Sigfox backend, as presented below:
+![LPWAN](features/lpwan/case_2_1.png)
+
 ## One webscript per different backend API
 In case that one webscript is used per different backend API, schema will look like this:
 
 ![LPWAN](features/lpwan/case_1.png)
 
 Advantage of this approach is that there will be no risk of breaking any existing integration. On the other hand, integrator will need to manage different webscripts per `cloud backend API`. If we add to this the fact that an integrator might have different device families or different payload decoders (transformers) for different set of sensors attached to the same device, such configuration can easily become a configuration challenge.
-
-
 
 
 
