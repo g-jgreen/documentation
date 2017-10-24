@@ -36,7 +36,10 @@ In first case, integrator will always have one webscript/transformer pair, while
 In case that we use one webscript for all backends, our configuration will look like this:
 ![LPWAN](features/lpwan/case_2.png)
 
-Every time a new LoRa backend server is added, which has a different payload format, we must update this webscript. Advantage of doing the integration this way is that there is always one single script that manages all different integration use cases for the same device type. On the other hand, every time a new backend server is added, the existing script must be adjusted. Editing the existing webscript, which is already in production, always introduces a small but possible risk of making some mistakes, breaking all existing integrations.
+Every time a new LoRa backend server is added, which has a different payload format, we must update this webscript. Advantage of doing the integration this way is that there is always one single script that manages all different integration use cases for the same device type. 
+Another reason to have only one webscript is that if the developer wants to apply [provisioning](/features/provisioning) by direct calls on the meta model of a device (e.g. by assigning it to a particular group to which rules are attached), then it makes more sense to do it only in one place.
+
+On the other hand, every time a new backend server is added, the existing script must be adjusted. Editing the existing webscript, which is already in production, always introduces a small but possible risk of making some mistakes, breaking all existing integrations. 
 Another possible difficulty is that based on the payload, a developer must somehow guess the "routing algorithm", knowing which exactly payload transformation to apply - before calling the transformer. More over, as the input object might come as a XML, JSON or a string, special care must be taken that the existing script doesn't break somewhere in the middle.
 
 One interesting integration pattern can be to use webscripts only for different LoRa backends, while directly connecting transformer to the Sigfox backend, as presented below:
