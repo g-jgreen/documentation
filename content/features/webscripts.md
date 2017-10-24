@@ -84,7 +84,7 @@ Once the webscript is private you can click the key button — this will copy th
 When calling a private webscript, a secret key for the specific webscript can be passed by setting the `Authorization` header with value: `hmac-sha256 {signature}` , where the `{signature}` is the key that was copied in the previous step.
 
 ```curl
-❯ curl -i -H "Authorization: hmac-sha256 7oealrHHgItOTSuJn8udYJTCMrzq8m/F" https://webscripts.waylay.io/api/v1/760f3b6a-7247-453e-b299-3a9216a84d2a/private
+❯ curl -i -H "Authorization: hmac-sha256 {signature}" https://webscripts.waylay.io/api/v1/760f3b6a-7247-453e-b299-3a9216a84d2a/private
 HTTP/2 200
 access-control-allow-origin: *
 content-type: text/html; charset=utf-8
