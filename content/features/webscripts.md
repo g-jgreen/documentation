@@ -105,3 +105,32 @@ In this example we used a public webscript URL
 We can access logs of every webscript, we can check all requests and responses, and we can also filter logs by log levels:
 
 ![webscripts](/features/webscripts/logs_1.png)
+
+# Integration with the Waylay platform
+
+Every webscript automatically has a `waylay` client that is configured to interact with your environment.
+
+For example, to send data to a transformer you could use the following code in your webscript:
+
+```javascript
+function handleRequest (req, res) {
+  const transformerName = 'my-transformer'
+  const version = '1.0.0' // "latest" is also supported
+  const data = {
+    properties: {
+      data: JSON.stringify({ data: 'cafebabe' }),
+      resource: 'my-resource'
+    }
+  }
+
+  waylay.transformers.execute(transformerName, version, data)
+    .then(response => {
+      console.info(response)
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).send('something went wrong')
+    })
+}
+```
