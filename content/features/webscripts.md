@@ -43,34 +43,8 @@ An amazing feature of the webscripts is that the integrator can add any npm pack
 
 Once we save the webscript, it shows up in the overview.
 
-# Testing webscripts
 
-we can always test the webscript, either by clicking the link directly from the list, or by going to the webscript URL in the browswer or just running `curl`.
-
-```curl
-❯ curl -i https://webscripts.waylay.io/api/v1/760f3b6a-7247-453e-b299-3a9216a84d2a/public
-HTTP/2 200
-access-control-allow-origin: *
-content-type: text/html; charset=utf-8
-etag: W/"d-ebe6c6e6
-date: Mon, 23 Oct 2017 11:39:13 GMT
-content-length: 13
-alt-svc: clear
-
-Hello, world!%
-```
-
-{{% alert info %}}
-In this example we used a public webscript URL
-{{% /alert %}}
-
-
-# Logs & Debugging
-We can access logs of every webscript, we can check all requests and responses, and we can also filter logs by log levels:
-
-![webscripts](/features/webscripts/logs_1.png)
-
-# Making the webscript private
+# Authentication - Making the webscript private
 At any moment we can turn a public webscript into a private one by clicking the `Private` button.
 
 ![webscripts](/features/webscripts/private.png)
@@ -97,5 +71,37 @@ alt-svc: clear
 Hello, private!%
 ```
 
+{{% alert info %}}
+**HMAC signature based authenticatio is prefered way** of securing webscript invocation, as the tenant key is never exposed in the external backend systems
+{{% /alert %}}
+
 ## Basic Auth
 Another option the integrator has is to use a tenant REST API keys: `client id` and `client secret` and supply them in the webscript call.
+
+
+# Testing webscripts
+
+we can always test the webscript, either by clicking the link directly from the list, or by going to the webscript URL in the browswer or just running `curl`.
+
+```curl
+❯ curl -i https://webscripts.waylay.io/api/v1/760f3b6a-7247-453e-b299-3a9216a84d2a/public
+HTTP/2 200
+access-control-allow-origin: *
+content-type: text/html; charset=utf-8
+etag: W/"d-ebe6c6e6
+date: Mon, 23 Oct 2017 11:39:13 GMT
+content-length: 13
+alt-svc: clear
+
+Hello, world!%
+```
+
+{{% alert info %}}
+In this example we used a public webscript URL
+{{% /alert %}}
+
+
+# Logs & Debugging
+We can access logs of every webscript, we can check all requests and responses, and we can also filter logs by log levels:
+
+![webscripts](/features/webscripts/logs_1.png)
