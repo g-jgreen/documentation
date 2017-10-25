@@ -129,8 +129,9 @@ function handleRequest (req, res) {
       res.sendStatus(200)
     })
     .catch(err => {
-      console.error(err)
-      res.status(500).send('something went wrong')
+      const error = err.response ? err.response.data : err.message
+      console.error(error)
+      res.status(500).send(error)
     })
 }
 ```
