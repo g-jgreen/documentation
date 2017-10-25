@@ -799,6 +799,43 @@ All the batch operations work with the same filters as querying for templates, e
 * `/templates?plugin=mySensor` (mySensor any version)
 * `/templates?plugin=mySensor%3A1.0.1` (mySensor 1.0.1)
 
+
+### Plugin updates
+
+This will apply plugin version updates to the templates.
+Optionally you combine this with a reload of all tasks instantiated from the updated templates. (`reloadTasks` optional boolean property that defaults to false)
+
+The body should look like this (fromVersion can be an exact version or *any*)
+
+```json
+{
+  "operation": "updatePlugins",
+  "updates": [
+    {
+      "name": "myActuator",
+      "fromVersion": "1.0.1",
+      "toVersion": "1.0.3"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "1.1.0",
+      "toVersion": "1.3.2"
+    },
+    {
+      "name": "mySensor",
+      "fromVersion": "any",
+      "toVersion": "2.0.0"
+    }
+  ],
+  "reloadTasks": true
+}
+```
+
+<aside class="notice">
+You are responsible to make sure this new plugin version stays compatible with the old provided properties
+</aside>
+
+
 ## Running a template over a batch dataset (beta)
 
 ```bash
@@ -884,47 +921,6 @@ In case of a single invocation this response can also be parsed as `application/
 \n
 ```
 
-
-
-
-
-
-
-
-### Plugin updates
-
-This will apply plugin version updates to the templates.
-Optionally you combine this with a reload of all tasks instantiated from the updated templates. (`reloadTasks` optional boolean property that defaults to false)
-
-The body should look like this (fromVersion can be an exact version or *any*)
-
-```json
-{
-  "operation": "updatePlugins",
-  "updates": [
-    {
-      "name": "myActuator",
-      "fromVersion": "1.0.1",
-      "toVersion": "1.0.3"
-    },
-    {
-      "name": "mySensor",
-      "fromVersion": "1.1.0",
-      "toVersion": "1.3.2"
-    },
-    {
-      "name": "mySensor",
-      "fromVersion": "any",
-      "toVersion": "2.0.0"
-    }
-  ],
-  "reloadTasks": true
-}
-```
-
-<aside class="notice">
-You are responsible to make sure this new plugin version stays compatible with the old provided properties
-</aside>
 
 # Plugs (Sensors, Actuators and Transformers)
 
