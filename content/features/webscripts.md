@@ -72,7 +72,7 @@ Hello, private!%
 ```
 
 {{% alert info %}}
-**HMAC signature based authenticatio is prefered way** of securing webscript invocation, as the tenant key is never exposed in the external backend systems
+**HMAC signature based authentication is preferred way** of securing webscript invocation, as the tenant key is never exposed in the external backend systems
 {{% /alert %}}
 
 ## Basic Auth
