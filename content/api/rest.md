@@ -861,9 +861,9 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
         "executeActuators": false,
         "nodes":[
           {
-            "name": "delay", 
+            "name": "temp", 
             "properties": {
-              "resource":  "delaytest"
+              "resource":  "resource1"
             }
           }
         ]
