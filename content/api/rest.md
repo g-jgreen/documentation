@@ -799,6 +799,98 @@ All the batch operations work with the same filters as querying for templates, e
 * `/templates?plugin=mySensor` (mySensor any version)
 * `/templates?plugin=mySensor%3A1.0.1` (mySensor 1.0.1)
 
+## Running a template over a batch dataset (beta)
+
+```bash
+curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/mytemplate/run" -H "Content-Type:application/json" \
+-d '{
+      "data": [
+        [{
+           "resource": "resource1", 
+           "temperature": 20
+         }, 
+         {
+           "resource": "resource2", 
+           "co2": 100,
+           "humidity": 0.4
+         }],
+        [{
+           "resource": "resource1",
+           "temperature": 21
+         }
+        ]
+      ], 
+      "conf": {
+        "executeActuators": false,
+        "nodes":[
+          {
+            "name": "delay", 
+            "properties": {
+              "resource":  "delaytest"
+            }
+          }
+        ]
+      }
+    }'
+
+```
+
+You can run a template without creating a task by providing it with groups of resource-based data to inject. This allows running a template on a backlog of data while getting the results back as a stream while they are being produced.
+
+The request contains 2 parts, the `data` which is an array of arrays and `conf` for providing the template overrides like you do when [instantiating a task from a template](#create-a-task-with-sensor-properties-in-the-request).
+Data is provided as an array of arrays where the outer array will control the number of invocations performed on the task. The resulting stream will have as many items as this array.
+The inner array constitutes of all messages that should arrive at the task during that invovation. They will be mapped to nodes using the `resource` property.
+
+The results are returned as a [application/x-ndjson](http://ndjson.org/) stream. Whenever an invocation ends you will receive a new json concatenated with a newline. The request will end once all data has been worked through.
+In case of a single invocation this response can also be parsed as `application/json`
+
+```json
+{
+  "nodes": {
+    "alarm": {
+      "state": "OK",
+      "probability": 1
+    },
+    ...
+  },
+  "sensors":{
+    "alarm": {
+      "triggered": true,
+      "result": true,
+      "state": "OK",
+      "rawData": {},
+      "log": []
+    },
+    ...
+  },
+  "actuators": {
+    "alarm": {
+      "sms_send": {
+          "triggered": true,
+          "result": true,
+          "message": "SMS sent",
+          "log": []
+        }
+      },
+      ...
+    },
+    ...
+  }
+}
+\n
+{ 
+... second result here ...
+}
+\n
+```
+
+
+
+
+
+
+
+
 ### Plugin updates
 
 This will apply plugin version updates to the templates.
