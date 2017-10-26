@@ -37,6 +37,11 @@ One simple example of a Bayesian network: rain influences whether the sprinkler 
 
 ![BN](usage/programming_guide/bn.png)
 
+{{% alert info %}}
+Example taken from [wikipedia](https://en.wikipedia).org/wiki/Bayesian_network
+{{% /alert %}}
+
+
 ## Conditional probability table (CPT) 
 
 In statistics, the conditional probability table (CPT) is defined for a set of discrete (not independent) random variables to demonstrate marginal probability of a single variable with respect to the others.
