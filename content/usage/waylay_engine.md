@@ -1,5 +1,5 @@
 ---
-title: Waylay rule engine
+title: Waylay rule engine introduction
 description: Waylay engine - one rules engine to rule them all
 weight: 2
 ---

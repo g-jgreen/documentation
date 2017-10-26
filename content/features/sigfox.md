@@ -3,7 +3,7 @@ title: Sigfox integration
 description: Learn how to connect and integrate your Sigfox devices
 tags:
 - sigfox
-weight: 8
+weight: 9
 ---
 
 Waylay Sigfox integration goes beyond simple visualization. When it comes to Sigfox support, waylay platform addresses all challenges of the enterprise grade integration:
@@ -32,15 +32,15 @@ This is the example of the provisioning template:
 
 # Visualisation
 
-To visualize your devices we recommend using our [Waylay Grafana application](usage/grafana).
+To visualize your devices we recommend using our [Waylay Grafana application](features/grafana).
 
 Here are the screenshots of our sample tracking application:
 
-![Map drill down](usage/sigfox/tracking_1.png)
+![Map drill down](features/sigfox/tracking_1.png)
 
 
-![Map drill down](usage/sigfox/tracking_2.png)
+![Map drill down](features/sigfox/tracking_2.png)
 
-![Map drill down](usage/grafana/details.png)
+![Map drill down](features/grafana/details.png)
 
 

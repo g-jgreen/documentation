@@ -1,7 +1,7 @@
 ---
 title: Grafana Plugin
 description: Visualize your the data from your assets
-weight: 7
+weight: 8
 ---
 
 # Prerequisites
@@ -32,7 +32,7 @@ These credentials can be found on the profile page of your Waylay dashboard.
 
 Use the screenshot below as a reference for setting up your Waylay data source:
 
-![Edit Data Source](usage/grafana/datasource.png)
+![Edit Data Source](features/grafana/datasource.png)
 
 You can optionally add a customer ID to filter all resources in the dashboard to exclude resource that are not owned by that particular customer.
 
@@ -46,20 +46,20 @@ The GeoMap plugin is a custom map plugin developed by Waylay. To use this map si
 
 Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. Make sure to check 'include time range' & 'include variables'. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
 
-![Add Link](usage/grafana/drilldownLink.png)
+![Add Link](features/grafana/drilldownLink.png)
 
 Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). Just click an icon and paste the name into the text box. You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map.
 
-![Map Options](usage/grafana/mapoptions.png)
+![Map Options](features/grafana/mapoptions.png)
 
 If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
 
 
 Here is the example of the dashboard that uses geo map:
-![Map ](usage/grafana/geo_map.png)
+![Map ](features/grafana/geo_map.png)
 
 From the marker which is placed on the map, you can also drill down to per device dashboards.
-![Map drill down](usage/grafana/details.png)
+![Map drill down](features/grafana/details.png)
 
 
 {{% alert info %}}
