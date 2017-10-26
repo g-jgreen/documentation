@@ -6,7 +6,6 @@ weight: 3
 
 <style>
   img {
-    border: solid #F5F5F5 5px;
     border-radius: 5px;
     margin: 0 auto;
     display: block;
