@@ -151,7 +151,7 @@ This is the example where we use three different gates at the same time. Please 
 
 Difference between SaaS view and expert view for one template: when we model a template in the SaaS portal, we are actually creating a Bayesian network (picture below). 
 
-![gates](usage/programming_guide/saas.png)
+![saas](usage/programming_guide/saas.png)
 
 In this picture, you see already some of the sensors being observed, with posteriors changing for each node as this happens:
 
