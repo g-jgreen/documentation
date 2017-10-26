@@ -19,6 +19,10 @@ This is the second part of the introduction article on the waylay rule engine. M
 "How to" videos are on this [link](usage/videos), and finally different rule patterns are explained here: [rule patterns](patterns/)
 {{% /alert %}}
 
+{{% alert info %}}
+In this article, we primarily cover default engine capabilities, further referred as SaaS offering. For advanced expert mode, you may find more info in our granted patent application [US20160125304](https://www.google.com/patents/US20160125304). Expert mode engine is only available to selected enterprise customers.
+{{% /alert %}}
+
 
 # Introduction
 
@@ -47,8 +51,8 @@ One might even go further and introduce cloudy weather or humidity as variables 
 ![cpt](usage/programming_guide/cpt_2.jpeg)
 
 # Waylay abstractions on top of Bayesian network
-In default SAAS (software as a service) offering, the waylay designer models only the independent random variables – which we call a sensor, while the conditional dependencies are only modelled using CPT (so in the picture above, relation sprinkler<-rain would not be possible). 
-Also, in SAAS offering, the conditional dependencies are expressed using “simplified” CPT table (where we only create zeros and ones in the table), which we call __gates__. 
+In default SaaS offering, the waylay designer models only the independent random variables – which we call a sensor, while the conditional dependencies are only modelled using CPT (so in the picture above, relation sprinkler<-rain would not be possible). 
+Also, in SaaS offering, the conditional dependencies are expressed using “simplified” CPT table (where we only create zeros and ones in the table), which we call __gates__. 
 
 __Actuations__ are simple functional calls (fire and forget) associated with outcomes (observations) of either sensors or gates – which must be completely observed (posterior probability is 1) – meaning the sensor has returned the state or gate is in one of the states with posterior probability 1). 
 
@@ -81,7 +85,7 @@ More about task/node parameters you can [find here](usage/tasks-and-templates)
 ```
 
 {{% alert info %}}
-In case that sensor is not observed, or the node is reset by the task (what we call a resetObservation) the sensor states will go back to priors. In SAAS offering, that means that the priors will be the same for all states, with total sum of all priors being 1 (e.g. if node has two states, it will the prior will be 0.5 for each state). 
+In case that sensor is not observed, or the node is reset by the task (what we call a resetObservation) the sensor states will go back to priors. In SaaS offering, that means that the priors will be the same for all states, with total sum of all priors being 1 (e.g. if node has two states, it will the prior will be 0.5 for each state). 
 {{% /alert %}}
 
 __Actuator function__ is a simple fire and forget call that either triggers on a given state or the state change of the node to which the actuator is attached.
@@ -141,9 +145,9 @@ This is the example where we use three different gates at the same time. Please 
 
 ![gates](usage/programming_guide/general_1.png)
 
-Difference between SAAS view and expert view for one template: when we model a template in the SAAS portal, we are actually creating a Bayesian network (picture below). 
+Difference between SaaS view and expert view for one template: when we model a template in the SaaS portal, we are actually creating a Bayesian network (picture below). 
 
-![gates](usage/programming_guide/saas.png)
+![gates](usage/programming_guide/SaaS.png)
 
 In this picture, you see already some of the sensors being observed, with posteriors changing for each node as this happens:
 
