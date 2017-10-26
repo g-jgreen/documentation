@@ -38,7 +38,7 @@ One simple example of a Bayesian network: rain influences whether the sprinkler 
 ![BN](usage/programming_guide/bn.png)
 
 {{% alert info %}}
-Example taken from [wikipedia](https://en.wikipedia).org/wiki/Bayesian_network
+Example taken from [wikipedia](https://en.wikipedia.org/wiki/Bayesian_network)
 {{% /alert %}}
 
 
