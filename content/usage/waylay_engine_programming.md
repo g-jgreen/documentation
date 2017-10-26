@@ -58,7 +58,7 @@ One might even go further and introduce cloudy weather or humidity as variables 
 In default SaaS offering, the waylay designer models only the independent random variables – which we call a sensor, while the conditional dependencies are only modelled using CPT (so in the picture above, relation sprinkler<-rain would not be possible). 
 Also, in SaaS offering, the conditional dependencies are expressed using “simplified” CPT table (where we only create zeros and ones in the table), which we call __gates__. 
 
-__Actuations__ are simple functional calls (fire and forget) associated with outcomes (observations) of either sensors or gates – which must be completely observed (posterior probability is 1) – meaning the sensor has returned the state or gate is in one of the states with posterior probability 1). 
+__Actuations__ are simple functional calls (fire and forget) associated with outcomes (observations) of either sensors or gates – which must be completely observed (posterior probability is 1) – meaning the sensor has returned the state or gate is in one of the states with posterior probability 1. 
 
 {{% alert info %}}
 For instance the rule: *send SMS (actuation) in case that the weather condition (sensor) is storm (state)*, would be modelled with only one sensor, without gates, where actuator is attached to the weather sensor.
