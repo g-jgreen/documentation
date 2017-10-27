@@ -12,6 +12,8 @@ weight: 3
   }
 </style>
 
+![image](usage/programming_guide/movie1.gif)
+
 
 {{% alert info %}}
 This is the second part of the introduction article on the waylay rule engine. More general info can be found [here](usage/waylay_engine).
@@ -21,7 +23,6 @@ This is the second part of the introduction article on the waylay rule engine. M
 {{% alert info %}}
 In this article, we primarily cover default engine capabilities, further referred as SaaS offering. For advanced expert mode, you may find more info in our granted patent application [US20160125304](https://www.google.com/patents/US20160125304). Expert mode engine is only available to selected enterprise customers.
 {{% /alert %}}
-
 
 # Introduction
 
@@ -220,7 +221,6 @@ Bayesian Networks, AI ...
 * If you are interested to know more about Bayesian Networks, this book is a classic [Bayesian Networks, Probabilistic Reasoning in Intelligent Systems by Judea Paerl](https://www.amazon.com/Probabilistic-Reasoning-Intelligent-Systems-Representation/dp/1558604790). 
 * [Artificial Intelligence: A Modern Approach](https://www.amazon.com/Artificial-Intelligence-Modern-Approach-3rd/dp/0136042597), by Peter Norvig, Stuart J. Russell, is an excellent AI book, and has a nice chapter on Probabilistic reasoning and Bayesian Networks.
 * just google...
-
 
 
 
