@@ -191,6 +191,42 @@ The same example as above, but this time with OR gate:
  ![inference](usage/programming_guide/inference_2.png)
 
 
+# Where to go from here?
+
+## Check what you can do more with this engine:
+
+Now that you have learned more about waylay inference engine programming principles, check out this link: [rule patterns](patterns/), where you can learn more about different integration patters, such as:
+
+* Raise the alarm if the stream data is above the threshold for predefined period of time
+* Counting the number of alarms within a time window or number of samples
+* Flow based rules
+* CEP raw data processing
+* Using gates as the control flow
+* Simple control using gates
+* Raise the alarm if there is no data within a time window
+* State pattern matching - within a time window
+* JSON payload transformation and enrichment
+* Mixing push and pull events, with conditional sensor execution
+* Mixing push and pull events, general case
+* How to synchronized different data streams
+* Control flow using sequence feature
+* Threshold crossing with stream data
+* Timings in waylay - merging data streams and applying formula
+
+
+## AI stuff....
+Bayesian Networks, AI ...
+
+* If you are interested to know more about Bayesian Networks, this book is a classic [Bayesian Networks, Probabilistic Reasoning in Intelligent Systems by Judea Paerl](https://www.amazon.com/Probabilistic-Reasoning-Intelligent-Systems-Representation/dp/1558604790). 
+* [Artificial Intelligence: A Modern Approach](https://www.amazon.com/Artificial-Intelligence-Modern-Approach-3rd/dp/0136042597), by Peter Norvig, Stuart J. Russell, is an excellent AI book, and has a nice chapter on Probabilistic reasoning and Bayesian Networks.
+* just google...
+
+
+
+
+written by Veselin Pizurica
+
+
 
 
 
