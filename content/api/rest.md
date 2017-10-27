@@ -858,6 +858,7 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
         ]
       ], 
       "conf": {
+        "parallel": false,
         "executeActuators": false,
         "nodes":[
           {
@@ -873,6 +874,15 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
 ```
 
 You can run a template without creating a task by providing it with groups of resource-based data to inject. This allows running a template on a backlog of data while getting the results back as a stream while they are being produced.
+
+There are 2 options you can set:
+
+* `parallel` (default `false`) when set to `true` this will make processing faster as we will handle multiple batches at the same time. Make sure that your sensors can handle concurrent invocation!
+* `executeActuators` (default `false`) by default we do not execute actuators, set this to `true` if you want actuation to happen. 
+
+<aside class="notice">
+Any time based features are disabled as we are running the template at a faster speed than normal. No cron, no periodic invocation, no time-based node eviction. The `delaySensor` however will still work as expected and slow down processing.
+</aside>
 
 The request contains 2 parts, the `data` which is an array of arrays and `conf` for providing the template overrides like you do when [instantiating a task from a template](#create-a-task-with-sensor-properties-in-the-request).
 Data is provided as an array of arrays where the outer array will control the number of invocations performed on the task. The resulting stream will have as many items as this array.
