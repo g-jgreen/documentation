@@ -9,7 +9,7 @@ Waylay architecture is composed of the following components:
 * Cloud Persisted Cache
 * Time series Database
 * Resource Metadata Database
-* Inference Engine with advanced stream based correlation and formula processing
+* Rule Engine with advanced stream based correlation and formula processing
 * REST server
 * CEP functional nodes
 * Waylay IDE (web based)
@@ -32,6 +32,12 @@ Waylay automatically stores metric data in the time series database. Via [REST i
 
 ## Resource metadata with REST interface
 [Provisioning API](/api/rest/#provisioning-api) allows you to associate metadata with resource. Resources are either discovered by Waylay (as soon as data is pushed towards Waylay Broker) or you can as well create them using REST call. Next to the resource CRUD related calls, waylay also allows you to create ResourceType entities, and let you link resource to a type using metadata. As soon as a resource is linked to a resource type, all metadata values of that type are linked to that resource. Resource can still overwrite any specific attribute in its metadata model. More about this you can find [here](/features/provisioning)
+
+# Rule engine
+![image](usage/programming_guide/movie1.gif)
+
+Waylay's rule engine is the most advanced rule engine on the market today. It is based on Bayesian Inference probablistic programming using smart agent concept, with granted patent [US20160125304](https://www.google.com/patents/US20160125304).
+More about the engine can be found [here](usage/waylay_engine_programming/), "how to" videos are located on this [link](usage/videos), and finally different rule patterns are explained here: [rule patterns](patterns/).
 
 # SDK and templates (sensors, actuators, rules)
 In waylay, [sensors, actuators and rules](/api/sensors-and-actuators/) are nothing more than small snippets of JSON files. They can be re-used between different templates. Out of the box, in PaaS offering, waylay supports only node.js based actuators and sensors (very similar approach to AWS lambda architecture). For OEM deployments, we as well provide java SDK.
