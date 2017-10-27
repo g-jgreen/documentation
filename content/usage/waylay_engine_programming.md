@@ -92,7 +92,7 @@ More about task/node parameters you can [find here](usage/tasks-and-templates)
 In case that sensor is not observed, or the node is reset by the task (what we call a resetObservation) the sensor states will go back to priors. In SaaS offering, that means that the priors will be the same for all states, with total sum of all priors being 1 (e.g. if node has two states, it will the prior will be 0.5 for each state). 
 {{% /alert %}}
 
-__Actuator function__ is a simple fire and forget call that either triggers on a given state or the state change of the node to which the actuator is attached.
+__Actuator function__ is a simple fire and forget call that either *triggers on a given state, set of states, or the state change of the node* to which the actuator is attached.
 
 {{% alert info %}}
 More about sensors and actuators you can find on this [link](api/sensors-and-actuators) 
