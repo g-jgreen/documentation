@@ -177,6 +177,7 @@ Once the sensor execution was successful, few things happen: state is propagated
 In the picture below, we show the node states in colour only if they are set with probability 1. 
 
 We will show two examples, where the same sensors are first attached to AND gate, and second example, where the same sensors are attached to OR gate. Observations (labelled by red and green boxes on top) will be the same in both cases. Yellow icon, just below the boxes shows when the inference happens (right after any node observation). We also assume that there is an actuator attached to gate with condition TRUE, which is represented by a small yellow arrow on the gate graph.
+ ![and_actuator](usage/programming_guide/AND_actuator.png)
 
 
  ![inference](usage/programming_guide/inference_1.png)
@@ -189,6 +190,10 @@ In the third example, resetObservations flag was set true, which would make the 
 Using the same example, but now with OR gate we can see how would rule evolve in time. 
 
 The same example as above, but this time with OR gate:
+
+ ![or_actuator](usage/programming_guide/OR_actuator.png)
+
+
  ![inference](usage/programming_guide/inference_2.png)
 
 
