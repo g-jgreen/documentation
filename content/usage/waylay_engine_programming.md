@@ -236,6 +236,9 @@ Bayesian Networks, AI ...
 
 
 
+
+![movie](usage/programming_guide/long-movie.gif)
+
 written by Veselin Pizurica
 
 
