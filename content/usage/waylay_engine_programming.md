@@ -179,6 +179,10 @@ In the picture below, we show the node states in colour only if they are set wit
 We will show two examples, where the same sensors are first attached to AND gate, and second example, where the same sensors are attached to OR gate. Observations (labelled by red and green boxes on top) will be the same in both cases. Yellow icon, just below the boxes shows when the inference happens (right after any node observation). We also assume that there is an actuator attached to gate with condition TRUE, which is represented by a small yellow arrow on the gate graph.
  ![and_actuator](usage/programming_guide/AND_actuator.png)
 
+In this short video, we show the example where both observations become TRUE, triggering the actuation on the AND gate:
+![inference](usage/programming_guide/and_movie1.gif)
+
+Let's see some other possible scenarios:
 
  ![inference](usage/programming_guide/inference_1.png)
 
@@ -196,6 +200,9 @@ The same example as above, but this time with OR gate:
 
  ![inference](usage/programming_guide/inference_2.png)
 
+If you look at the last example, you can notice that the actuation happened twice, when the first sensor returned TRUE state, and when the second one returned TRUE state, since the inference happens any time there is a new observation in the network, and in both cases, the OR gate resulted in TRUE state. Should such things be avoided, designer can either choose to actuate on the state change (only when first time the gate becomes TRUE), or by limiting how often actuation happens, using [triggering policy](usage/tasks-and-templates).
+
+![inference](usage/programming_guide/or_movie1.gif)
 
 # Where to go from here?
 
