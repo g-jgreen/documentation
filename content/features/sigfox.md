@@ -16,10 +16,15 @@ Waylay Sigfox integration goes beyond simple visualization. When it comes to Sig
 * First time provisioning
 * Tenant based UI
 
+# Connecting sigfox devices
+In order to connect sigfox device to waylay, you should make use of [webscripts](features/webscripts) and [transformers](features/transformers), as described in [LPWAN intergation document](features/lpwan/). Reason for two steps integration (webscripts and then transformers) is that we want to unify the way LPWAN devices are integrated, regardless whether they are managed by Sigfox, LoRa or NB-IoT. In all these cases, a device payload format that comes from different backends can be different, even though the object still encodes the same sensor data measurements in the data part of the payload (as the hex value). If the sensor data is encoded in the same way, it means that we can use the same transformer to decode the measurements.
+
 
 # Data collection and rules processing
 
-Once the Sigfox devices are connected via transformers, waylay will immediately start collecting data. 
+Once the Sigfox devices are connected via webscripts and transformers, waylay will immediately start collecting data. In order to start using LPWAN devices in your rules, you can start by looking into one simple rule: [data threshold example](patterns/stream-data-threshold-crossing/)
+
+![rule](rules/stream-data-threshold-crossing/stream_threshold_crossing.png)
 
 # Sigfox provisioning
 Provisioning involves the process of preparing and equipping a network and a device to allow it to provide (new) services to its users. 
