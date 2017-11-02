@@ -388,6 +388,15 @@ Access-Control-Expose-Headers: X-Count
 Strict-Transport-Security: max-age=31536000; includeSubdomains
 ```
 
+## Note on tasks and resources
+
+Tasks and task nodes can be linked to a `resource`. There are some special node-related values you should know about:
+
+* `$` - resource name will be inherited from the task resource name
+* `$taskId` - resource name will be inherited from the task ID
+
+As an example if you have 3 nodes with resource `$` and the task has resource `foo`, all three node-sensors will be triggered when data is injected for resource `foo`.
+
 # Batch operations
 
 There are 2 ways to perform batch operations. 
@@ -860,6 +869,7 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
       "conf": {
         "parallel": false,
         "executeActuators": false,
+        "resource": "resource1",
         "nodes":[
           {
             "name": "temp", 
@@ -875,10 +885,11 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
 
 You can run a template without creating a task by providing it with groups of resource-based data to inject. This allows running a template on a backlog of data while getting the results back as a stream while they are being produced.
 
-There are 2 options you can set:
+These are the options you can set:
 
 * `parallel` (default `false`) when set to `true` this will make processing faster as we will handle multiple batches at the same time. Make sure that your sensors can handle concurrent invocation!
 * `executeActuators` (default `false`) by default we do not execute actuators, set this to `true` if you want actuation to happen. 
+* `resource` (optional) sets the global resource for the running of the template. Relates to [note on tasks and resources](#note_on_tasks_and_resources).
 
 <aside class="notice">
 Any time based features are disabled as we are running the template at a faster speed than normal. No cron, no periodic invocation, no time-based node eviction. The `delaySensor` however will still work as expected and slow down processing.
