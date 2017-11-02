@@ -58,7 +58,11 @@ There is a special symbol * :
 
 ### Resource
 
-The resource is a unique identifier of a ‘thing’. When a ‘thing’ pushes streaming data to the Waylay platform, it provides its unique identifier, i.e. a resource name. Each resource can push multiple parameters to the Waylay broker. The Waylay framework will automatically distribute the resource parameters to the tasks and nodes with the corresponding resource name. E.g. with the ‘execute on data’ option described below, the sensors with the corresponding resource name will automatically get invoked when new streamed data with the same resource name becomes available. The resource name can be specified at the task level and at the node level. In case you have many sensors in your task that share the same resource name, you may want to specify it at the task level and inherit it at the node level via the $ symbol.
+The resource is a unique identifier of a ‘thing’. When a ‘thing’ pushes streaming data to the Waylay platform, it provides its unique identifier, i.e. a resource name. Each resource can push multiple parameters to the Waylay broker. The Waylay framework will automatically distribute the resource parameters to the tasks and nodes with the corresponding resource name. E.g. with the ‘execute on data’ option described below, the sensors with the corresponding resource name will automatically get invoked when new streamed data with the same resource name becomes available. The resource name can be specified at the task level and at the node level. In case you have many sensors in your task that share the same resource name, you may want to specify it at the task level and inherit it at the node level via the **$** symbol.
+
+{{% alert info %}}
+More about when to use **$** as the resource name you can find in the article [how to create a template-best practises](tutorials/template_practise/)
+{{% /alert %}}
 
 
 ### Advanced settings
