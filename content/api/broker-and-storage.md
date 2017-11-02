@@ -197,6 +197,13 @@ curl -i --user apiKey:apiSecret
     from=1472947200000&until=1474588800000'
 ```
 
+> Getting the latest value for a series
+
+```bash
+curl -i --user apiKey:apiSecret
+    'https://data.waylay.io/resources/testresource/series/temperature/latest'
+```
+
 You can specify *from* (epoch time in milliseconds) and *to* (it can be omitted, then it will take a current time), example:
 
 
@@ -252,7 +259,13 @@ You can always retrieve up to the last 100 messages for every resource over the 
 In default pricing, we offer up to 100 latest points. This can as well be much higher if required.
 </aside>
 
+## Streaming all messages using NDJSON
 
+This is a firehose stream of all messages that are sent to the broker. If you can not keep up with reading the stream messages will be dropped!
+
+```bash
+curl -i --user apiKey:apiSecret https://data.waylay.io/messages
+```
 
 ## Streaming using WebSockets
 
