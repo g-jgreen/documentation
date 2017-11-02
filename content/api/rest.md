@@ -889,7 +889,7 @@ These are the options you can set:
 
 * `parallel` (default `false`) when set to `true` this will make processing faster as we will handle multiple batches at the same time. Make sure that your sensors can handle concurrent invocation!
 * `executeActuators` (default `false`) by default we do not execute actuators, set this to `true` if you want actuation to happen. 
-* `resource` (optional) sets the global resource for the running of the template. Relates to [note on tasks and resources](#note_on_tasks_and_resources).
+* `resource` (optional) sets the global resource for the running of the template. Relates to [note on tasks and resources](#note-on-tasks-and-resources).
 
 <aside class="notice">
 Any time based features are disabled as we are running the template at a faster speed than normal. No cron, no periodic invocation, no time-based node eviction. The `delaySensor` however will still work as expected and slow down processing.
