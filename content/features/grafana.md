@@ -42,26 +42,61 @@ You can use the Waylay data source you have just configured to visualize your da
 
 # GeoMap
 
-The GeoMap plugin is a custom map plugin developed by Waylay. To use this map simply add the plugin to a panel and add a resource type ID through the 'edit' menu of the panel. The resource type you add has to have longitude and latitude. Resources with the exact same latitude and longitude will be put on the same marker, just click the marker to view all the resources on that location.
+The GeoMap plugin is a custom map plugin developed by Waylay.
 
-Links to Grafana template dashboards can be added to the markers. To add this just go to the General tab and add a 'Drilldown' link to the template dashboard. Make sure to check 'include time range' & 'include variables'. __**After this you need to go back to the metrics tab so we can add this link to the marker**__.
+Links to detail tracking dashboards can be added to the markers that will be shown on the map. To add this just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
 
-![Add Link](features/grafana/drilldownLink.png)
+![Add Link](features/grafana/general.png)
 
-Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). Just click an icon and paste the name into the text box. You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map.
+{{% alert info %}}
+More about adding detailed tracking dashboards later.
+{{% /alert %}}
 
-![Map Options](features/grafana/mapoptions.png)
 
+In order to link resources to the map, you need to go to the `Metrics` setting:
+![Metrics](features/grafana/metrics.png)
+
+Here you define in the first `FILTER` resourceTypeId, which will be used as the filtering criteria for resources you want to show on the map. These resources __must have longitude and latitude__ measurements.
+In the second row, where you use `FILTER` resourceTypeId, you will define the geofences that will be plotted on the same map. These resources __must have defined geofences__ in the metadata.
+
+{{% alert info %}}
+More about adding geofences in the metadata later.
+{{% /alert %}}
+
+In this example, we ignore the time series data, __which means that we are plotting only data which is defined in the metadata!__ That also means, that every time a new data point with location is send to waylay, we would need to update resource metadata with it's location. This is typically done by geofence template, explained later. That way, we only show the latest data point per resource.
+
+
+Next thing to setup are `Options`:
+![Map Options](features/grafana/options.png)
+
+Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map. You can also define your own colors and markers for the resource, via medatata.
+
+{{% alert info %}}
 If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
+{{% /alert %}}
 
 
 Here is the example of the dashboard that uses geo map:
 ![Map ](features/grafana/geo_map.png)
 
-From the marker which is placed on the map, you can also drill down to per device dashboards.
+
+From the marker which is placed on the map, we can also drill down to per device dashboards, as configured before in the `General` settings.
+
+## Detailed (resource based) map
+
+When creating a deatiled map, first we need to define the resource:
+![template](features/grafana/template_resource.png)
+
+{{% alert info %}}
+Here we show the example where we fitler by provider, but it can be any other metadata field, such a resource type, customer etc.
+{{% /alert %}}
+
+
+`Metric` setting is different then in the overview dashboard, here we only select one resource, and we use the time series data to plot the path:
+
+![Metrics](features/grafana/metrics_tracking.png)
+
+Here is the example of one detailed dashboard:
 ![Map drill down](features/grafana/details.png)
 
 
-{{% alert info %}}
-In case multiple devices have the same geo-coordinates, the marker lists all devices.
-{{% /alert %}}
