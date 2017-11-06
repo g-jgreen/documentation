@@ -20,6 +20,7 @@ We assume you already have a Waylay account or installation ready to connect to,
 In order to setup grafana for geofencing use case, please follow the steps as described [here](features/grafana)
 
 # Scenario
+In this package, we will track devices, which send their realtime location to waylay. Based on their location, and list of geofences which you can configure, waylay will create IN/OUT events, show them on the dashboard and if necessary send SMS, email etc.
 
 We shall first  create one resource type, which will link all geofence resources together. 
 Geofence resources can be:
@@ -87,7 +88,15 @@ Here is the example of the geofence template, which updates events (later used f
 
 ![template](features/grafana/geoFence_template.png)
 
+# Simulation
+You can setup the simulation using our [lab page](http://labs.waylay.io).
+Tracking data that you can use for the simulation is here [repo](https://raw.githubusercontent.com/waylayio/data/master/simulationData/tracking/tracking.csv)
 
+![simulation](packages/geofence/simulation.png)
+
+{{% alert info %}}
+You need to make sure that you have one reactive task, based on the template above, and then you can click `Start Simulation` button.
+{{% /alert %}}
 
 
 
