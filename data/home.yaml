@@ -28,3 +28,9 @@ cards:
     icon: folder_shared
     description: Developers blog
     url: /tutorials
+
+  - title: Packages
+    icon: public
+    description: Solution Packages
+    url: /packages
+

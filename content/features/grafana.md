@@ -1,5 +1,5 @@
 ---
-title: Grafana Plugin
+title: Grafana Dashboard
 description: Visualize your the data from your assets
 weight: 8
 ---
