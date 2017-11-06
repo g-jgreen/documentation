@@ -144,7 +144,28 @@ The same settings in the detailed dahboard can look like this:
 ![alarms](features/grafana/alarm_resource_settings.png)
 
 # Table plugin
-Table plugin is a custom map plugin developed by Waylay.
+Table plugin is a custom plugin developed by Waylay. It shows the following columns:
+
+* resource field
+* resournce name
+* resource description
+* last time message (data) was received
+
+![table_view](features/grafana/table_view.png)
+
+Here are the `General` settings, which also allows you to add drill down detailed dashboard:
+![table_general](features/grafana/table_general.png)
+
+In `Metrics` settings, we define the filter, for resources that we want to see in the table, in this example, one particular location, which was present in the metadata of the resources that are selected. For instance, you can create a rule, that automatically update location of the resource based on geofence data and then use this filter to show assets in different locations:
+
+![table_metrics](features/grafana/table_metrics.png)
+
+# Geofence template
+
+Example of the geofence template which updates events (later used for the alarm view table) and annotates resource metadata (later used for the resource filtering by table view and showing the last known position on the geoMap overview) can be found here [repo](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer).
+
+
+![template](features/grafana/geoFence_template.png)
 
 
 
