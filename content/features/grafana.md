@@ -49,7 +49,6 @@ Waylay dashboard comes with preloaded plugins:
 * GeoMap -> waylay geo map plugin
 * Table -> waylay table plugin
 * AlarmView -> waylay AlarmView plugin
-* Zendesk -> waylay Zendesk plugin
 
 ![plugins](features/grafana/plugins.png)
 
