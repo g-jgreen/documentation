@@ -34,7 +34,7 @@ Use the screenshot below as a reference for setting up your Waylay data source:
 
 ![Edit Data Source](features/grafana/datasource.png)
 
-You can optionally add a customer ID to filter all resources in the dashboard to exclude resource that are not owned by that particular customer.
+You can optionally add a customer ID to filter all resources in the dashboard to exclude resources that are not owned by that particular customer.
 
 # Usage
 
@@ -56,7 +56,7 @@ Waylay dashboard comes with preloaded plugins:
 
 The GeoMap plugin is a custom map plugin developed by Waylay.
 
-Links to detail tracking dashboards can be added to the markers that will be shown on the map. To add this just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
+Links to detail tracking dashboards can be added to the markers that will be shown on the map. To add this setting, just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
 
 ![Add Link](features/grafana/general.png)
 
@@ -84,7 +84,7 @@ Next thing to setup are `Options`:
 Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map. You can also define your own colors and markers for the resource, via medatata.
 
 {{% alert info %}}
-If changes to the map don't apply immediatly just press the refresh button on the top right corner so the widget can refresh.
+If changes to the map don't apply immediately just press the refresh button on the top right corner so the widget can refresh.
 {{% /alert %}}
 
 
@@ -100,7 +100,7 @@ When creating a deatiled map, first we need to define the resource:
 ![template](features/grafana/template_resource.png)
 
 {{% alert info %}}
-Here we show the example where we fitler by provider, but it can be any other metadata field, such a resource type, customer etc.
+Here we show the example where we filter by provider, but it can be any other metadata field, such a resource type, customer etc.
 {{% /alert %}}
 
 `Metric` setting is different then in the overview dashboard, here we only select one resource, and we use the time series data to plot the path:
@@ -116,7 +116,7 @@ Here is the example of one detailed dashboard:
 AlarmView plugin is a custom plugin developed by Waylay. In `General` settings, you can also define drill down detailed dashboards:
 ![settings](features/grafana/alarm_settings.png)
 
-This plugin allows you to map custome time series data into the alarm view (in this example, alarm_type values):
+This plugin allows you to map the time series data into the alarm view (in this example, alarm_type values):
 
 ![settings](features/grafana/alarm_metrics.png)
 
@@ -161,7 +161,7 @@ In `Metrics` settings, we define the filter, for resources that we want to see i
 
 # Geofence template
 
-Example of the geofence template which updates events (later used for the alarm view table) and annotates resource metadata (later used for the resource filtering by table view and showing the last known position on the geoMap overview) can be found here [repo](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer).
+Here is the example of the geofence template, which updates events (later used for the alarm view table) and annotates resource metadata (later used for the resource filtering by table view and showing the last known position on the geoMap overview) can be found here [repo](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer).
 
 
 ![template](features/grafana/geoFence_template.png)
