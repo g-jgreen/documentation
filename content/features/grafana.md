@@ -40,6 +40,19 @@ You can optionally add a customer ID to filter all resources in the dashboard to
 
 You can use the Waylay data source you have just configured to visualize your data, please refer to the official [Grafana documentation](http://docs.grafana.org/) on [getting started](http://docs.grafana.org/guides/getting_started/) or read up on some of the Grafana [basic concepts](http://docs.grafana.org/guides/basic_concepts/).
 
+# Plugins
+Waylay dashboard comes with preloaded plugins:
+
+* Graph (default grafana graph plugin with all functionality) 
+* Singlestat (default grafana singlestat plugin with all functionality)
+* Text grafana plugin  
+* GeoMap -> waylay geo map plugin
+* Table -> waylay table plugin
+* AlarmView -> waylay AlarmView plugin
+* Zendesk -> waylay Zendesk plugin
+
+![plugins](features/grafana/plugins.png)
+
 # GeoMap
 
 The GeoMap plugin is a custom map plugin developed by Waylay.
@@ -91,12 +104,47 @@ When creating a deatiled map, first we need to define the resource:
 Here we show the example where we fitler by provider, but it can be any other metadata field, such a resource type, customer etc.
 {{% /alert %}}
 
-
 `Metric` setting is different then in the overview dashboard, here we only select one resource, and we use the time series data to plot the path:
 
 ![Metrics](features/grafana/metrics_tracking.png)
 
 Here is the example of one detailed dashboard:
 ![Map drill down](features/grafana/details.png)
+
+
+# AlarmView plugin
+
+AlarmView plugin is a custom plugin developed by Waylay. In `General` settings, you can also define drill down detailed dashboards:
+![settings](features/grafana/alarm_settings.png)
+
+This plugin allows you to map custome time series data into the alarm view (in this example, alarm_type values):
+
+![settings](features/grafana/alarm_metrics.png)
+
+In this example, the mapping JSON object is defined as follows:
+
+```
+{
+"2": { "name" : "Temperature Too High", "color" : "d35400","icon": "thermometer"}, 
+"3": { "name" : "Temperature Too Low", "color" : "2980b9","icon": "thermometer"}, 
+"4": { "name" : "Box cleaned", "color" : "2ecc71","icon": "thermometer"}, 
+"5": { "name" : "Entering Geofence", "color" : "9ACD32","icon": ""}, 
+"6": { "name" : "Leaving Geofence", "color" : "0000FF","icon": ""}, 
+"10": { "name" : "Battery Level Low", "color" : "DDD6AA","icon": ""}, 
+"11": { "name" : "NO DATA", "color" : "FAA00F","icon": ""}
+}
+```
+
+The key of the JSON object is either a metric (number), or a string, since the waylay time series database can store both numerical and string values. Once the data is mapped:
+
+![alarms](features/grafana/alarms.png)
+
+
+The same settings in the detailed dahboard can look like this:
+![alarms](features/grafana/alarm_resource_settings.png)
+
+# Table plugin
+Table plugin is a custom map plugin developed by Waylay.
+
 
 
