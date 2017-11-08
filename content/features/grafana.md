@@ -38,17 +38,17 @@ You can optionally add a customer ID to filter all resources in the dashboard to
 
 # Usage
 
-You can use the Waylay data source you have just configured to visualize your data, please refer to the official [Grafana documentation](http://docs.grafana.org/) on [getting started](http://docs.grafana.org/guides/getting_started/) or read up on some of the Grafana [basic concepts](http://docs.grafana.org/guides/basic_concepts/).
+You can use the Waylay data source that you have just configured to visualize your data, please refer to the official [Grafana documentation](http://docs.grafana.org/) on [getting started](http://docs.grafana.org/guides/getting_started/) or read up on some of the Grafana [basic concepts](http://docs.grafana.org/guides/basic_concepts/).
 
 # Plugins
-Waylay dashboard comes with preloaded plugins:
+The Waylay dashboard comes with these preloaded plugins:
 
-* Graph (default grafana graph plugin with all functionality) 
-* Singlestat (default grafana singlestat plugin with all functionality)
+* Graph (default Grafana graph plugin with all functionality) 
+* Singlestat (default Grafana singlestat plugin with all functionality)
 * Text grafana plugin  
-* GeoMap -> waylay geo map plugin
-* Table -> waylay table plugin
-* AlarmView -> waylay AlarmView plugin
+* GeoMap -> Waylay geo map plugin
+* Table -> Waylay table plugin
+* AlarmView -> Waylay AlarmView plugin
 
 ![plugins](features/grafana/plugins.png)
 
@@ -56,7 +56,7 @@ Waylay dashboard comes with preloaded plugins:
 
 The GeoMap plugin is a custom map plugin developed by Waylay.
 
-Links to detail tracking dashboards can be added to the markers that will be shown on the map. To add this setting, just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
+Links to detail-tracking dashboards can be added to the markers that will be shown on the map. To add this setting, just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
 
 ![Add Link](features/grafana/general.png)
 
@@ -75,39 +75,39 @@ In the second row, where you use `FILTER` resourceTypeId, you will define the ge
 More about adding geofences in the metadata later.
 {{% /alert %}}
 
-In this example, we ignore the time series data, __which means that we are plotting only data which is defined in the metadata!__ That also means, that every time a new data point with location is send to waylay, we would need to update resource metadata with it's location. This is typically done by geofence template, explained later. That way, we only show the latest data point per resource.
+In this example, we ignore the time series data, __which means that we are plotting only data which is defined in the metadata!__ That also means, that every time a new data point with location is being sent to Waylay, we would need to update the resource metadata with its location. This is typically done by the geofence template, explained later. That way, we only show the latest data point per resource.
 
 
 Next thing to setup are `Options`:
 ![Map Options](features/grafana/options.png)
 
-Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). You can also enable/disable the auto zoom and set the zoom level for the auto zoom. How higher the auto zoom (max 1) the bigger the map. You can also define your own colors and markers for the resource, via medatata.
+Markers can be configured to have one of four colors and can contain any icon from [ionicons](http://ionicons.com/). You can also enable/disable the auto zoom and set the zoom level for the auto zoom. The higher the auto zoom (max 1) the bigger the map. You can also define your own colors and markers for the resource via medatata.
 
 {{% alert info %}}
-If changes to the map don't apply immediately just press the refresh button on the top right corner so the widget can refresh.
+If changes to the map don't apply immediately, just press the refresh button on the top right corner so the widget can refresh.
 {{% /alert %}}
 
 
-Here is the example of the dashboard that uses geo map:
+Here is an example of the dashboard that uses the GeoMap:
 ![Map ](features/grafana/geo_map.png)
 
 
 From the marker which is placed on the map, we can also drill down to per device dashboards, as configured before in the `General` settings.
 
-## Detailed (resource based) map
+## Detailed (resource-based) map
 
-When creating a deatiled map, first we need to define the resource:
+When creating a detailed map, first we need to define the resource:
 ![template](features/grafana/template_resource.png)
 
 {{% alert info %}}
-Here we show the example where we filter by provider, but it can be any other metadata field, such a resource type, customer etc.
+Here we show the example where we filter by provider, but it can be any other metadata field, such as a resource type, customer etc.
 {{% /alert %}}
 
-`Metric` setting is different then in the overview dashboard, here we only select one resource, and we use the time series data to plot the path:
+`Metric` setting is different than in the overview dashboard, here we only select one resource, and we use the time series data to plot the path:
 
 ![Metrics](features/grafana/metrics_tracking.png)
 
-Here is the example of one detailed dashboard:
+Here is an example of a detailed dashboard:
 ![Map drill down](features/grafana/details.png)
 
 
@@ -116,7 +116,7 @@ Here is the example of one detailed dashboard:
 AlarmView plugin is a custom plugin developed by Waylay. In `General` settings, you can also define drill down detailed dashboards:
 ![settings](features/grafana/alarm_settings.png)
 
-This plugin allows you to map the time series data into the alarm view (in this example, alarm_type values):
+This plugin allows you to map the time series data into the alarm view (in this example, we use alarm_type values):
 
 ![settings](features/grafana/alarm_metrics.png)
 
@@ -134,34 +134,34 @@ In this example, the mapping JSON object is defined as follows:
 }
 ```
 
-The key of the JSON object is either a metric (number), or a string, since the waylay time series database can store both numerical and string values. Once the data is mapped:
+The key of the JSON object is either a metric (number), or a string, since the Waylay time series database can store both numerical and string values. Once the data is mapped:
 
 ![alarms](features/grafana/alarms.png)
 
 
-The same settings in the detailed dahboard can look like this:
+The same settings in the detailed dashboard can look like this:
 ![alarms](features/grafana/alarm_resource_settings.png)
 
 # Table plugin
 Table plugin is a custom plugin developed by Waylay. It shows the following columns:
 
 * resource field
-* resournce name
+* resource name
 * resource description
 * last time message (data) was received
 
 ![table_view](features/grafana/table_view.png)
 
-Here are the `General` settings, which also allows you to add drill down detailed dashboard:
+Here are the `General` settings, which also allow you to add a drill down detailed dashboard:
 ![table_general](features/grafana/table_general.png)
 
-In `Metrics` settings, we define the filter, for resources that we want to see in the table, in this example, one particular location, which was present in the metadata of the resources that are selected. For instance, you can create a rule, that automatically update location of the resource based on geofence data and then use this filter to show assets in different locations:
+In the `Metrics` settings, we define the filter for the resources that we want to see in the table, in this example, one particular location, which was present in the metadata of the resources that are selected. For instance, you can create a rule that automatically updates the location of the resource based on geofence data and then use this filter to show assets in different locations:
 
 ![table_metrics](features/grafana/table_metrics.png)
 
 # Geofence template
 
-Here is the example of the geofence template, which updates events (later used for the alarm view table) and annotates resource metadata (later used for the resource filtering by table view and showing the last known position on the geoMap overview) can be found here [repo](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer).
+Here is an example of the geofence template which updates events (later used for the alarm view table) and annotates resource metadata, later used for the resource filtering by table view and to show the last known position on the GeoMap overview.[Repo can be found here](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer)
 
 
 ![template](features/grafana/geoFence_template.png)
