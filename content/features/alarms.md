@@ -9,10 +9,10 @@ weight: 5
 ![alarms](/features/alarms/alarm_tile.png)
 
 # Introduction
-IoT applications often make use of notifications via e.g. SMS or email but in some cases a native alarm functionality is required. Waylay supports such a native alarm service, which is exposed over the [REST](api/rest/#alarms) and which has a user interface that is exposed in the Waylay administration console. The alarm functionality integrates with the rules einge, in the sense that Waylay supports actuators that allow you to create or clear alarms in an automated way based on the outcome of rules. 
+IoT applications often make use of notifications via e.g. SMS or email but in some cases a native alarm functionality is required. Waylay supports such a native alarm service, which is exposed over [REST](api/rest/#alarms) and which has a user interface that is part of the Waylay administration console. The alarm functionality integrates with the rules engine, in the sense that Waylay supports actuators that allow you to create or clear alarms in an automated way based on the outcome of rules. 
 
 {{% alert info %}}
-Alarm actuators are written on top of the Alarm Service REST interfaces. Waylay supports two alarm actuators off-the-shelf: an actuator that creates alarms and an actuator that receives alarms. These actuators can be extended with your custom implementation. 
+Alarm actuators are written on top of the Alarm Service REST interfaces. Waylay supports two alarm actuators off-the-shelf: an actuator that creates alarms and an actuator that clears alarms. These actuators can be extended with your custom implementation. 
 {{% /alert %}}
 
 ## How this feature can be used in practise?
