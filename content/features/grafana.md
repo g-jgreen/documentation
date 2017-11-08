@@ -54,18 +54,17 @@ The Waylay dashboard comes with these preloaded plugins:
 
 # GeoMap
 
-The GeoMap plugin is a custom map plugin developed by Waylay.
-
-Links to detail-tracking dashboards can be added to the markers that will be shown on the map. To add this setting, just go to the General tab and add a 'Drilldown' link to the template (detailed) dashboard.
+The GeoMap plugin is a custom map plugin developed by Waylay. It is used to show multiple resources on a map by means of markers. The markers allow to click through to more detailed dashboards for a particular resource. 
+To add this setting, navigate to the General tab and add the fields for the detailed dashboard in the 'Drilldown/detail link'section. 
 
 ![Add Link](features/grafana/general.png)
 
 {{% alert info %}}
-More about adding detailed tracking dashboards later.
+More about adding detailed dashboards later.
 {{% /alert %}}
 
 
-In order to link resources to the map, you need to go to the `Metrics` setting:
+In order to link resources to the map, you need to go to the `Metrics` tab:
 ![Metrics](features/grafana/metrics.png)
 
 Here you define in the first `FILTER` resourceTypeId, which will be used as the filtering criteria for resources you want to show on the map. These resources __must have longitude and latitude__ measurements.
