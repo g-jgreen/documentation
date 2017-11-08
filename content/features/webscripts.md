@@ -108,6 +108,7 @@ We can access logs of every webscript, we can check all requests and responses, 
 
 # Integration with the Waylay platform
 
+## Webscript with payload decoder invocation
 Every webscript automatically has a `waylay` client that is configured to interact with your environment.
 
 For example, to send data to a transformer you could use the following code in your webscript:
@@ -133,5 +134,33 @@ function handleRequest (req, res) {
       console.error(error)
       res.status(500).send(error)
     })
+}
+```
+
+
+## Webscript with payload decoder invocation and metadata update at the same time
+
+In the following example, first we will update the metadata for the given resource and then execute payload decoding:
+
+
+```javascript
+function handleRequest (req, res) {
+  const data = {
+    properties: {
+      data: JSON.stringify({ temperature: '123.4' }),
+      resource: 'testresource'
+    }
+  }
+  
+  waylay.resources.update('testresource', { hello: 'world' })
+    .then(() => {
+      return waylay.transformers.execute('testtransformer', 'latest', data)
+    })
+    .then(response => res.send(response))
+    .catch(err => {
+      const error = err.response ? err.response.data : err.message
+      console.error(error)
+      res.status(500).send(error)
+    })  
 }
 ```
