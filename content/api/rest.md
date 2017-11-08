@@ -253,6 +253,20 @@ You can also override node/sensor/actuator settings of the template before start
 -   nodes.[\*].properties.actions.[\*].requiredProperties.\*
 
 
+## Update a task
+
+This allows you update the task configuration. See also the documentation on [getting a task's configuration](#getting-an-existing-task-s-configuration).
+
+```bash
+curl --user apiKey:apiSecret -H "Content-Type:application/json" -X PUT -d '{
+  "name": "test1",
+  "template": "internet.json",
+  "resource": "hello",
+  "start": false,
+  "type": "scheduled",
+  "cron": "0/30 * * * * ?"
+}' "https://sandbox.waylay.io/api/task/1"
+```
 
 ## Delete a task
 
@@ -273,13 +287,26 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/tasks/1/comm
 ```bash
 curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/tasks/1/command/start"
 ```
-## Query single task
+
+## Getting a single task by id
+
 Get information about a single task. Response will include template definition and task's type and settings.
 
 ```bash
 curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/{taskID}"
 ```
 
+## Getting an existing task's configuration
+
+Using this resource you can get the original task configuration that was posted to /api/tasks. Useful if you want to:
+
+ * duplicate a task
+ * update a task with a slightly modified configuration
+ * run a batch injection on it's template with the same configuration
+
+```bash
+curl --user apiKey:apiSecret "https://sandbox.waylay.io/api/tasks/{taskID}/conf"
+```
 
 ## Query multiple tasks
 > This call gives first 10 tasks (default behaviour), and if you need to filter your tasks, you can use a query language.
