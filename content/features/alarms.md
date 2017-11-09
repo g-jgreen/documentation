@@ -15,21 +15,21 @@ IoT applications often make use of notifications via e.g. SMS or email but in so
 Alarm actuators are written on top of the Alarm Service REST interfaces. Waylay supports two alarm actuators off-the-shelf: an actuator that creates alarms and an actuator that clears alarms. These actuators can be extended with your custom implementation. 
 {{% /alert %}}
 
-## How this feature can be used in practise?
+## How can this feature be used in practice?
 Alarms allow you to track incident persistency over time. The Waylay Alarm Service gives you the status and the count of the alarms, but also provides interfaces that allow you to acknowledge alarms, change the severity level or simply close the alarm. Since the alarm service is REST exposed, it is possible to integrate the alarm information within your own application. 
 
-# Example of using the Alarms Service
+# Example of using the Alarm Service
 
-The best way to describe this feature is using one simple rule. We will create alarms as soon as a dice sensor turns odd states (`ONE`, `THREE`, `FIVE`), and clear all alarms of a given type (in this case type `DICE`), when `dice` gives back even states.
+The best way to describe this feature is by using one simple rule. We will create alarms as soon as a dice sensor turns odd states (`ONE`, `THREE`, `FIVE`), and clear all alarms of a given type (in this case type `DICE`), when `dice` gives back even states (`TWO`, `FOUR`, `SIX`).
 
 ![alarm](/features/alarms/alarms_rule.png)
 
 In case the alarm actuator is triggered and the alarm has previously been created but was not yet cleared, the count of the opened alarm will be increased by the Alarm Service. 
-After running the task for couple of minutes, this is what we can see:
+After running the task for a couple of minutes, this is what we can see:
 
 ![alarms](/features/alarms/alarms_table.png)
 
-if we look at one alarm that has count bigger than 1, we can see the following:
+if we look at one alarm that has the count higher than 1, we can see the following:
 
 ![alarms](/features/alarms/alarm_detail.png)
 
