@@ -6,46 +6,98 @@ tags:
 weight: 9
 ---
 
-Waylay Sigfox integration goes beyond simple visualization. When it comes to Sigfox support, waylay platform addresses all challenges of the enterprise grade integration:
+<style>
+	img { border: solid 5px #f2f2f3; }
+</style>
+
+Our Sigfox integration addresses all of the challenges of an enterprise grade integration:
 
 * [Payload transformation](features/transformers) 
-* [Webscripts](features/webscripts)
+* Powerful and secure [webscripts](features/webscripts)
 * Data storage and visualization 
-* REST endpoints to retrieve captured data as a time series data (with different aggregation periods, statistical computation etc.)
-* Automatic (meta model) associations of sigfox devices to resource groups and assosiated rules
+* Automatic associations with resource groups and rules
 * First time provisioning
-* Tenant based UI
+* A great User Interface
 
-# Connecting sigfox devices
-In order to connect sigfox device to waylay, you should make use of [webscripts](features/webscripts) and [transformers](features/transformers), as described in [LPWAN intergation document](features/lpwan/). Reason for two steps integration (webscripts and then transformers) is that we want to unify the way LPWAN devices are integrated, regardless whether they are managed by Sigfox, LoRa or NB-IoT. In all these cases, a device payload format that comes from different backends can be different, even though the object still encodes the same sensor data measurements in the data part of the payload (as the hex value). If the sensor data is encoded in the same way, it means that we can use the same transformer to decode the measurements.
+# Connecting Sigfox devices
+In order to connect your sigfox device to Waylay we are going to make use of [webscripts](features/webscripts) and [transformers](features/transformers), as described in [LPWAN integration document](features/lpwan/).
 
+{{% alert info %}}
+In order to set up the Sigfox integration we first have to create a new webscript where we will forward our data to. For a comprehensive tutorial, check our documentation on [Webscripts](https://docs.waylay.io/features/webscripts/).
+{{% /alert %}}
 
-# Data collection and rules processing
+## Sigfox backend
 
-Once the Sigfox devices are connected via webscripts and transformers, waylay will immediately start collecting data. In order to start using LPWAN devices in your rules, you can start by looking into one simple rule: [data threshold example](patterns/stream-data-threshold-crossing/)
+In the Sigfox backend we have to configure each device type we want to connect, this will forward the data of all the associated devices to our platform.
 
-![rule](rules/stream-data-threshold-crossing/stream_threshold_crossing.png)
+Navigate to the device type you want to configure and create a new custom callback.
 
-# Sigfox provisioning
-Provisioning involves the process of preparing and equipping a network and a device to allow it to provide (new) services to its users. 
+![Create a new callback](/features/sigfox/create_new_callback.png)
 
-For first time provisioning, we use a great feature of waylay - automatic task creation for new resources, based on the resource type. That simply means that __every time a new resource is discovered, which is associated with a particular resource type, all tasks for that resource are automaticaly created__. More about it you can find here: [Provisioning feature](/features/provisioning/)
+Choose **"Custom callback"** and continue.
 
-This is the example of the provisioning template:
+Now it's time to configure our callback, we're going to create a `DATA` `UPLINK` callback, but `BIDIR` (bidirectional) callbacks are also supported to allow you to send a new device configuration to your sigfox device.
 
-![template](/features/provisioning/template.png)
+![Configure your callback](/features/sigfox/configuration.png)
 
-# Visualisation
+The `Url pattern` is where we're going to input the URL of the webscript we have created [previously](/features/sigfox#connecting-sigfox-devices).
 
-To visualize your devices we recommend using our [Waylay Grafana application](features/grafana).
+{{% alert warn %}}
+You can choose whichever `HTTP Method` you like, but keep in mind that only the `POST` or `PUT` methods can send additional data to your webhook.
+{{% /alert %}}
 
-Here are the screenshots of our sample tracking application:
+The `Content-Type` field can be either `application/json` for JSON structured data, `application/x-www-form-urlencoded` for form data or `application/octet-stream` for binary data.
 
-![Map drill down](features/sigfox/tracking_1.png)
+To forward all of the data from your Sigfox devices we recommend the following Body to be sent with the `application/json` content type:
 
+```json
+{
+  "device": "{device}",
+  "data": "{data}",
+  "duplicate": "{duplicate}",
+  "snr": "{snr}",
+  "avgSnr": "{avgSnr}",
+  "rssi": "{rssi}",
+  "station": "{station}",
+  "latitude": "{lat}",
+  "longitude": "{lng}",
+  "timestamp": "{time}",
+  "seqNumber": "{seqNumber}"
+}
+```
 
-![Map drill down](features/sigfox/tracking_2.png)
+{{% alert warn %}}
+If you've created a [private webscript](/features/webscripts/#authentication-making-the-webscript-private), an additional header must be sent to authenticate your device.
+{{% /alert %}}
 
-![Map drill down](features/grafana/details.png)
+Click **ok** to complete the setup. 
 
+Data will be automatically forwarded to your webscript, but not yet stored!
 
+## Webscript
+
+We can choose to either send our payload to a separate transformer, or handle the transformation in our webscript.
+
+For more information on how transformers work, check our [documentation article](https://docs.waylay.io/features/transformers/).
+
+Assuming we handle the payload in our webscript, the following code example will simply store the JSON payload from our Sigfox device in our time series database:
+
+```javascript
+function handleRequest (req, res) {
+  const payload = req.body
+  
+  // send all of the data to our Waylay resource, using the Sigfox device ID
+  waylay.data.postMessage(payload.device, payload)
+    .then(response => {
+      res.send(response)
+    })
+    // the data broker can send an HTTP error, or a network error can occur!
+    .catch(({ response, message }) => {
+      if (response) {
+        res.status(response.status).send(response.data)
+      } else {
+        res.status(500).send(message)
+      }
+    })
+}
+```
