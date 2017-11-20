@@ -7,23 +7,52 @@ weight: 8
 ---
 
 # Introduction
-Once you have multiple users using the waylay platform it might be interesting to restrict what those users can do. Currently we have a basic roles implementation that restricts access to tasks / templates and plugins.
+If the tenant has multiple users, it might be interesting to restrict what those users can do. Currently we have a predifined roles which can be associated to a user. 
 
-This is still managed by waylay but will become available to the administrator of the project later on.
+
+{{% alert info %}}
+This feature is still managed by waylay but will become available to the administrator of the waylay tenant soon.
+{{% /alert %}}
+
+
+# Access rights/features
+With WaylayDashboard users are able to perform the following operations:
+
+* Manage billing and global settings
+* CRUD operations on actuators
+* CRUD operations on sensors
+* CRUD operations on templates
+* CRUD operations on tasks
+* CRUD operations on resource types
+* CRUD operations on payload transformers
+* Run debugger
+* Migrate tasks/templates ([see the link](features/migration))
+
+
+
+{{% alert info %}}
+CRUD - create, read, update, delete.
+{{% /alert %}}
+
+
 
 # Roles
 
-These are the currently available roles
+These are currently three predifined roles available in waylay:
 
-## Admin (default)
+* admin
+* operator
+* qa
 
-The `Admin` user has no restrictions, he can edit global settings and set up billing.
+## Admin
+
+The `Admin` user has no restrictions, and next to all availbale operations, he can also edit global settings and set up billing. 
 
 ## Operator
 
 The `Operator` user has the following permissions:
 
-  * Manage Plugins
+  * Manage Plugins (sensors and actuators)
   * View all templates
   * Manage all templates
   * View all tasks
