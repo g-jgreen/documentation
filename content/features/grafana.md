@@ -46,8 +46,9 @@ The Waylay dashboard comes with these preloaded plugins:
 * Graph (default Grafana graph plugin with all functionality) 
 * Singlestat (default Grafana singlestat plugin with all functionality)
 * Text grafana plugin  
+* Table (new with grafana 4.x)
 * GeoMap -> Waylay geo map plugin
-* Table -> Waylay table plugin
+* Table (depricated)-> Waylay table plugin
 * AlarmView -> Waylay AlarmView plugin
 
 ![plugins](features/grafana/plugins.png)
@@ -141,7 +142,25 @@ The key of the JSON object is either a metric (number), or a string, since the W
 The same settings in the detailed dashboard can look like this:
 ![alarms](features/grafana/alarm_resource_settings.png)
 
-# Table plugin
+# Table 
+With grafana 4.x waylay datasource is fully compatible with default table that comes with grafana. This is an example of the table view on few Sigfox devices:
+
+![alarms](features/grafana/table_4.x.png)
+
+
+In order to change the cell colour for one of the columns, like in the example above, we used default grafana table feature:
+![alarms](features/grafana/temp_style.png)
+
+{{% alert info %}}
+Link from one table cell (`id`) to the detailed grafana dashboard is done this way: `https://<URL>/dashboard/db/details?from=now-24h&to=now&orgId=1&var-resource=$__cell` on the table column `id` . `$__cell` will be automatically replaced by the correct resource id.
+{{% /alert %}}
+
+{{% alert info %}}
+If metrics are defined in the resource metadata (either by the type or individually), table columns will be pre-populated. In any case, a user can always change columns.
+{{% /alert %}}
+
+
+# Table plugin (depricated)
 Table plugin is a custom plugin developed by Waylay. It shows the following columns:
 
 * resource field
