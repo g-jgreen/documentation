@@ -47,6 +47,7 @@ The Waylay dashboard comes with these preloaded plugins:
 * Singlestat (default Grafana singlestat plugin with all functionality)
 * Text grafana plugin  
 * Table (new with grafana 4.x)
+* Heatmap (new with grafana 4.x)
 * GeoMap -> Waylay geo map plugin
 * Table (depricated)-> Waylay table plugin
 * AlarmView -> Waylay AlarmView plugin
@@ -160,7 +161,23 @@ If metrics are defined in the resource metadata (either by the type or individua
 {{% /alert %}}
 
 
-# Table plugin (depricated)
+# Heatmap 
+With grafana 4.x waylay datasource is fully compatible with default heatmap that comes with grafana. This is an example of the heatmap view on the temperature measurements for one device:
+
+![alarms](features/grafana/heatmap.png)
+
+
+# Geofence template
+
+Here is an example of the geofence template which updates events (later used for the alarm view table) and annotates resource metadata, later used for the resource filtering by table view and to show the last known position on the GeoMap overview.[Repo can be found here](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer)
+
+
+![template](features/grafana/geoFence_template.png)
+
+
+# DEPRICATED FEATURES
+
+# Table plugin (**depricated from 3.x**)
 Table plugin is a custom plugin developed by Waylay. It shows the following columns:
 
 * resource field
@@ -177,12 +194,7 @@ In the `Metrics` settings, we define the filter for the resources that we want t
 
 ![table_metrics](features/grafana/table_metrics.png)
 
-# Geofence template
 
-Here is an example of the geofence template which updates events (later used for the alarm view table) and annotates resource metadata, later used for the resource filtering by table view and to show the last known position on the GeoMap overview.[Repo can be found here](https://raw.githubusercontent.com/waylayio/Templates/master/geoFencePerCustomer)
-
-
-![template](features/grafana/geoFence_template.png)
 
 
 
