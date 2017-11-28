@@ -100,13 +100,38 @@ More about sensors and actuators you can find on this [link](api/sensors-and-act
 {{% /alert %}}
 
 
-## CPT table as a gate
-In waylay, we have come up with simple abstractions for CPT, which we call gates and we define three types of CPT: AND, OR and GENERAL.
 
-First two gates (AND, OR) **somewhat resemble Boolean Logic**, even though there are quite some differences to what people might expect:
+# Building logical statements using CPT table
+Let's consider these two sentences:
+
+* I am very happy person when I eat chocolate **AND** I am also very happy when I watch football. 
+* I am very happy when I eat chocolate **OR** watch football. 
+
+From this simple example, we see how often we use AND in the sentence to express OR relation. 
+
+In waylay, we have come up with simple abstractions for CPT, which we call gates and we define three types of CPT tables, which we call gates: `AND`, `OR` and `GENERAL`.
+
+First two gates (`AND`, `OR`) **somewhat resemble Boolean Logic**, even though there are quite some differences to what people might expect:
 
 * First difference is that **all gates can be attached to a “non binary”** sensor (sensor having more than two states), 
-* and second major difference is that **you should not assume that both sensors need to be observed in order to have the gate state with posterior probability 1** (in case of AND gate that would be FALSE state, while for OR gate that would be TRUE state, see later). That second difference is very important if we attach an actuator or sensor to the gate, as they both expect gate to be completely observed (1) before actuation or triggering another sensor which is attached to that gate.
+* Second major difference is that **you should not assume that both sensors need to be observed in order to have the gate state with posterior probability 1** (in case of AND gate that would be FALSE state, while for OR gate that would be TRUE state, see later). That second difference is very important if we attach an actuator or sensor to the gate, as they both expect gate to be completely observed (1) before actuation or triggering another sensor which is attached to that gate.
+
+{{% alert info %}}
+In case of doubt, our suggestion is to start always with `GENERAL` gate, in case you need `either` relation, meaning 'either this state of nodeX or that state of nodeY'
+{{% /alert %}}
+
+
+## GENERAL gate 
+Let's assume we roll a dice and want to have a `TRUE` state of the `Gate_1` when **either** `dice_1` is in state `ONE` OR `dice_2` is in state `THREE`. General gate settings will look like this:
+
+![general](usage/programming_guide/general_CPT1.png)
+
+At runtime, you should accept to see this:
+
+![general](usage/programming_guide/multiple_GENERAL_OR.png)
+
+
+
 
 ## AND gate 
 Example of AND gate for two nodes with only two states, where we model the only condition that leads to TRUE state.
@@ -157,6 +182,7 @@ Difference between SaaS view and expert view for one template: when we model a t
 In this picture, you see already some of the sensors being observed, with posteriors changing for each node as this happens:
 
 ![gates](usage/programming_guide/expert_mode.png)
+
 
 # Task control
  Let’s take closer look into one task:
