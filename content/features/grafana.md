@@ -49,8 +49,8 @@ The Waylay dashboard comes with these preloaded plugins:
 * Table (new with grafana 4.x)
 * Heatmap (new with grafana 4.x)
 * GeoMap -> Waylay geo map plugin
-* Table (depricated)-> Waylay table plugin
 * AlarmView -> Waylay AlarmView plugin
+* Table (depricated)-> Waylay table plugin
 
 ![plugins](features/grafana/plugins.png)
 
@@ -166,6 +166,15 @@ With grafana 4.x waylay datasource is fully compatible with default heatmap that
 
 ![alarms](features/grafana/heatmap.png)
 
+# Graph and ALIAS BY
+With support for grafana 4.x we have also enriched our datasource to support `ALIAS BY` feature. In the example below, we have replaced in the legend, resource id's by name (friendly name) from metadata for these resources:
+
+![alarms](features/grafana/alias.png)
+
+
+{{% alert info %}}
+For ALIAS BY, you can use any other meta attribute for that resource, and make contructions such as: `$name: $provider - temperature`
+{{% /alert %}}
 
 # Geofence template
 
