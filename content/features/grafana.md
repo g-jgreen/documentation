@@ -148,13 +148,21 @@ With grafana 4.x waylay datasource is fully compatible with default table that c
 
 ![alarms](features/grafana/table_4.x.png)
 
-
-In order to change the cell colour for one of the columns, like in the example above, we used default grafana table feature:
-![alarms](features/grafana/temp_style.png)
+In the example above, you can see how for one particular column, you can add external links, like for instance another detailed dashboard. By making use of `$__cell` you can inside the link get a reference to the value of the cell. In the same example, we replaced the column header (from `id` to `Resource`).
 
 {{% alert info %}}
 Link from one table cell (`id`) to the detailed grafana dashboard is done this way: `https://<URL>/dashboard/db/details?from=now-24h&to=now&orgId=1&var-resource=$__cell` on the table column `id` . `$__cell` will be automatically replaced by the correct resource id.
 {{% /alert %}}
+
+{{% alert error %}}
+In case you are migrating tables from 3.x to 4.x and you had links to detailed dashboards, you must now follow this procedure to link different dashboards. 
+{{% /alert %}}
+
+
+
+In order to change the cell colour for one of the columns, like in the example above, we used default grafana table feature:
+![alarms](features/grafana/temp_style.png)
+
 
 {{% alert info %}}
 If metrics are defined in the resource metadata (either by the type or individually), table columns will be pre-populated. In any case, a user can always change columns.
