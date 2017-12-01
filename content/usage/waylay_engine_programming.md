@@ -126,7 +126,7 @@ Let's assume we roll a dice and want to have a `TRUE` state of the `Gate_1` when
 
 ![general](usage/programming_guide/general_CPT1.png)
 
-At runtime, you should accept to see this:
+At runtime, you should see something like this:
 
 ![general](usage/programming_guide/multiple_GENERAL_OR.png)
 
