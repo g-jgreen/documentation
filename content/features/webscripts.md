@@ -152,7 +152,7 @@ function handleRequest (req, res) {
     }
   }
   
-  waylay.resources.update('testresource', { hello: 'world' })
+  waylay.resources.update('testresource', { customer: 'abc', resourceTypeId: 'abc-123-def-456' })
     .then(() => {
       return waylay.transformers.execute('testtransformer', 'latest', data)
     })
@@ -164,3 +164,7 @@ function handleRequest (req, res) {
     })  
 }
 ```
+
+{{% alert info %}}
+In the example, we have assigned a resource to a particular resource type group and also at the same time assigned it to a customer `abc`.
+{{% /alert %}}
