@@ -109,7 +109,11 @@ Let's consider these two sentences:
 
 From this simple example, we see how often we use AND in the sentence to express OR relation. 
 
-In waylay, we have come up with simple abstractions for CPT, which we call gates and we define three types of CPT tables, which we call gates: `AND`, `OR` and `GENERAL`.
+In waylay, we have come up with a simple abstractions for CPT, which we call gates and we define three types of CPT tables: 
+
+* `AND`, 
+* `OR`, 
+* `GENERAL`
 
 First two gates (`AND`, `OR`) **somewhat resemble Boolean Logic**, even though there are quite some differences to what people might expect:
 
@@ -148,7 +152,7 @@ If we look at the CPT table, we can see that **as soon as** one of the nodes is 
 The same gate can be applied to more than 2 nodes, and more than 2 states per node. 
 {{% /alert %}}
 
-## (X)OR gate
+## (N)OR gate
 Example of OR gate for the same nodes, where we model only the condition that leads to FALSE state.
 
 ![or](usage/programming_guide/OR.png)
@@ -158,6 +162,7 @@ and corresponding CPT table:
 
 
 This table tells that only if both nodes return state TRUE the gate will be in the state TRUE.  Again, we can apply the same gate for multiple nodes and with more than 2 states, but CPT table looks always the same, with only one combination leading to FALSE state.
+Reason that some people consider this as a NOR gate is because in boolean logic, NOR is a gate that for two binary inputs produces TRUE state only when both inputs are FALSE. In our case, we can model any state combinations which lead to a single FALSE state of the gate, so in that sense, we are trying not to confuse users even more.
 
 Here is the example with two sensors, with two states (TRUE, FALSE) attached to AND and OR gate, randomly changing their states over time. 0.5 means that sensor is not yet observed (initial condition), while 1.0 means that sensors are in one of two possible states. On the other hand, AND and OR gate values represent posterior probabilities, that are changing from 0.5, to .75 and 1.0, depending on the CPT table. For instance, in the initial condition, where both sensor states are with priors 0.5 for both TRUE and FALSE state, AND gate will be 0.75 likely in state FALSE, while OR gate with posterior probability of 0.75 in TRUE state.
 
