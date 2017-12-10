@@ -48,7 +48,7 @@ Let's imagine that the Zendesk API version had changed after this task was creat
 
 `var url = "https://"+domain+".zendesk.com/api/v1/tickets.json";`. 
 
-Assume now that the new API version is 2. Now we need to change the Zendesk actuator plug (the new plug version becomes `0.0.2`:
+Assume now that the new API version is 2. Now we need to change the Zendesk actuator plug (the new plug version becomes `0.0.2`):
 
 ![Zendesk v2](/features/migration/zendesk2.png)
 {{% alert info %}}
@@ -77,7 +77,7 @@ Once we have saved the updated template, a new icon will show in the command vie
 
 ![task migration](/features/migration/migrate_templates2.png)
 
-That brings us back to the migration page. With one click of a button, we can now update, all tasks based on this template to the latest version. Easy!
+That brings us back to the migration page. With one click of a button, we can now update all tasks based on this template to the latest version. Easy!
 
 ![task migration](/features/migration/migration_final.png)
 
