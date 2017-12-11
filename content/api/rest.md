@@ -1127,6 +1127,7 @@ Symbol|Type|Meaning
 --- | --- |--- |
 `resourceTypeId`|optional[String]||
 `name`|optional[String]|name of the resource, like testresource
+`owner`|optional[String]|owner of the resource
 `provider`|optional[String]|LoRA, Sigfox..
 `providerId`|optional[String]|provder_123
 `tenant`|optional[String]|customer tenant name
