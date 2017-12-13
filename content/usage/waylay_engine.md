@@ -8,19 +8,43 @@ weight: 2
 
 Much of the power of IoT stems from the fact it allows us to take more accurate decisions in real-time. This enables use cases for notification, automation and predictive maintenance, provided one has the tools to react in real-time on real-time data. An advanced rules engine can fulfill that role by ingesting real-time data, reasoning on those data and invoking automated actions based on the result of that reasoning process.
 
+## Curse of dimensionality in decision trees - branching problem
+
 Now, before we get more specific about waylay’s technology, let’s have a look at the existing solutions. Assume a simple example: you are asked to create a rule from 2 input data sources (e.g. temperature and humidity). Each data source measurement is sampled in one of three states (e.g. low, medium and high). The final decision of the reasoning process is a TRUE/FALSE statement, that depends on these 2 inputs.
 
 Let’s assume we want to model this example using decision trees or flows.
 
 ![tree](/usage/engine/tree.png)
 
-As the figure above shows, this leads to 18 leaf nodes (red/green dots) and overall 31 nodes for only two variables! **The depth of the tree grows linearly with the number of variables** , but **the number of branches grows exponentially with the number of states**. Decision trees are useful when the number of states per variable is limited (e.g. binary YES/NO) but can become quite overwhelming when the number of states increases. Anyone who tried this approach before knows you can end up with something of this sort:
+As the figure above shows, this leads to 18 leaf nodes (red/green dots) and overall 31 nodes for only two variables! **The depth of the tree grows linearly with the number of variables** , but **the number of branches grows exponentially with the number of states**. Decision trees are useful when the number of states per variable is limited (e.g. binary YES/NO) but can become quite overwhelming when the number of states increases. 
+
+{{% alert info %}}
+When we talk about the curse of dimensionality, we often refer to difficulty that arises when analyzing and organizing data in high-dimensional spaces.
+The similar problem is related to decision trees, which has a lot of similarities to data analytics in high-dimensional spaces.
+How many distinct decision trees we have with n Boolean attributes?
+
+A = number of Boolean functions = number of distinct truth tables with 2^n rows = 2^2^n
+
+**E.g., with 6 Boolean attributes 18,446,744,073,709,551,616 !!!**
+{{% /alert %}}
+
+Anyone who tried this approach before knows you can end up with something of this sort:
 
 ![tree](/usage/engine/tree.gif)
 
 Debugging becomes a real challenge and updating the logic over time a daunting task. Things get even more complicated when the state of the variables depends on a threshold or depends on more complex computations. Communicating the rationale of the logic to others (whether in the department, project partners or customers) requires you to label every edge, expressing that specific “sub-rule” in the graph. Others would then need to trace the tree path top/down to figure out the logic that is expressed this way.
 
+## Majority voting in decision trees?
+
+One thing that often gets swept under the carpet is that decision trees have a problem of expressing majority "voting", where for instance 2 out of 4 conditions needed to be TRUE in order to pass a particular criteria, like in the example for [SIRS criteria](https://www.mdcalc.com/sirs-sepsis-septic-shock-criteria).
+
+{{% alert info %}}
+One thing that often gets swept under the carpet is that decision trees have a problem of expressing majority "voting".
+{{% /alert %}}
+
 **Flow diagrams or pipes** are an alternative technology that has been used to build rules for IoT applications. On top of the complexity inherited from decision trees, tools such as **node red introduce “injector nodes”** (responsible for injecting data into the engine – mostly protocol related) and **“split” nodes** – (where the output of one node is needed as the input to other nodes). With flows you have two additional problems to deal with: parsing of the message payload which somehow becomes part of the “template”, and more importantly, it constrains the logic designer to think in linear way, from left to right, following the “message flow”. Interesting problem arises when 2 inputs come at different times. How long do you wait for the next one to arrive before deciding to move on in decisions? How long the data point/measurement is valid?
+
+
 
 **Complex Event Processing (CEP)** engines and the **Apache Spark** platform are also popular in the IoT world. CEP allows for easy matching of time-series data patterns coming from different sources. CEP suffers from the same modelling issues as trees and other pipeline processing engines. However, it frees developers from dealing with context locking, a common issue in use cases where logic combines inputs from different sources. Apache Spark is another alternative. It not only processes streams of data at scale, but also allows “querying” that data at scale using SQL-like syntax. This ability makes Apache Spark a viable alternative to CEP platforms, since Apache Spark allows you to create simple rules that can run within stream “windows” of time and make decisions with the ease of SQL queries. In our view, Apache Spark is a data aggregation/event processing and data analytics (batch and stream) platform – and not the rules engine per se.
 
@@ -37,8 +61,9 @@ Therefore, in our opinion, current rules engines have some serious drawbacks in 
 * Current rules engines **don’t cope well with dynamic changes of the environment**.
 * All of them **have difficulties combining data from physical devices/sensor (mostly PUSH mode) and data from the API world (mostly PULL mode)**.
 * **The logic representation is not compact**, making debugging and maintenance more complex.
+* **Majority voting** hard if not impossible to implement out of the box
 * These rules engines **don’t provide us with easy ways to gain additional insights: why a rule has fired and under which conditions**?
-* **They can’t model uncertainties**, e.g. what to do when sensor data is noisy or is missing due to a battery or network outage.
+* **They can’t model uncertainties**, e.g. what to do when sensor data is noisy or simply missing due to a battery or network outage, or a particular API not responding?
 
 
 # The waylay platform
@@ -56,7 +81,7 @@ This way of **inference modelling also allows both push(over REST/MQTT/websocket
 
 ![image](/usage/engine/rain_drops.gif)
 
-Another important aspect of the waylay engine is that allows **compact representation of logic**. Combining two objects/variables, as in the example above about decision trees, is simplified by adding one aggregation node. The relation between variables and their states as described above can be expressed via **boolean representation**. That results in a graph with 3 nodes only (compared to 31 nodes in the case of a decision tree, as described above). More about this in some future blog posts.
+Another important aspect of the waylay engine is that allows **compact representation of logic**. Combining two objects/variables, as in the example above about decision trees, is simplified by adding one aggregation node. The relation between variables and their states as described above can be expressed via **boolean representation**. That results in a graph with 3 nodes only (compared to 31 nodes in the case of a decision tree, as described above). On top of that, **majority "voting" problem gets solved for free**. More about this in some future blog posts. 
 
 In more advanced use cases, **waylay also enables probabilistic reasoning**. In that case, you assign actuators to fire when a node is in a given state with a given probability. Moreover, we can as well associate different actuators to different possible likelihood outcomes for any node in the graph.
 
