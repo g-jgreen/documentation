@@ -1,6 +1,6 @@
 0.0.0.0
 gzip
-log stdout
+log /dev/null
 
 errors stderr {
   404 /404.html

@@ -1235,11 +1235,18 @@ In order to delete a resource, you need to put your resource Id in the path
 ## Retrieve resource
 
 ```bash
-curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resources/mydevice_id"
+curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resources/[resourceId]"
 ```
 
 In order to get a resource, you need to put your resource Id in the path
 
+## Retrieve resource denormalized
+
+```bash
+curl -i --user apiKey:apiSecret "https://sandbox.waylay.io/api/resources/[resourceId]?denormalized=true"
+```
+
+This will give you a denormalized view of a resource where properties that are inherited from the resourceType are merged with the resource. (like the query outputs)
 
 ## Query resources
 > Paging is handled by `skip` and `limit` parameters
