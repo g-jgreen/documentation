@@ -50,6 +50,8 @@ Every script is executed in the sandbox environment with a number of packages pr
 * concat-stream as concat (from sandbox 0.8.10),
 * azure-storage as azure (from sandbox 0.8.17),
 * crypto as crypto (from sandbox 0.8.18),
+* xml2js as xml2js
+* xlsx as xlsx
 * waylay util package as waylayUtil
 
 In case you need more libraries, let us now at support@waylay.io.
