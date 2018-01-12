@@ -164,6 +164,7 @@ wss://data.waylay.io/resources/:resourceId/events/publish (publishing events)
 ```
 
 The [test application](https://data.waylay.io/test) lets you play with websocket support.
+Remark that the `subscribe` connections are kept alive by empty `{}` json messages if no traffic has passed in 1 minute.
 
 When submitting invalid data you will get a response back with an error message.
 
@@ -262,6 +263,7 @@ In default pricing, we offer up to 100 latest points. This can as well be much h
 ## Streaming all messages using NDJSON
 
 This is a firehose stream of all messages that are sent to the broker. If you can not keep up with reading the stream messages will be dropped!
+The connection is kept alive by sending empty `{}` json messages if no traffic has passed in 1 minute.
 
 ```bash
 curl -i --user apiKey:apiSecret https://data.waylay.io/messages
@@ -275,7 +277,8 @@ curl -i --user apiKey:apiSecret https://data.waylay.io/messages
 wss://data.waylay.io/resources/testresource/socket?apiKey=...&apiSecret=...
 ```
 
-You can stream data for a specific resource by setting up a WebSocket to the following url
+You can stream data for a specific resource by setting up a WebSocket to the following url.
+Remark that the connection is kept alive by empty `{}` json messages if no traffic has passed in 1 minute.
 
 # Deleting data
 
