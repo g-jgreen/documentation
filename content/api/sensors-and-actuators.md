@@ -28,6 +28,7 @@ Every script is executed in the sandbox environment with a number of packages pr
 * Q as Q,
 * cheerio as cheerio,
 * request as request,
+* request-promise-native as requestP (from sandbox 0.12.1),
 * XMLHttpRequest as xhr,
 * google cloud messaging as gcm,
 * underscore as \_\_,  (a double underscore)
