@@ -1287,6 +1287,8 @@ Symbol|Type|Example
 `providerId`|optional[String]|123
 `tenant`|optional[String]|customer1
 `metrics`|optional[List[ResourceMetric]]| list of metrics, see below
+`templates`|optional[List[templates]]| [Automatically create tasks by associating a template with a resource type](#automatically-create-tasks-by-associating-a-template-with-a-resource-type)
+
 
 ## Delete resource type
 
