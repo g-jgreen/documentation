@@ -1,15 +1,15 @@
 ---
-title: How to synchronized different data streams
+title: How to synchronize different data streams
 description: Learn how to combine events from parallel streams
 weight: 7
 ---
 
-This is one of the most existing feature of Waylay!
+This is one of the most exciting features of Waylay!
 
-With flow engines, designers are constrain to follow the “message flow”, from "left to right". Interesting problem arises when 2 inputs come at different times. How long do you wait for the next one to arrive before deciding to move on in decisions? How long the data point/measurement is valid?
+With flow engines, designers are constrained to follow the “message flow”, from "left to right". Interesting problem arises when 2 inputs come at different times. How long do you wait for the next one to arrive before deciding to move on in decisions? How long is the data point/measurement valid?
 Wouldn't be great if we can just annotate how long any particular information is valid?
 
-In waylay, we can simply use eviction policy to define how long we trust the sensor output. Let's see how this works in practices:
+In waylay, we can simply use eviction policy to define how long we trust the sensor output. Let's see how this works in practice:
 
 ![image](/rules/mix_streams/mix_streams.png)
 
@@ -24,7 +24,7 @@ We will start a task using this template (e.g. saved as "mix_streams") in the re
   }' https://sandbox.waylay.io/api/tasks
  ```
 
-Let's first pushed data via [broker](/api/broker-and-storage/) for resource `test1`:
+Let's first push data via [broker](/api/broker-and-storage/) for resource `test1`:
 
 ```
 curl --user apiKey:apiSecret
