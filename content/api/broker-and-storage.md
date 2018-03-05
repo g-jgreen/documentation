@@ -281,7 +281,6 @@ You can stream data for a specific resource by setting up a WebSocket to the fol
 Remark that the connection is kept alive by empty `{}` json messages if no traffic has passed in 1 minute.
 
 # Deleting data
-
 ## Messages
 
 > Removing all messages
@@ -292,3 +291,22 @@ curl -i --user apiKey:apiSecret -X DELETE \
 ```
 
 You can remove all latest messages for a resource. This will not delete timeseries data for the properties of those messages.
+
+## All data for a resource
+> Removing all data
+
+```bash
+curl -i --user apiKey:apiSecret -X DELETE \
+     https://data.waylay.io/resources/testresource
+```
+
+> Removing all data before some date
+
+```bash
+curl -i --user apiKey:apiSecret -X DELETE \
+     https://data.waylay.io/resources/testresource?until=1501538400000
+```
+
+You can delete all data (both messages and timeseries data) for a resource.
+
+Specifying the query parameter `until` will only delete the data until (and including) the provided timestamp (milliseconds since epoch)
