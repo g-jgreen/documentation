@@ -27,7 +27,7 @@ pipeline:
       # authenticate to Kubernetes with the "drone" Service Account
       - printenv KUBE_SERVICE_ACCOUNT > credentials.json
       - gcloud auth activate-service-account --key-file=credentials.json
-      - "gcloud container clusters get-credentials staging \
+      - "gcloud container clusters get-credentials production \
         --zone europe-west1-d \
         --project quiet-mechanic-140114"
       # since we can't force a rolling update when the .spec.template hasn't changed
