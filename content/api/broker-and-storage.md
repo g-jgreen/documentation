@@ -309,4 +309,13 @@ curl -i --user apiKey:apiSecret -X DELETE \
 
 You can delete all data (both messages and timeseries data) for a resource.
 
-Specifying the query parameter `until` will only delete the data until (and including) the provided timestamp (milliseconds since epoch)
+Specifying the query parameter `until` will only delete the data until (and including) the provided timestamp (milliseconds since epoch).
+The parameter also allows to specify a relative period in the format `#[w,d,h,m,s,ms]`. This period will be substracted from
+the current time to become the until timestamp
+
+> Remove all data older then 7 days
+
+```bash
+curl -i --user apiKey:apiSecret -X DELETE \
+     https://data.waylay.io/resources/testresource?until=7d
+```
