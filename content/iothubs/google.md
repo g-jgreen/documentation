@@ -214,13 +214,46 @@ https://github.com/googleapis/nodejs-pubsub/blob/master/samples/subscriptions.js
 
 ## Testing a standard template
 
-Prerequisites:
+Webscript:
+
+Import dependency: @google-cloud/pubsub / version:	0.16.4	
+```javascript
+function handleRequest (req, res) {
+  const { projectId, topicname, json } = req.body
+
+  const PubSub = require('@google-cloud/pubsub')
+
+  const pubsubClient = new PubSub({
+    projectId: projectId
+  })
+
+  function publishMessage () {
+    const jsonData = JSON.stringify(json)
+    const dataBuffer = Buffer.from(jsonData, 'utf8')
+
+    pubsubClient
+      .topic(topicname)
+      .publisher()
+      .publish(dataBuffer)
+      .then(results => {
+        const messageId = results[0]
+        console.log(`Message ${messageId} published.`)
+        res.send('Message published')
+      })
+      .catch(err => {
+        console.error('ERROR:', err)
+      })
+  }
+  
+  publishMessage()
+}
+```
 
 * Device with unique Id
 * Active Topic linked to a device
 * Active State Topic linked to a device (with permission configured that Waylay can push into this topic)
-* Active Subscription which pushes into a webscript endpoint
-* Webscript with the code provided in the Webscript section
+* Active Subscription which pushes into a Webscript endpoint (see section Webscript)
+* Webscript with the code provided above
 * Acces to the Waylay platform
 
 Things to provide in this template:
