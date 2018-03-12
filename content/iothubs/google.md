@@ -100,17 +100,39 @@ In the Google Cloud Menu go to ‘Pub/Sub’ and choose ‘Topics’, you will n
 Enter a unique name identifier and choose the delivery type.
 
 {{% alert info %}}
-For sending data to waylay select ‘Push into an endpoint url’ -> This will be the url of the Webscript that will manipulate the data to push it to the Waylay Broker.
-{{% /alert %}}
-
-
-For testing purposes on the Staging platform on waylay you can use this endpoint URL:
-
-https://webscripts-staging.waylay.io/api/v1/6ccc8843-d78d-49e8-84c4-3734a4af9929/testMQTT
-
-{{% alert info %}}
+For sending data to waylay select ‘Push into an endpoint url’ -> This will be the url of the Webscript that will manipulate the data to push it to the Waylay Broker (**see next section**).
 For pushing data from a Subscription to the Waylay Webscript you should contact us for verifying the domain name for you. Contact us at support@waylay.io
 {{% /alert %}}
+
+## Webscript
+
+Create a webscript on your own domain. Use following code to manipulate the data that comes from your Topic.
+
+```javascript
+waylay.data.baseUrl = 'https://data.waylay.io'
+
+function handleRequest (req, res) {
+  const { body } = req
+  const { attributes, data } = body.message
+  
+  try {
+    const payload = new Buffer(data, 'base64').toString('utf8')  
+    const { deviceId } = attributes
+    
+    const parsedPayload = JSON.parse(payload)
+    
+    // This creates a Resource inside the waylay platform with name = deviceId
+    waylay.data.postSeries(deviceId, parsedPayload)
+      .then(() => {
+        res.sendStatus(204)
+      })
+      .catch(err => res.status(500).send(err))
+  } catch (err) {
+    console.error(err)
+    res.status(400).send(err)
+  }
+}
+```
 
 ## Client code for pushing data to Google Pub/Sub in Node.JS
 
@@ -144,14 +166,13 @@ Quick overview on how we implement Rules in Waylay:
 
 ![overview](/features/iothubs/overview.png)
 
-The resource node (SENSOR) fetches data from a particular resource. (Your resource’s data is being pushed on whatever frequency you push data from your device to the Google Pub/Sub Topic).
+The resource node (SENSOR) streams data from a particular resource. (Your resource’s data is being pushed on whatever frequency you push data from your device to the Google Pub/Sub Topic).
 The Sensor has in this examples 2 boundaries; Above and Below, when its Above or Below a specific value it activates or deactivates a light. This actuation is just a simple Message that is pushed to a Topic that your device can listen to in order to take action depending on the message.  
 
-To make a Template yourself go to:
-https://staging.waylay.io/#/designer
+To make a Template yourself go to the end of the page and see section **testing standard template**
 
 For further information on how the Designer, Sensors and Actuators work go to:
-https://docs.waylay.io/
+https://docs.waylay.io/api/sensors-and-actuators/
 
 ## Allowing Waylay to publish to your Topics
 
@@ -178,15 +199,91 @@ https://cloud.google.com/pubsub/docs/access-control
 
 ## Actuating back to your state Pub/Sub Topic
 
-In the Waylay designer search for: ```GoogleWebscriptActuator```
+In the Waylay designer search for: ```GoogleIoTCoreWebscriptActuator```
 
 Parameters to provide in the actuator:
 
 * Waylay webscript URL: https://webscripts-staging.waylay.io/api/v1/6ccc8843-d78d-49e8-84c4-3734a4af9929/publishToGoogleTest
 * Google Project Id
 * Google Pub/Sub Topicname
-* JSON to publish ex.: ```{“lightValue”: “500”}```
+* JSON to publish ex.: ```{"lightValue”: "500”}```
 
 Subscribing to your state Pub/Sub Topic on your physical device
 Examples can be found here:
 https://github.com/googleapis/nodejs-pubsub/blob/master/samples/subscriptions.js
+
+## Testing a standard template
+
+Prerequisites:
+
+* Device with unique Id
+* Active Topic linked to a device
+* Active State Topic linked to a device (with permission configured that Waylay can push into this topic)
+* Active Subscription which pushes into a webscript endpoint
+* Webscript with the code provided in the Webscript section
+* Acces to the Waylay platform
+
+Things to provide in this template:
+
+* replace ${yourResource} with your deviceId
+* replace ${yourProjectId} with your Google Cloud Platform ID
+* replace ${yourTopicname} with the Topic's name to push state data to (this is configured for each registry (See Device section))
+
+```json
+curl --user ${userApiKey}:/${userApiSecret} -H "Content-Type:application/json" -X POST -d '{
+"name" : "googleIoTExample",
+ "sensors": [
+   {
+     "label": "streamDataSensor_1",
+     "name": "streamingDataSensor",
+     "version": "1.1.0",
+     "resource" : "${yourResource}",
+     "position": [150, 150]
+   }
+ ],
+ "actuators": [
+   {
+     "label": "lightOff",
+     "name": "GoogleIoTCoreWebscriptActuator",
+     "version": "0.0.2",
+     "properties": {
+       "url": "${webscripturl}",
+       "json": "{ \"lightStatus\": \"off\" }",
+       "projectId": "${yourprojectid}",
+       "topicname": "${yourtopicname}"
+     },
+     "position": [512,365]
+   },
+   {
+     "label": "lightOn",
+     "name": "GoogleIoTCoreWebscriptActuator",
+     "version": "0.0.2",
+     "properties": {
+       "url": "${webscripturl}",
+       "json": "{ \"lightStatus\": \"on\" }",
+       "projectId": "${yourprojectid}",
+       "topicname": "${yourtopicname}"
+     },
+     "position": [512,172]
+   }
+ ],
+ "triggers": [
+   {
+     "destinationLabel": "lightOn",
+     "sourceLabel": "streamDataSensor_1",
+     "statesTrigger": ["Above"]
+   },
+   {
+     "destinationLabel": "lightOff",
+     "sourceLabel": "streamDataSensor_1",
+     "statesTrigger": ["Below"]
+   }
+ ],
+ "task": {
+   "type": "reactive",
+   "start": true,
+   "name": "Rule 1",
+   "resource": "testresource"
+ }
+}' "https://staging.waylay.io/api/templates"
+```
