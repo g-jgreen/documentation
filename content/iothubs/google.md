@@ -73,7 +73,7 @@ Save the private key locally for later use (Device Authentication Flow)
 
 For more information on device security: 
 
-https://cloud.google.com/iot/docs/concepts/device-security?hl=en_US&_ga=2.157914809.-245746767.1518525898&_gac=1.254003772.1519056691.EAIaIQobChMIuOLgjq-y2QIVLrXtCh0gpQYKEAAYASAAEgLsiPD_BwE
+[https://cloud.google.com/iot/docs/concepts/device-security](https://cloud.google.com/iot/docs/concepts/device-security)
 
 {{% alert info %}}
 Note: If your physical device has a low computational power you should use the lower weight Elliptic curve algorithms.
