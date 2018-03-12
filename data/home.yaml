@@ -33,4 +33,9 @@ cards:
     icon: public
     description: Solution Packages
     url: /packages
+  
+  - title: IoT Hubs
+    icon: device_hub
+    description: Connecting existing architecture
+    url: /iothubs
 

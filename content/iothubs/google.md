@@ -1,6 +1,6 @@
 ---
 title: Google IoT Core
-description: Connection IoT Core with Waylay
+description: Connecting IoT Core with Waylay
 weight: 8
 ---
 
