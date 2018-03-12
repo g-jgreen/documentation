@@ -261,6 +261,7 @@ Things to provide in this template:
 * replace ${yourResource} with your deviceId
 * replace ${yourProjectId} with your Google Cloud Platform ID
 * replace ${yourTopicname} with the Topic's name to push state data to (this is configured for each registry (See Device section))
+* replace ${userApiKey} and ${userApiSecret} with your credentials (can be found on Waylay platform under profile)
 
 ```json
 curl --user ${userApiKey}:/${userApiSecret} -H "Content-Type:application/json" -X POST -d '{
