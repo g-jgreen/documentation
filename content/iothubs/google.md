@@ -108,6 +108,10 @@ For pushing data from a Subscription to the Waylay Webscript you should contact 
 
 Create a webscript on your own domain. Use following code to manipulate the data that comes from your Topic.
 
+Each message from the Topic gets pushed in to the Webscript using a Subscription. The request body looks like this.
+
+![request](/features/iothubs/request.png)
+
 ```javascript
 waylay.data.baseUrl = 'https://data.waylay.io'
 
@@ -116,7 +120,9 @@ function handleRequest (req, res) {
   const { attributes, data } = body.message
   
   try {
-    const payload = new Buffer(data, 'base64').toString('utf8')  
+    const payload = new Buffer(data, 'base64').toString('utf8')
+
+    //deviceId is extracted from the body.message.attributes 
     const { deviceId } = attributes
     
     const parsedPayload = JSON.parse(payload)
