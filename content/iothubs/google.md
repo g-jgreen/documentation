@@ -203,7 +203,7 @@ In the Waylay designer search for: ```GoogleIoTCoreWebscriptActuator```
 
 Parameters to provide in the actuator:
 
-* Waylay webscript URL: https://webscripts-staging.waylay.io/api/v1/6ccc8843-d78d-49e8-84c4-3734a4af9929/publishToGoogleTest
+* Waylay webscript URL: Webscript URL of the Webscript with the code below
 * Google Project Id
 * Google Pub/Sub Topicname
 * JSON to publish ex.: ```{"lightValue”: "500”}```
