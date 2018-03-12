@@ -91,7 +91,60 @@ Topics are used for sending data to, on this data you can subscribe afterwards. 
 * Push (Pushes data from topic subscription into an endpoint, example: Waylay)
 * Pull
 
-In the case of connecting Google Cloud IoT Core to the Waylay Broker we will make a new Subscription on our default Telemetry Topic provided in our Device Registry.
+## Client code for pushing data to Google Pub/Sub in Node.JS
+
+2 options:
+
+* MQTT
+* Google Pub/Sub Client 
+
+**MQTT implementation**
+
+Example implementation of the MQTT client by Google can be found on:
+https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
+
+**Google Pub/Sub Client implementation**
+
+Their implementation of the client can be found on:
+https://github.com/googleapis/nodejs-pubsub
+
+In a practical example you can pull data from an IoT connected device and publish it to a topic on Google Cloud Pub/Sub. The device ID you specify in the client code resembles to device ID you setup with your device. This will be translated to a resource in the waylay engine.
+
+## Example Client code in detail
+
+In this example we will push data from a RaspberryPi3 with a GrovePi configured Light Sensor to our **default telemetry topic**. It looks something like this
+
+```javascript
+  const mqttTopic = 'default-telemetry-topic'
+
+  const sensorValue = LightAnalogSensor.read().toString()
+  const payload = JSON.stringify({
+    'lightValue': sensorValue
+  })
+
+  // Publish "payload" to the MQTT topic. qos=1 means at least once delivery.
+  // Cloud IoT Core also supports qos=0 for at most once delivery.
+  client.publish(mqttTopic, payload, { qos: 0 }, function (err) {
+    if (!err) {
+      console.log(err)
+    } 
+    console.log('message published!')
+  })
+```
+
+The MQTT client knows where and how to push it. It connects using followings credentials (example)
+
+```
+node index.js --projectId={ProjectId} --registryId={RegistryId} --deviceId={DeviceId} --privateKeyFile={PathToKeyFile} --cloudRegion={CloudRegion} -- algorithm=RS256
+```
+
+This example can be found on: 
+
+https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
+
+## Configuring Subscriptions 
+
+Now that we can connect to our Pub/Sub Topic and push LightValue data we will make a new Subscription on our default Telemetry Topic provided in our Device Registry.
 
 In the Google Cloud Menu go to ‘Pub/Sub’ and choose ‘Topics’, you will now see a list of preconfigured Topics. Click the 3 dots next to your Default Telemetry Topic and click on ‘New Subscription’.
 
@@ -120,6 +173,7 @@ function handleRequest (req, res) {
   const { attributes, data } = body.message
   
   try {
+    //the data from the request is the LightValue we pushed to our topic in the Example Client Code
     const payload = new Buffer(data, 'base64').toString('utf8')
 
     //deviceId is extracted from the body.message.attributes 
@@ -139,25 +193,6 @@ function handleRequest (req, res) {
   }
 }
 ```
-
-## Client code for pushing data to Google Pub/Sub in Node.JS
-
-2 options:
-
-* MQTT
-* Google Pub/Sub Client 
-
-**MQTT implementation**
-
-Example implementation of the MQTT client by Google can be found on:
-https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
-
-**Google Pub/Sub Client implementation**
-
-Their implementation of the client can be found on:
-https://github.com/googleapis/nodejs-pubsub
-
-In a practical example you can pull data from an IoT connected device and publish it to a topic on Google Cloud Pub/Sub. The device ID you specify in the client code resembles to device ID you setup with your device. This will be translated to a resource in the waylay engine.
 
 ## Sending state back depending on what you configured in Waylay Templates.
 
