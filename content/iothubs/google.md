@@ -1,12 +1,12 @@
 ---
 title: Google IoT Core
 description: Connecting IoT Core with Waylay
-weight: 8
+weight: 1
 ---
 
-# Connecting Google Cloud IoT Core to Waylay using Webscripts
+# Connecting Google Cloud IoT Core to Waylay
 
-Prerequisites
+## Prerequisites
 
 * Google Cloud Project
 * Access to Google Cloud IoT Core and Pub/Sub
@@ -14,25 +14,25 @@ Prerequisites
 * IoT connected device
 * Access to the Waylay platform
 
-Illustration
+Main building blocks of this integration are presented below:
 ![architecture](/features/iothubs/architecture.png)
 
 ## Configuring Google IoT Core
 
-## Device Registry
+## Device Registry (device provisioning)
 
-First off all create a new device registry by clicking on ‘Create device registry’ under IoT Core.
+First off all, for every new device, you need to create a new device registry by clicking on `Create device registry` under IoT Core.
 
 ![iotcore](/features/iothubs/iotcore.png)
 
-Provide the new registry with:
+You will be asked to provide:
 
 * Unique identifier
 * Cloud region 
-* Protocol (default ‘HTTP and MQTT’)
+* Protocol (`HTTP` or `MQTT`)
 * Pub/Sub Default Telemetry topic (Telemetry Topic is The default Topic for sending the device’s data to)
-* You can choose for a sub Telemetry topic if you wish to divide your data into sub pieces of information.
-* Device state topic (State Topic is where the device publishes his current state upon)
+* You can choose for a sub Telemetry topic if you wish to divide data flow.
+* Device state topic (State Topic is where the device publishes his current state)
 * (Optional CA certificate) Certificates are used to verify signatures of device credentials
 
 {{% alert info %}}
@@ -42,7 +42,7 @@ Note: you can always change the Telemetry/State topics after creation of the dev
 
 ## Devices
 
-Click on your newly created device registry and click the button ‘add device’.
+Click on your newly created device registry and click the button `add device`.
 
 {{% alert info %}}
 Note: for mass deployment you can use the Google Pub/Sub API.
@@ -86,9 +86,9 @@ Note: If your physical device has a low computational power you should use the l
 The device creates a JWT in order to connect to the MQTT Bridge, the device connects using the deviceId and JWT. MQTT Bridge verifies the signature and connects the device.
 
 ## Pub/Sub Topics and Subscriptions
-Topics are used for sending data to, on this data you can subscribe afterwards. There are 2 types of subscriptions:
+Device sending data to the topics and on channel you can subscribe afterwards. There are 2 types of subscriptions:
 
-* Push (Pushes data from topic subscription into an endpoint, example: Waylay)
+* Push (Pushes data from topic subscription into an endpoint as soon as new data arrives, example: Waylay platform)
 * Pull
 
 ## Client code for pushing data to Google Pub/Sub in Node.JS
@@ -108,7 +108,7 @@ https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_
 Their implementation of the client can be found on:
 https://github.com/googleapis/nodejs-pubsub
 
-In a practical example you can pull data from an IoT connected device and publish it to a topic on Google Cloud Pub/Sub. The device ID you specify in the client code resembles to device ID you setup with your device. This will be translated to a resource in the waylay engine.
+Normally, you device client will collect data from some sensory inputs and publish it to a topic on the Google Cloud Pub/Sub. The `device ID` you specify in the client code should be a `device ID` that you setup with your device. This will be translated to a resource in the waylay engine (later in this example).
 
 ## Example Client code in detail
 
@@ -144,7 +144,7 @@ https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_
 
 ## Configuring Subscriptions 
 
-Now that we can connect to our Pub/Sub Topic and push LightValue data we will make a new Subscription on our default Telemetry Topic provided in our Device Registry.
+Now that we can connect to our Pub/Sub Topic and push LightValue data we will make a new subscription on our default Telemetry Topic provided in our Device Registry.
 
 In the Google Cloud Menu go to ‘Pub/Sub’ and choose ‘Topics’, you will now see a list of preconfigured Topics. Click the 3 dots next to your Default Telemetry Topic and click on ‘New Subscription’.
 
