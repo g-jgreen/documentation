@@ -158,7 +158,7 @@ Go to `Cloud Functions` and click `Create Function`
 const Waylay = require('@waylay/client')
 
 // Set the domain value
-const domain = 'waylay.io'
+const domain = 'staging.waylay.io'
 
 // Generate a token to authenticate
 const token = ${yourtoken}
