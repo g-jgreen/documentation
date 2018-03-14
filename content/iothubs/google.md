@@ -112,7 +112,7 @@ Normally, you device client will collect data from some sensory inputs and publi
 
 ## Example Client code in detail
 
-In this example we will push data from a RaspberryPi3 with a GrovePi configured Light Sensor to our **default telemetry topic**. It looks something like this
+This example (Based on **MQTT Implementation**) will push data from a RaspberryPi3 with a GrovePi configured Light Sensor to our **default telemetry topic**. The publishing of the data looks something like this:
 
 ```javascript
   const mqttTopic = 'default-telemetry-topic'
@@ -208,6 +208,7 @@ https://www.npmjs.com/package/@waylay/client
 
 ## Check if the data is being pushed to Waylay
 
+Create the Cloud Function and push new data from your Device to your Topic. Now check if the data is arriving;
 Go to https://staging.waylay.io/#/resources/ and look up your resource with the DeviceId you specified. If all goes well you should see your data under `data` -> `all messages`
 
 ## Sending state back depending on what you configured in Waylay Templates.
@@ -308,7 +309,7 @@ function handleRequest (req, res) {
 
 Things to provide in this template:
 
-* replace ${yourResource} with your deviceId
+* replace ${yourResource} with your deviceId specified in the MQTT client code
 * replace ${yourProjectId} with your Google Cloud Platform ID
 * replace ${yourTopicname} with the Topic's name to push state data to (this is configured for each registry (See Device section))
 * replace ${userApiKey} and ${userApiSecret} with your credentials (can be found on Waylay platform under profile)
@@ -367,7 +368,7 @@ curl --user ${userApiKey}:/${userApiSecret} -H "Content-Type:application/json" -
    "type": "reactive",
    "start": true,
    "name": "Rule 1",
-   "resource": "testresource"
+   "resource": "${yourResource}"
  }
 }' "https://staging.waylay.io/api/templates"
 ```
