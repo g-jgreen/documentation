@@ -10,7 +10,7 @@ weight: 1
 
 * Google Cloud Project
 * Access to Google Cloud IoT Core and Pub/Sub
-* Service account with admin rights to nr. 2
+* Service account with admin rights to IoT Core and Pub/Sub
 * IoT connected device
 * Access to the Waylay platform
 
@@ -66,7 +66,7 @@ cat jwtRS256.key.pub
 
 For windows users: 
 
-https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows
+[Generating RS256 Public / Private key on Windows](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows)
 
 Enter the public key into the field ‘Public key value’
 Save the private key locally for later use (Device Authentication Flow)
@@ -84,12 +84,6 @@ Note: If your physical device has a low computational power you should use the l
 ![autenticationflow](/features/iothubs/authenticationflow.png)
 
 The device creates a JWT in order to connect to the MQTT Bridge, the device connects using the deviceId and JWT. MQTT Bridge verifies the signature and connects the device.
-
-## Pub/Sub Topics and Subscriptions
-Device sending data to the topics and on channel you can subscribe afterwards. There are 2 types of subscriptions:
-
-* Push (Pushes data from topic subscription into an endpoint as soon as new data arrives, example: Waylay platform)
-* Pull
 
 ## Client code for pushing data to Google Pub/Sub in Node.JS
 
@@ -158,7 +152,7 @@ Go to `Cloud Functions` and click `Create Function`
 const Waylay = require('@waylay/client')
 
 // Set the domain value
-const domain = 'staging.waylay.io'
+const domain = ${customerDomain}
 
 // Generate a token to authenticate
 const token = ${yourtoken}
@@ -170,7 +164,7 @@ exports.subscribe = (event, callback) => {
     token
   })
   
-  waylay.data.baseUrl = 'https://data-staging.waylay.io'
+  waylay.data.baseUrl = 'https://data-${customerDomain}'
 
   const pubsubMessage = event.data
 
@@ -202,14 +196,20 @@ Switch over to `package.json` and add the Waylay dependency
 }
 ```
 
+
 For more information on the Waylay client package:
 
 https://www.npmjs.com/package/@waylay/client
 
+
+{{% alert info %}}
+The Cloud Function automatically creates a subscription on your Topic which pushes all the incomming data to an endpoint of your choice.
+{{% /alert %}}
+
 ## Check if the data is being pushed to Waylay
 
 Create the Cloud Function and push new data from your Device to your Topic. Now check if the data is arriving;
-Go to https://staging.waylay.io/#/resources/ and look up your resource with the DeviceId you specified. If all goes well you should see your data under `data` -> `all messages`
+Go to `https://${customerDomain}/#/resources/${deviceId}`. If all goes well you should see your data under `data` -> `all messages`
 
 ## Sending state back depending on what you configured in Waylay Templates.
 
@@ -220,110 +220,29 @@ Quick overview on how we implement Rules in Waylay:
 The resource node (SENSOR) streams data from a particular resource. (Your resource’s data is being pushed on whatever frequency you push data from your device to the Google Pub/Sub Topic).
 The Sensor has in this examples 2 boundaries; Above and Below, when its Above or Below a specific value it activates or deactivates a light. This actuation is just a simple Message that is pushed to a Topic that your device can listen to in order to take action depending on the message.  
 
-To make a Template yourself go to the end of the page and see section **testing standard template**
-
-For further information on how the Designer, Sensors and Actuators work go to:
-https://docs.waylay.io/api/sensors-and-actuators/
-
-## Allowing Waylay to publish to your Topics
-
-![crossplatform](/features/iothubs/crossplatform.png)
-
-This is needed for the activation of the Webscript that publishes your data based on your rules back your predefined Topics. In order to achieve this you have to give our Service Account a Role of Publisher in your policy.
-Our serviceAccount email is:  ```quiet-mechanic-140114@appspot.gserviceaccount.com```
-
-{{% alert info %}}
-If you get an unauthorized error you can use a different approach:
-{{% /alert %}}
-
-
-Go to ‘Pub/Sub’ -> ‘Topics’ -> Select your topic -> click the three bullets -> Permissions -> Add Members -> Fill in the member field with: ```quiet-mechanic-140114@appspot.gserviceaccount.com```
-
-Select role: ```Pub/Sub publisher```
-
-Click Add.
-
-![permissions](/features/iothubs/permissions.png)
-
-More information on these policies: 
-https://cloud.google.com/pubsub/docs/access-control
-
-## Actuating back to your state Pub/Sub Topic
-
-In the Waylay designer search for: ```GoogleIoTCoreWebscriptActuator```
-
-Parameters to provide in the actuator:
-
-* Waylay webscript URL: Webscript URL of the Webscript with the code below
-* Google Project Id
-* Google Pub/Sub Topicname
-* JSON to publish ex.: ```{"lightValue”: "500”}```
-
-Subscribing to your state Pub/Sub Topic on your physical device
-Examples can be found here:
-https://github.com/googleapis/nodejs-pubsub/blob/master/samples/subscriptions.js
-
-## Testing a standard template
-
-Webscript:
-
-Import dependency: @google-cloud/pubsub / version:	0.16.4	
-```javascript
-function handleRequest (req, res) {
-  const { projectId, topicname, json } = req.body
-
-  const PubSub = require('@google-cloud/pubsub')
-
-  const pubsubClient = new PubSub({
-    projectId: projectId
-  })
-
-  function publishMessage () {
-    const jsonData = JSON.stringify(json)
-    const dataBuffer = Buffer.from(jsonData, 'utf8')
-
-    pubsubClient
-      .topic(topicname)
-      .publisher()
-      .publish(dataBuffer)
-      .then(results => {
-        const messageId = results[0]
-        console.log(`Message ${messageId} published.`)
-        res.send('Message published')
-      })
-      .catch(err => {
-        console.error('ERROR:', err)
-      })
-  }
-  
-  publishMessage()
-}
-```
-
-* Device with unique Id
-* Active Topic linked to a device
-* Active State Topic linked to a device (with permission configured that Waylay can push into this topic)
-* Active Subscription which pushes into a Webscript endpoint (see section Webscript)
-* Webscript with the code provided above
-* Acces to the Waylay platform
-
+## Creating a test template
 Things to provide in this template:
 
 * replace ${yourResource} with your deviceId specified in the MQTT client code
 * replace ${yourProjectId} with your Google Cloud Platform ID
 * replace ${yourTopicname} with the Topic's name to push state data to (this is configured for each registry (See Device section))
 * replace ${userApiKey} and ${userApiSecret} with your credentials (can be found on Waylay platform under profile)
+* replace ${webscripturl} with your Webscript url created in the section below
 
-```json
-curl --user ${userApiKey}:/${userApiSecret} -H "Content-Type:application/json" -X POST -d '{
+```
+curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Content-Type:application/json" -X POST -d '{
 "name" : "googleIoTExample",
  "sensors": [
    {
      "label": "streamDataSensor_1",
      "name": "streamingDataSensor",
      "version": "1.1.0",
-     "resource" : "${yourResource}",
-     "position": [150, 150]
+     "resource" : "$",
+     "position": [150, 150],
+     "properties": {
+       "parameter": "lightValue"
+       "threshold": "350"
+     }
    }
  ],
  "actuators": [
@@ -368,7 +287,84 @@ curl --user ${userApiKey}:/${userApiSecret} -H "Content-Type:application/json" -
    "type": "reactive",
    "start": true,
    "name": "Rule 1",
-   "resource": "${yourResource}"
+   "resource": "testresource"
  }
 }' "https://staging.waylay.io/api/templates"
 ```
+
+## Webscript for actuating back to your state Topic
+
+This webscript is called in the actuator of the Template. You have to create a webscript with this code and copy the link of the webscript to the actuator.
+
+Import dependency: @google-cloud/pubsub / version:	0.16.4	
+```javascript
+function handleRequest (req, res) {
+  // Parmameters of the actuator
+  const { projectId, topicname, json } = req.body
+
+  const PubSub = require('@google-cloud/pubsub')
+
+  const pubsubClient = new PubSub({
+    // This is your ProjectId provided in the actuator
+    projectId
+  })
+
+  function publishMessage () {
+    // JsonData provided in the actuator
+    const jsonData = JSON.stringify(json)
+    const dataBuffer = Buffer.from(jsonData, 'utf8')
+
+    pubsubClient
+      .topic(topicname)
+      .publisher()
+      .publish(dataBuffer)
+      .then(results => {
+        const messageId = results[0]
+        console.log(`Message ${messageId} published.`)
+        res.send('Message published')
+      })
+      .catch(err => {
+        console.error('ERROR:', err)
+      })
+  }
+  
+  publishMessage()
+}
+```
+
+For further information on how the Designer, Sensors and Actuators work go to:
+
+[api/sensors-and-actuators](https://docs.waylay.io/api/sensors-and-actuators/)
+
+## Allowing Waylay to publish to your Topics
+
+![crossplatform](/features/iothubs/crossplatform.png)
+
+This is needed for the activation of the Webscript that publishes your data based on your rules back your predefined Topics. In order to achieve this you have to give our Service Account a Role of Publisher in your policy.
+Our serviceAccount email is:  ```quiet-mechanic-140114@appspot.gserviceaccount.com```
+
+{{% alert info %}}
+If you get an unauthorized error you can use a different approach:
+{{% /alert %}}
+
+
+Go to ‘Pub/Sub’ -> ‘Topics’ -> Select your topic -> click the three bullets -> Permissions -> Add Members -> Fill in the member field with: ```quiet-mechanic-140114@appspot.gserviceaccount.com```
+
+Select role: ```Pub/Sub publisher```
+
+Click Add.
+
+![permissions](/features/iothubs/permissions.png)
+
+More information on these policies: 
+https://cloud.google.com/pubsub/docs/access-control
+
+## Subscribing to your state Topic
+
+If your device must take action upon the state being changed you can listen to this state Topic by creating a subscription for it. 
+
+Subscribing to your state Pub/Sub Topic on your physical device
+Examples can be found here:
+https://github.com/googleapis/nodejs-pubsub/blob/master/samples/subscriptions.js
+
+Each time a message from the Waylay actuator gets pushed into the Webscript, this then gets forwarded to the State Topic. You can subscribe to this Topic on your device. If for example a message with `{"lightStatus":"off"}` comes in you can act on this message and turn off a light.
