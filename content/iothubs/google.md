@@ -142,66 +142,75 @@ This example can be found on:
 
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
 
-## Configuring Subscriptions 
+## Using Cloud Functions to send Topic data to Waylay
 
-Now that we can connect to our Pub/Sub Topic and push LightValue data we will make a new subscription on our default Telemetry Topic provided in our Device Registry.
+Now that you are pushing data from your device to your Topic we can use Cloud Functions from Google to redirect this data to the Waylay Engine.
 
-In the Google Cloud Menu go to ‘Pub/Sub’ and choose ‘Topics’, you will now see a list of preconfigured Topics. Click the 3 dots next to your Default Telemetry Topic and click on ‘New Subscription’.
+Go to `Cloud Functions` and click `Create Function` 
 
-![subscription](/features/iothubs/subscription.png)
+![cloudfunction](/features/iothubs/cloudfunction.png)
 
-Enter a unique name identifier and choose the delivery type.
-
-{{% alert info %}}
-For sending data to waylay select ‘Push into an endpoint url’ -> This will be the url of the Webscript that will manipulate the data to push it to the Waylay Broker (**see next section**).
-For pushing data from a Subscription to the Waylay Webscript you should contact us for verifying the domain name for you. Contact us at support@waylay.io
-{{% /alert %}}
-
-## Webscript
-
-Create a webscript on your own domain. Use following code to manipulate the data that comes from your Topic.
-
-Each message from the Topic gets pushed in to the Webscript using a Subscription. The request body looks like this.
-
-![request](/features/iothubs/request.png)
+* choose your Topic where your Device data is being pushed to
+* copy the following code:
 
 ```javascript
-waylay.data.baseUrl = 'https://data.waylay.io'
+// Require the Waylay Client
+const Waylay = require('@waylay/client')
 
-function handleRequest (req, res) {
-  const { body } = req
-  const { attributes, data } = body.message
+// Set the domain value
+const domain = 'waylay.io'
+
+// Generate a token to authenticate
+const token = ${yourtoken}
+
+exports.subscribe = (event, callback) => {
+  // Instantiate the Waylay Client
+  const waylay = new Waylay({
+    domain,
+    token
+  })
   
-  try {
-    //the data from the request is the LightValue we pushed to our topic in the Example Client Code
-    const payload = new Buffer(data, 'base64').toString('utf8')
+  waylay.data.baseUrl = 'https://data-staging.waylay.io'
 
-    //deviceId is extracted from the body.message.attributes 
-    const { deviceId } = attributes
-    
-    const parsedPayload = JSON.parse(payload)
-    
-    // This creates a Resource inside the waylay platform with name = deviceId
-    waylay.data.postSeries(deviceId, parsedPayload)
-      .then(() => {
-        res.sendStatus(204)
-      })
-      .catch(err => res.status(500).send(err))
-  } catch (err) {
-    console.error(err)
-    res.status(400).send(err)
+  const pubsubMessage = event.data
+
+  const attributes = event.data.attributes
+
+  // deviceId is in the event.data.attributes
+  const deviceId = attributes.deviceId
+
+  // Convert to message type from Buffer to String
+  const payload = Buffer.from(pubsubMessage.data, 'base64').toString()
+
+  // Parse the payload
+  const parsedPayload = JSON.parse(payload)
+
+  // Post the data in a form of series to Waylay
+  waylay.data.postSeries(deviceId, parsedPayload)
+    .then(() => callback())
+  	.catch(err => console.log(err))
+};
+```
+
+Switch over to `package.json` and add the Waylay dependency
+
+```json
+{
+  "dependencies": {
+    "@waylay/client": "^1.0.0"
   }
 }
 ```
 
+For more information on the Waylay client package:
+
+https://www.npmjs.com/package/@waylay/client
+
+## Check if the data is being pushed to Waylay
+
+Go to https://staging.waylay.io/#/resources/ and look up your resource with the DeviceId you specified. If all goes well you should see your data under `data` -> `all messages`
+
 ## Sending state back depending on what you configured in Waylay Templates.
-
-
-{{% alert info %}}
-Note: By pushing from your Telemetry Topic into the Waylay Webscript the Waylay Broker automatically creates a ‘Resource’ for you. This resource can be found on:
-{{% /alert %}}
-
-https://staging.waylay.io/#/resources/ 
 
 Quick overview on how we implement Rules in Waylay:
 
