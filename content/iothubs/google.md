@@ -220,14 +220,17 @@ The Cloud Function automatically creates a subscription on your Topic which push
 Create the Cloud Function and push new data from your Device to your Topic. Now check if the data is arriving;
 Go to `https://${customerDomain}/#/resources/${deviceId}`. If all goes well you should see your data under `data` -> `all messages`
 
-## Sending state back depending on what you configured in Waylay Templates.
+## Actuating back on a device
 
-Quick overview on how we implement Rules in Waylay:
+In order to actuate back on a device, we will use the following template
 
 ![overview](/features/iothubs/overview.png)
 
-The resource node (SENSOR) streams data from a particular resource. (Your resource’s data is being pushed on whatever frequency you push data from your device to the Google Pub/Sub Topic).
-The Sensor has in this examples 2 boundaries; Above and Below, when its Above or Below a specific value it activates or deactivates a light. This actuation is just a simple Message that is pushed to a Topic that your device can listen to in order to take action depending on the message.  
+The stream sensor will receive data for a particular resource. Device data is pushed from a device to the Google Pub/Sub Topic, and then via the google function forwarded to the Broker.
+The Sensor has in this examples 2 triggers: `Above` and `Below`, when its `Above` or `Below` a specific value it activates or deactivates a light. 
+
+The actuator is just a simple waylay webscript call, which will pass as the argument json message that will be via the webscript pass to the device over google pub channel.
+For further information on actuators, please go to this [link](api/sensors-and-actuators)
 
 ## Creating a test template
 Things to provide in this template:
@@ -301,7 +304,7 @@ curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Conten
 }' "https://staging.waylay.io/api/templates"
 ```
 
-## Webscript for actuating back to your state Topic
+## Webscript for actuating back to the device
 
 This webscript is called in the actuator of the Template. You have to create a webscript with this code and copy the link of the webscript to the actuator.
 
@@ -341,15 +344,12 @@ function handleRequest (req, res) {
 }
 ```
 
-For further information on how the Designer, Sensors and Actuators work go to:
 
-[api/sensors-and-actuators](https://docs.waylay.io/api/sensors-and-actuators/)
-
-## Allowing Waylay to publish to your Topics
+## Allowing Waylay (webscript) to publish to the Topics in your GCP
 
 ![crossplatform](/features/iothubs/crossplatform.png)
 
-This is needed for the activation of the Webscript that publishes your data based on your rules back your predefined Topics. In order to achieve this you have to give our Service Account a Role of Publisher in your policy.
+This is needed for the activation of the Webscript that publishes the actuation data based on your rules back to your predefined topic. In order to achieve this you have to give our Service Account a Role of Publisher in your policy.
 Our serviceAccount email is:  ```quiet-mechanic-140114@appspot.gserviceaccount.com```
 
 {{% alert info %}}
