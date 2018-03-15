@@ -9,7 +9,7 @@ weight: 1
 ## Prerequisites
 
 * Access to AWS IoT Core and Lambda
-* Account on AWS with the neccesary permissions for nr. 1
+* Account on AWS with permissions to IoT Core and Lambda
 * IoT connected device
 * Access to the Waylay platform
 
@@ -22,7 +22,7 @@ The main building blocks of this integration are presented below:
 
 To register your device, you need to create a thing AWS IoT Core.
 
-1. Choose `manage` under IoT Core.
+1. Choose `Manage` under IoT Core.
   * If you don't have a thing yet, choose `Register a thing`.
 ![no-things-yet](/features/iothubs/no-things-yet.png)
   * If you have a thing, choose `Create`.
@@ -110,7 +110,7 @@ Note: To add dependencies to Lambda you need to make them in another program (eg
 const Waylay = require('@waylay/client')
 
 // Set the domain value
-const domain = 'staging.waylay.io'
+const domain = ${customerDomain}
     
 // Generate a token to authenticate
 const token = ${yourtoken}
@@ -127,7 +127,7 @@ exports.handler = function(event) {
 
     const { data } = event
 
-    waylay.data.baseUrl = 'https://data-staging.waylay.io'
+    waylay.data.baseUrl = 'https://data-${customerDomain}'
 
     // Post the data in a form of series to Waylay
     waylay.data.postSeries(deviceID, data)
@@ -142,7 +142,7 @@ You've now finished setting up the AWS side of the connection.
 
 ## Check if data is being pushed to Waylay
 
-Create the Lambda and push new data from your Device to your Topic. Now check if the data is arriving; Go to https://staging.waylay.io/#/resources/ and look up your resource with the DeviceId you specified. If all goes well you should see your data under data -> all messages
+Create the Lambda and push new data from your Device to your Topic. Now check if the data is arriving; Go to https://${customerDomain}/#/resources/${deviceId} and look up your resource with the DeviceId you specified. If all goes well you should see your data under data -> all messages
 
 ## Sending state back depending on what you configured in Waylay templates
 
