@@ -83,7 +83,7 @@ Note: If your physical device has a low computational power you should use the l
 ## Device Authentication flow
 ![autenticationflow](/features/iothubs/authenticationflow.png)
 
-The device creates a JWT in order to connect to the MQTT Bridge, the device connects using the deviceId and JWT. MQTT Bridge verifies the signature and connects the device.
+The device creates a JWT based on the Private key and Project Id in order to connect to the MQTT Bridge, the device connects using the deviceId and JWT. MQTT Bridge verifies the signature and connects the device. 
 
 ## Client code for pushing data to Google Pub/Sub in Node.JS
 
@@ -95,7 +95,9 @@ The device creates a JWT in order to connect to the MQTT Bridge, the device conn
 **MQTT implementation**
 
 Example implementation of the MQTT client by Google can be found on:
-https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
+https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/master/iot/mqtt_example/cloudiot_mqtt_example_nodejs.js
+
+Authentication flow of this example: (see **device authentication flow**)
 
 **Google Pub/Sub Client implementation**
 
@@ -126,15 +128,22 @@ This example (Based on **MQTT Implementation**) will push data from a RaspberryP
   })
 ```
 
-The MQTT client knows where and how to push it. It connects using followings credentials (example)
+The MQTT client connects to the MQTT bridge which is default configured. See lines 
+
+{{% alert info %}}
+Note: For this end to end test with a static value change to payload on line `161` to a JSON object: ```{"lightValue": "500"}```. This will publish a message with a static value of 500. 
+{{% /alert %}}
+
+This example can be found on: 
+
+https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/master/iot/mqtt_example/cloudiot_mqtt_example_nodejs.js
+
+To run this example: 
 
 ```
 node index.js --projectId={ProjectId} --registryId={RegistryId} --deviceId={DeviceId} --privateKeyFile={PathToKeyFile} --cloudRegion={CloudRegion} -- algorithm=RS256
 ```
 
-This example can be found on: 
-
-https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/iot/mqtt_example
 
 ## Using Cloud Functions to send Topic data to Waylay
 
@@ -240,7 +249,7 @@ curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Conten
      "resource" : "$",
      "position": [150, 150],
      "properties": {
-       "parameter": "lightValue"
+       "parameter": "lightValue",
        "threshold": "350"
      }
    }
@@ -248,8 +257,8 @@ curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Conten
  "actuators": [
    {
      "label": "lightOff",
-     "name": "GoogleIoTCoreWebscriptActuator",
-     "version": "0.0.2",
+     "name": "GoogleWebscriptActuator",
+     "version": "0.0.3",
      "properties": {
        "url": "${webscripturl}",
        "json": "{ \"lightStatus\": \"off\" }",
@@ -260,27 +269,27 @@ curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Conten
    },
    {
      "label": "lightOn",
-     "name": "GoogleIoTCoreWebscriptActuator",
-     "version": "0.0.2",
+     "name": "GoogleWebscriptActuator",
+     "version": "0.0.3",
      "properties": {
        "url": "${webscripturl}",
        "json": "{ \"lightStatus\": \"on\" }",
        "projectId": "${yourprojectid}",
        "topicname": "${yourtopicname}"
      },
-     "position": [512,172]
+     "position": [350,172]
    }
  ],
  "triggers": [
    {
      "destinationLabel": "lightOn",
      "sourceLabel": "streamDataSensor_1",
-     "statesTrigger": ["Above"]
+     "statesTrigger": ["Below"]
    },
    {
      "destinationLabel": "lightOff",
      "sourceLabel": "streamDataSensor_1",
-     "statesTrigger": ["Below"]
+     "statesTrigger": ["Above"]
    }
  ],
  "task": {
