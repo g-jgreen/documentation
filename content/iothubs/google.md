@@ -200,7 +200,7 @@ Switch over to `package.json` and add the Waylay dependency
 ```json
 {
   "dependencies": {
-    "@waylay/client": "^1.0.0"
+    "@waylay/client": "^1.0.5"
   }
 }
 ```
