@@ -193,7 +193,7 @@ function handleRequest (req, res) {
   const AWS=require('aws-sdk');
   AWS.config.region = region;
   AWS.config.accessKeyId = accessKeyId;
-  AWS.config.secretAccessKey = secretAccessKey;
+  AWS.config.secretAccessKey = secretKey;
   const iotdata = new AWS.IotData({endpoint: endpointUrl});  
 
 
