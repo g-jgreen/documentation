@@ -58,7 +58,7 @@ Note: This allows all clients to connect to AWS IoT
 3. Select the `Add statement` button. In the `Action` field, type `iot:Publish`. In the `Resource ARN` field, type the ARN of the topic to which your device will publish.
 {{% alert info %}}
 Note: The topic ARN follows this format:
-arn:aws:iot:_your-region:your-aws-account_:topic/_my/topic/here_
+arn:aws:iot:${yourAwsRegion}:${yourAwsAccount}:topic/${yourTopicHere}
 {{% /alert %}}
 4. Select the `Allow` check box.
 {{% alert info %}}
@@ -142,7 +142,8 @@ You've now finished setting up the AWS side of the connection.
 
 ## Check if data is being pushed to Waylay
 
-Create the Lambda and push new data from your Device to your Topic. Now check if the data is arriving; Go to https://${customerDomain}/#/resources/${deviceId} and look up your resource with the DeviceId you specified. If all goes well you should see your data under data -> all messages
+Create the Lambda and push new data from your Device to your Topic. Now check if the data is arriving;
+Go to `https://${customerDomain}/#/resources/${deviceId}`. If all goes well you should see your data under `data` -> `all messages`
 
 ## Allowing Waylay to publish to your topics
 
