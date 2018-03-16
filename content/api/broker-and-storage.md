@@ -43,7 +43,7 @@ A submitted message is defined by 2 things
 
 For instance, the resource can be the `phone` and the parameters something like `temperature, humidity, acceleration` etc.
 
-*Important Note* : Data will be stored with the timestamp when the object arrived at the Broker. Should you wish to insert data with other timestamp, you must in the JSON object provide a timestamp with a value that is in epoch in milliseconds. For instance: `{"temp":21, "humidity": 0.35, "timestamp" : 1475139600000}`
+*Important Note* : Data will be stored with the timestamp when the object arrived at the Broker. Should you wish to insert data with other timestamp, you must in the JSON object provide a `timestamp` with a value that is in epoch in milliseconds. For instance: `{"temp":21, "humidity": 0.35, "timestamp" : 1475139600000}`
 
 # <a name="http"></a> HTTP REST API
 
@@ -147,6 +147,36 @@ curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
       }'
     https://data.waylay.io/resources/testresource/events?forward=false
 ```
+
+## Posting data with a specified time-to-live
+
+> Example of posting data which will only be available for 3600s:
+
+```bash
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
+    -d '{
+          "foo":123,
+          "bar":"hello"
+      }'
+    https://data.waylay.io/resources/testresource/events?ttl=3600
+```
+When posting data, you can specify how long the data needs to be available in the system (both in the timeseries database
+ and the document database). After this time the data is automatically removed.
+ 
+You specify this by the query parameter `ttl`, either specified as a number of seconds,
+or with a period in the format `#[w,d,h,m,s]` ( as in # weeks/days/hours/minutes/seconds )
+
+> Example of posting data which will be available for 52 weeks:
+
+```bash
+curl -i --user apiKey:apiSecret  -H "Content-Type: application/json" -X POST
+    -d '{
+          "foo":123,
+          "bar":"hello"
+      }'
+    https://data.waylay.io/resources/testresource/events?ttl=52w
+```
+
 
 # Websockets
 
