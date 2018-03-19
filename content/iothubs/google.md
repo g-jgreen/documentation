@@ -242,7 +242,7 @@ Things to provide in this template:
 * replace ${webscripturl} with your Webscript url created in the section below
 
 ```
-curl --user 8208eb00b4e2d82595464a32:/k9zGsxMNiuPE/ffuwKAEu9VytFehE3W -H "Content-Type:application/json" -X POST -d '{
+curl --user {userApiKey}:{userApiSecret} -H "Content-Type:application/json" -X POST -d '{
 "name" : "googleIoTExample",
  "sensors": [
    {
