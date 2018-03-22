@@ -1,6 +1,6 @@
 ---
-title: Azure IoT
-description: Connecting Azure IoT platform with Waylay
+title: Microsoft Azure IoT
+description: This section explains how to connect your Microsoft Azure IoT instance to Waylay in order to get your data into the Waylay platform and to actuate back on your devices based on the outcome of the rules that you create with the Waylay engine.
 weight: 1
 ---
 
