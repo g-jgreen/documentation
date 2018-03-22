@@ -17,7 +17,7 @@ Main building blocks of this integration are presented below:
 ![architecture](/features/iothubs/Azure/architectureAzure.png)
 
 {{% alert info %}}
-Note: For more technical information see [this whitepaper](https://docs.google.com/document/d/1yezzjqfpmfwwVLvlWjmt_52WO7HZ4WeRJyVq-WZtwMM/edit?usp=sharing) are [Github](https://github.com/waylayio/firmwares/tree/master/GrovePiCloudIoT/azureExample).
+Note: For more technical information see [this whitepaper](https://docs.google.com/document/d/1yezzjqfpmfwwVLvlWjmt_52WO7HZ4WeRJyVq-WZtwMM/edit?usp=sharing) or [Github](https://github.com/waylayio/firmwares/tree/master/GrovePiCloudIoT/azureExample).
 {{% /alert %}}
 
 
@@ -86,8 +86,11 @@ const GrovePi = require('node-grovepi').GrovePi
 let LightAnalogSensor = GrovePi.sensors.AirQualityAnalog
 ```
 * To get the connection string of your device go to your IoT hub choose `IoT Devices`and select your device. On your right you will see the connectionstring.
-* To get the connection string of your shared acces policies go to your IoT hub choose `shared acces plicies`and select your policy. On your right you will see the connectionstring. __IMPORTANT :__ don't forget to add the deviceId to your connectionstring
+* To get the connection string of your shared acces policies go to your IoT hub choose `shared acces plicies`and select your policy. On your right you will see the connectionstring. 
 
+{{% alert warn %}}
+Don't forget to add the deviceId to your connectionstring
+{{% /alert %}}
 
 The publishing of the data looks something like this:
 
@@ -120,7 +123,7 @@ First of all, you need to create the Function app of Azure itself. Therefore, yo
 
 Now we are going to create a function with a trigger from the IoT hub built-in endpoint. 
 
-1. Continuing on the previous tutorial we click on the plus whichs standing next to the submenu Functions.
+1. Continuing on the previous tutorial we click on the plus which standing next to the submenu Functions.
 2. Next choose the template IoT Hub (Event hub)
 3. Choose your preferable language (in this example we take javascript), your name.
 ![CreateFunctionApp](/features/iothubs/Azure/createFunctionApp.png)
@@ -131,7 +134,7 @@ Now we are going to create a function with a trigger from the IoT hub built-in e
 {{% alert info %}}
 For more information about consumergroups read built-in enpoints on [Microsoft docs](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal#endpoints).
 {{% /alert %}}
-7. At this moment we created the function. We only need to make one adjustment namely, go to your function > `Integrate` > `Triggers`  and change the event hub cardinality to `One`. Also check if the Event Parameter name is set to `IoTHubMessage` so there will be no problemns with copy the code below.
+7. At this moment we created the function. We only need to make one adjustment namely, go to your function > `Integrate` > `Triggers`  and change the event hub cardinality to `One`. Also check if the Event Parameter name is set to `IoTHubMessage` so there will be no problems with copy the code below.
 
 At this moment we created are function correctly. Click on your function and you will see the actual code. Now you can delete that code and paste the code below in it.
 
