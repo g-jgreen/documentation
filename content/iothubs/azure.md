@@ -222,6 +222,7 @@ For more information about sensors and actuators go to this [link](https://docs.
 ### __Creating a test template__
 Below you can see which parameters needed to be adjust and with which meaning. In brackets you can see the solution you need to take for this example.
 
+* reokace ${apiKey} and ${apiSecret} with your own keys
 * replace `{{RESOURCE}}` if you want another targetdevice then your telemetry device. 
 * replace ${methodName} with the methodname of a function of your targetdevice. (adjustingLedState)
 * replace ${IoTHubConnection} with the connectionstring of your IoT Hub. 
@@ -232,7 +233,7 @@ Below you can see which parameters needed to be adjust and with which meaning. I
 * replace ${Resource} with the device's Id that's sending telemtry data. 
 
 ```
-curl --user 13f64445ec2e104f04642413:PqXwxXjSSrI4X9HTUy623ybgqLtCLtxh -H "Content-Type:application/json" -X POST -d '{
+curl --user ${apiKey}:${apiSecret} -H "Content-Type:application/json" -X POST -d '{
 "name" : "azureIoTTemplateExample",
  "sensors": [
    {
