@@ -1,5 +1,5 @@
 ---
-title: LPWAN (Sigfox and LoRa) integration using webscripts and transformers
+title: LPWAN (Sigfox and LoRa) integration
 description: Learn how to integrate LPWAN devices (both LoRa and Sigfox) using webscripts and transformers
 tags:
 - lpwan
