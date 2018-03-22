@@ -1,6 +1,6 @@
 ---
 title: AWS IoT Core
-description: Connecting IoT Core with Waylay
+description: This section explains how to connect your AWS IoT instance to Waylay in order to get your data into the Waylay platform as well as to actuate back on your devices based on the outcome of the rules that you create with the Waylay engine.
 weight: 1
 ---
 
