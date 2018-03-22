@@ -894,7 +894,7 @@ curl --user apiKey:apiSecret -X POST "https://sandbox.waylay.io/api/templates/my
         ]
       ], 
       "conf": {
-        "parallel": false,
+        "resetObservations": false,
         "executeActuators": false,
         "resource": "resource1",
         "nodes":[
@@ -914,7 +914,7 @@ You can run a template without creating a task by providing it with groups of re
 
 These are the options you can set:
 
-* `parallel` (default `false`) when set to `true` this will make processing faster as we will handle multiple batches at the same time. Make sure that your sensors can handle concurrent invocation!
+* `resetObservations` (default `true`) reset observations before injecting data
 * `executeActuators` (default `false`) by default we do not execute actuators, set this to `true` if you want actuation to happen. 
 * `resource` (optional) sets the global resource for the running of the template. Relates to [note on tasks and resources](#note-on-tasks-and-resources).
 
