@@ -127,7 +127,7 @@ exports.handler = function(event) {
 
     const { data } = event
 
-    waylay.data.baseUrl = 'https://data-${customerDomain}'
+    waylay.data.baseUrl = 'https://data.waylay.io'
 
     // Post the data in a form of series to Waylay
     waylay.data.postSeries(deviceID, data)
