@@ -15,7 +15,7 @@ cards:
     url: /features
 
   - title: Architecture
-    icon: device_hub
+    icon: cloud_circle
     description: Get more familiar with the Waylay architecture
     url: /architecture/overview
 
@@ -33,7 +33,7 @@ cards:
     icon: public
     description: Solution Packages
     url: /packages
-  
+
   - title: IoT Hubs
     icon: device_hub
     description: Connecting existing architecture
