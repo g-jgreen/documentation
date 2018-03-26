@@ -173,7 +173,7 @@ exports.subscribe = (event, callback) => {
     token
   })
   
-  waylay.data.baseUrl = 'https://data-${customerDomain}'
+  waylay.data.baseUrl = 'https://data.waylay.io'
 
   const pubsubMessage = event.data
 
