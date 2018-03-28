@@ -9,9 +9,9 @@ cards:
     description: Documentation and guides on using the Waylay REST APIs
     url: /api/
 
-  - title: Features & Integrations
+  - title: Features
     icon: extension
-    description: Find out more about our features and integrations.
+    description: Find out more about our features.
     url: /features
 
   - title: Architecture
@@ -34,8 +34,8 @@ cards:
     description: Solution Packages
     url: /packages
 
-  - title: IoT Hubs
+  - title: Integrations
     icon: device_hub
-    description: Connecting existing architecture
+    description: Learn how to integrate with third-party device clouds
     url: /iothubs
 
