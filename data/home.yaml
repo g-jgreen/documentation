@@ -37,5 +37,4 @@ cards:
   - title: Integrations
     icon: device_hub
     description: Learn how to integrate with third-party device clouds
-    url: /iothubs
-
+    url: /integrations
