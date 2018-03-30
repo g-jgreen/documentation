@@ -1,6 +1,6 @@
 ---
-title: Waylay rule engine introduction
-description: Waylay engine - one rules engine to rule them all
+title: Waylay Rules Engine Introduction - Part 1
+description: Discover the Waylay engine and learn how it differs from other types of rules engines
 weight: 2
 ---
 
