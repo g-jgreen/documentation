@@ -16,7 +16,7 @@ Each time one of the sensors in a task is invoked and outputs new data and/or st
 
 When you have multiple independent graphs in one task, the output of data and/or state in one graph will not trigger any actuator in another graph in the same task.  
 
-![actuatorTriggerPolicy](https://raw.githubusercontent.com/waylayio/documentation/master/images/actuatorTriggerPolicy.png)
+![](https://raw.githubusercontent.com/waylayio/documentation-old/master/images/actuatorTriggerPolicy.png)
 
 **State trigger**
 
@@ -48,7 +48,7 @@ The trigger policy allows you to control the frequency of execution of the actua
 
 Sometimes you want to control the sensor execution order and/or timing. One way you can achieve this (if you use periodic or cron task) is via sequence number attached to the sensors. If you need conditional sensor execution, you should use the state trigger feature described below.
 
-![nodeTriggerSettings](https://raw.githubusercontent.com/waylayio/documentation/master/images/nodeTriggerSettings.png)
+![](https://raw.githubusercontent.com/waylayio/documentation-old/master/images/nodeTriggerSettings.png)
 
 **State change trigger**
 
@@ -85,7 +85,7 @@ Find out more about when to use **$** as the resource name in the article [how t
 
 In case that the task is deployed as "one-off", where sensors, actuators, logic and task settings are configured at the time the task is instantiated, you can deploy the task either via waylay designer or [REST calls](/api/rest/#create-a-task-with-rule-defined-in-the-request). In the screenshot below, you can see how this can be done from UI.
 
-![taskDeploy](https://raw.githubusercontent.com/waylayio/documentation/master/images/taskDeploy.png)
+![](https://raw.githubusercontent.com/waylayio/documentation-old/master/images/taskDeploy.png)
 
 As mentioned earlier, tasks can also be instantiated from templates, via [REST.](api/rest/#create-a-task-from-a-template)
 
