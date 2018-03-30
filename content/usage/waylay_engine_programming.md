@@ -1,6 +1,6 @@
 ---
-title: Waylay engine - Bayesian Inference based programming using smart agent concept
-description: Bayesian Inference based programming using smart agent concept
+title: Waylay Rules Engine Introduction - Part 2
+description: Learn about the default capabilities of the Waylay engine, its use of the smart agents concept and Bayesian inference based programming
 weight: 3
 ---
 
@@ -16,7 +16,7 @@ weight: 3
 
 
 {{% alert info %}}
-This is the second part of the introduction article on the waylay rule engine. More general info can be found [here](usage/waylay_engine).
+This is the second part of the introduction article on the waylay rule engine. More general info can be found in the first part [here](usage/waylay_engine).
 "How to" videos are on this [link](usage/videos), and finally different rule patterns are explained here: [rule patterns](patterns/)
 {{% /alert %}}
 
