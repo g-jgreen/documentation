@@ -3,6 +3,7 @@ layout:     post
 title:      "Bosch XDK support available with mqtt"
 date:       2016-10-18T15:05:00.000Z
 author:     Lorenzo Van De Sijpe
+draft:      true
 ---
 
 [![IMAGE ALT TEXT](https://i.ytimg.com/vi/FAlyjBO0-7g/maxresdefault.jpg)](https://www.youtube.com/watch?v=FAlyjBO0-7g "Bosch XDK")
