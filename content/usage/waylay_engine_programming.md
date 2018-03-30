@@ -46,28 +46,28 @@ Example taken from [wikipedia](https://en.wikipedia.org/wiki/Bayesian_network)
 ## Conditional probability table (CPT) 
 
 In statistics, the conditional probability table (CPT) is defined for a set of discrete (not independent) random variables to demonstrate marginal probability of a single variable with respect to the others.
-In previous example, CPT table might look like this:
+In our previous example, CPT table might look like this:
 ![cpt](usage/programming_guide/cpt.png)
 
-Using CPT table, one can answer questions, such as: "What is the probability that it is raining, given the grass is wet?" or “What is a probability of sprinkler being turned on giving the grass is wet” or “What is a probability of grass being wet giving it is raining” … 
+Using CPT table, one can answer questions such as: "What is the probability that it is raining, given that the grass is wet?" or “What is the probability of the sprinkler being turned on giving that the grass is wet” or “What is the probability of the grass being wet giving thatnit is raining” … 
 
-One might even go further and introduce cloudy weather or humidity as variables for the same problem, like in the example below:
+One might even go further and introduce cloudy weather or humidity as variables into the same problem, like in the example below:
 
 ![cpt](usage/programming_guide/cpt_2.jpeg)
 
 # Waylay abstractions on top of Bayesian network
-In default SaaS offering, the waylay designer models only the independent random variables – which we call a sensor, while the conditional dependencies are only modelled using CPT (so in the picture above, relation sprinkler<-rain would not be possible). 
-Also, in SaaS offering, the conditional dependencies are expressed using “simplified” CPT table (where we only create zeros and ones in the table), which we call __gates__. 
+In our default SaaS offering, the waylay designer models only the independent random variables – which we call sensors, while the conditional dependencies are only modelled using CPT (so in the picture above, the relation sprinkler<-rain would not be possible). 
+Also, in our SaaS offering, the conditional dependencies are expressed using “simplified” CPT table (where we only create zeros and ones in the table), which we call __gates__. 
 
 __Actuations__ are simple functional calls (fire and forget) associated with outcomes (observations) of either sensors or gates – which must be completely observed (posterior probability is 1) – meaning the sensor has returned the state or gate is in one of the states with posterior probability 1. 
 
 {{% alert info %}}
-For instance the rule: *send SMS (actuation) in case that the weather condition (sensor) is storm (state)*, would be modelled with only one sensor, without gates, where actuator is attached to the weather sensor.
+For instance the rule: *send SMS (actuation) in case that the weather condition (sensor) is storm (state)*, would be modelled with only one sensor, without gates, where the actuator is attached to the weather sensor.
 {{% /alert %}}
 ![cpt](usage/programming_guide/storm.png)
 
 # Waylay Sensors and Actuators 
-In waylay, the random variable (node) is a sensor that encapsulates a particular random variable that can be observed via attached sensor function. For every node, there are three groups of settings:
+In waylay, the random variable (node) is a sensor that encapsulates a particular random variable that can be observed via the attached sensor function. For every node, there are three groups of settings:
 
 * __Settings that control when the sensor will be executed__: by polling, execute on data stream using the resource concept, execute on the task tick (polling/cron…), sequence number, state change from another sensor triggering the execution etc.
 * __Settings that control how long the sensor information is valid__ (eviction by time or by resetObservation flag - which would simply reset the observed node just before the sensor function executes)
@@ -104,29 +104,29 @@ More about sensors and actuators you can find on this [link](api/sensors-and-act
 # Building logical statements using CPT table
 Let's consider these two sentences:
 
-* I am very happy person when I eat chocolate **AND** I am also very happy when I watch football. 
-* I am very happy when I eat chocolate **OR** watch football. 
+* I am very happy when I eat chocolate **AND** when I watch football. 
+* I am very happy when I eat chocolate **OR** when I watch football. 
 
 From this simple example, we see how often we use AND in the sentence to express OR relation. 
 
-In waylay, we have come up with a simple abstractions for CPT, which we call gates and we define three types of CPT tables: 
+In waylay, we have come up with simple abstractions for CPT, which we call gates, and we define three types of CPT tables: 
 
 * `AND`, 
 * `OR`, 
 * `GENERAL`
 
-First two gates (`AND`, `OR`) **somewhat resemble Boolean Logic**, even though there are quite some differences to what people might expect:
+The first two gates (`AND`, `OR`) **somewhat resemble Boolean Logic**, even though there are quite some differences to what people might expect:
 
-* First difference is that **all gates can be attached to a “non binary”** sensor (sensor having more than two states), 
-* Second major difference is that **you should not assume that both sensors need to be observed in order to have the gate state with posterior probability 1** (in case of AND gate that would be FALSE state, while for OR gate that would be TRUE state, see later). That second difference is very important if we attach an actuator or sensor to the gate, as they both expect gate to be completely observed (1) before actuation or triggering another sensor which is attached to that gate.
+* The first difference is that **all gates can be attached to a “non binary”** sensor (sensor having more than two states), 
+* The second major difference is that **you should not assume that both sensors need to be observed in order to have the gate state with posterior probability 1** (in case of AND gate that would be FALSE state, while for OR gate that would be TRUE state, see later). That second difference is very important if we attach an actuator or sensor to the gate, as they both expect the gate to be completely observed (1) before actuation or before triggering another sensor which is attached to that gate.
 
 {{% alert info %}}
-In case of doubt, our suggestion is to start always with `GENERAL` gate, in case you need `either` relation, meaning 'either this state of nodeX or that state of nodeY'
+In case of doubt, our suggestion is to always start with a `GENERAL` gate in case you need an `either` relation, meaning 'either this state of nodeX or that state of nodeY'
 {{% /alert %}}
 
 
 ## GENERAL gate 
-Let's assume we roll a dice and want to have a `TRUE` state of the `Gate_1` when **either** `dice_1` is in state `ONE` OR `dice_2` is in state `THREE`. General gate settings will look like this:
+Let's assume we roll a dice and want to have a `TRUE` state of the `Gate_1` when **either** `dice_1` is in state `ONE` OR `dice_2` is in state `THREE`. The GENERAL gate settings will look like this:
 
 ![general](usage/programming_guide/general_CPT1.png)
 
@@ -143,11 +143,12 @@ Example of AND gate for two nodes with only two states, where we model the only 
 ![and](usage/programming_guide/AND.png)
 
 and corresponding CPT table:
+
 ![and](usage/programming_guide/AND_GATE.png)
 
 
 {{% alert info %}}
-If we look at the CPT table, we can see that **as soon as** one of the nodes is in the state FALSE, the gate will be in state FALSE. On the other hand, both nodes must be observed to state TRUE, to have the AND gate in state TRUE too. 
+If we look at the CPT table, we can see that **as soon as** one of the nodes is in the state FALSE, the gate will be in the state FALSE. On the other hand, both nodes must be observed to state TRUE, to have the AND gate in state TRUE as well. 
 
 The same gate can be applied to more than 2 nodes, and more than 2 states per node. 
 {{% /alert %}}
@@ -158,17 +159,18 @@ Example of OR gate for the same nodes, where we model only the condition that le
 ![or](usage/programming_guide/OR.png)
 
 and corresponding CPT table:
+
 ![or](usage/programming_guide/OR_GATE.png)
 
 
-This table tells that only if both nodes return state TRUE the gate will be in the state TRUE.  Again, we can apply the same gate for multiple nodes and with more than 2 states, but CPT table looks always the same, with only one combination leading to FALSE state.
-Reason that some people consider this as a NOR gate is because in boolean logic, NOR is a gate that for two binary inputs produces TRUE state only when both inputs are FALSE. In our case, we can model any state combinations which lead to a single FALSE state of the gate, so in that sense, we are trying not to confuse users even more.
+This table tells that only if both nodes return state TRUE the gate will be in the state TRUE.  Again, we can apply the same gate for multiple nodes and with more than 2 states, but the CPT table looks always the same, with only one combination leading to FALSE state.
+The reason why some people consider this as a NOR gate is because in boolean logic, NOR is a gate that for two binary inputs produces TRUE state only when both inputs are FALSE. In our case, we can model any state combinations which lead to a single FALSE state of the gate, so in that sense, we are trying not to confuse users even more.
 
-Here is the example with two sensors, with two states (TRUE, FALSE) attached to AND and OR gate, randomly changing their states over time. 0.5 means that sensor is not yet observed (initial condition), while 1.0 means that sensors are in one of two possible states. On the other hand, AND and OR gate values represent posterior probabilities, that are changing from 0.5, to .75 and 1.0, depending on the CPT table. For instance, in the initial condition, where both sensor states are with priors 0.5 for both TRUE and FALSE state, AND gate will be 0.75 likely in state FALSE, while OR gate with posterior probability of 0.75 in TRUE state.
+Here is the example with two sensors, with two states (TRUE, FALSE) attached to AND and OR gate, randomly changing their states over time. 0.5 means that the sensor is not yet observed (initial condition), while 1.0 means that the sensors are in one of two possible states. On the other hand, AND and OR gate values represent posterior probabilities, that are changing from 0.5, to .75 and 1.0, depending on the CPT table. For instance, in the initial condition, where both sensor states are with priors 0.5 for both TRUE and FALSE state, AND gate will be 0.75 likely in state FALSE, while OR gate with posterior probability of 0.75 in TRUE state.
 
 ![gates](usage/programming_guide/gates_1.png)
 
-This is the same example as before, with only difference that now sensor’s states are evicted after a while (using eviction flag), which means sensors switch from being fully observed (1.0) back to priors 0.5, which also changes posterior conditions for attached gates:
+This is the same example as before, with the only difference being that now the sensors' states are evicted after a while (using eviction flag), which means sensors switch from being fully observed (1.0) back to priors 0.5, which also changes posterior conditions for attached gates:
 
 ![gates](usage/programming_guide/gates_2.png)
 
@@ -180,7 +182,7 @@ This is the example where we use three different gates at the same time. Please 
 
 ![gates](usage/programming_guide/general_1.png)
 
-Difference between SaaS view and expert view for one template: when we model a template in the SaaS portal, we are actually creating a Bayesian network (picture below). 
+The difference between the SaaS view and the expert view for one template is this one: when we model a template in the SaaS portal, we are actually creating a Bayesian network (picture below). 
 
 ![saas](usage/programming_guide/saas.png)
 
@@ -190,48 +192,49 @@ In this picture, you see already some of the sensors being observed, with poster
 
 
 # Task control
- Let’s take closer look into one task:
+ Let’s take a closer look into one task:
 
  ![task](usage/programming_guide/task_1.png)
 
 As mentioned earlier, whether a particular sensor’s function will execute depends only on the node or task settings. We can decide to run each sensor separately, with polling, or to execute sensor based on the task clock (cron/polling/…), or by getting sensor triggered on the outcome of another sensor, or trigger the sensor execution when stream data arrives. We can even mix these conditions together. 
 
 # Task Context
-Once the sensor executes, both state and raw data is passed into the task context. That context is accessible to all sensors and actuators at any time. In the picture below, with red box we show the node’s context when it becomes available in the task context, while with a yellow arrow, we represent the state for any given sensor (how long it stays in a given state depends on the eviction and the next sensor invocation).
+Once the sensor executes, both state and raw data is passed into the task context. That context is accessible to all sensors and actuators at any time. In the picture below, with the red box we show the node’s context when it becomes available in the task context, while with a yellow arrow, we represent the state for any given sensor (how long it stays in a given state depends on the eviction and the next sensor invocation).
 
  ![task](usage/programming_guide/task_2.png)
 
- For instance, here we can see that node 5, just before execution had already a possibility to access the context of other 4 nodes (their states and raw data). From this is obvious, that by just chaining sensors to each other, without any gate, we can easily implement any flow-based rule.
+ For instance, here we can see that node 5, just before execution, already had a possibility to access the context of other 4 nodes (their states and raw data). From this it is quite obvious that just by chaining sensors to each other, without any gate, we can easily implement any flow-based rule.
 
 # Inference 
-Once the sensor execution was successful, few things happen: state is propagated thought the network using inference algorithm; every node or gate that has attached actuators will evaluate whether the actuator needs to fire; finally, the result of the sensor execution is stored in the task context (red boxes). The task context is always available to all sensor functions. 
+Once the sensor execution was successful, a few things happen: state is propagated through the network using inference algorithm; every node or gate that has attached actuators will evaluate whether the actuator needs to fire; and finally, the result of the sensor execution is stored in the task context (red boxes). The task context is always available to all sensor functions. 
+
 In the picture below, we show the node states in colour only if they are set with probability 1. 
 
-We will show two examples, where the same sensors are first attached to AND gate, and second example, where the same sensors are attached to OR gate. Observations (labelled by red and green boxes on top) will be the same in both cases. Yellow icon, just below the boxes shows when the inference happens (right after any node observation). We also assume that there is an actuator attached to gate with condition TRUE, which is represented by a small yellow arrow on the gate graph.
+We will show two examples, where the same sensors are first attached to the AND gate, and then in the second example, where the same sensors are attached to the OR gate. Observations (labeled by red and green boxes on top) will be the same in both cases. The yellow icon just below the boxes shows when the inference happens (right after any node observation). We also assume that there is an actuator attached to the gate with condition TRUE, which is represented by a small yellow arrow on the gate graph.
  ![and_actuator](usage/programming_guide/AND_actuator.png)
 
 In this short video, we show the example where both observations become TRUE, triggering the actuation on the AND gate:
+
 ![inference](usage/programming_guide/and_movie1.gif)
 
 Let's see some other possible scenarios:
 
  ![inference](usage/programming_guide/inference_1.png)
 
-Depending on the eviction policy, state of the sensor might remain the same till the next observation, or simply node can reset to priors (white arrow), after the eviction time is reached. 
+Depending on the eviction policy, the state of the sensor might remain the same till the next observation, or the node can simply reset to priors (white arrow), after the eviction time is reached. 
 
 In the first example above, node1 and node2 have the same eviction policy, which makes the gate to be fully observed only as long as both nodes are fully observed too (see section on CPT table). In the second example, states stayed observed till the next observation (sensor function) is executed.
 
 In the third example, resetObservations flag was set true, which would make the node automatically reset to priors just before the execution of the attached sensor function.
-Using the same example, but now with OR gate we can see how would rule evolve in time. 
 
-The same example as above, but this time with OR gate:
+Using the same example as above, onlyt now with the OR gate, we can see how would the rule evolve in time. 
 
  ![or_actuator](usage/programming_guide/OR_actuator.png)
 
 
  ![inference](usage/programming_guide/inference_2.png)
 
-If you look at the last example, you can notice that the actuation happened twice, when the first sensor returned TRUE state, and when the second one returned TRUE state, since the inference happens any time there is a new observation in the network, and in both cases, the OR gate resulted in TRUE state. Should such things be avoided, designer can either choose to actuate on the state change (only when first time the gate becomes TRUE), or by limiting how often actuation happens, using [triggering policy](usage/tasks-and-templates).
+Looking at the last example, you can notice that the actuation happened twice, when the first sensor returned the TRUE state, and then when the second one returned the TRUE state, since the inference happens any time there is a new observation in the network, and in both cases, the OR gate resulted in TRUE state. Should such things be avoided, the designer can either choose to actuate on the state change (only when first time the gate becomes TRUE), or by limiting how often actuation happens, using [triggering policy](usage/tasks-and-templates).
 
 ![inference](usage/programming_guide/or_movie1.gif)
 
@@ -239,9 +242,9 @@ If you look at the last example, you can notice that the actuation happened twic
 
 ## Check what you can do more with this engine:
 
-Now that you have learned more about waylay inference engine programming principles, check out this link: [rule patterns](patterns/), where you can learn more about different integration patters, such as:
+Now that you have learned more about the waylay inference engine programming principles, check out this link: [rule patterns](patterns/), where you can learn more about different integration patterns, such as:
 
-* Raise the alarm if the stream data is above the threshold for predefined period of time
+* Raise the alarm if the stream data is above the threshold for the predefined period of time
 * Counting the number of alarms within a time window or number of samples
 * Flow based rules
 * CEP raw data processing
@@ -252,7 +255,7 @@ Now that you have learned more about waylay inference engine programming princip
 * JSON payload transformation and enrichment
 * Mixing push and pull events, with conditional sensor execution
 * Mixing push and pull events, general case
-* How to synchronized different data streams
+* How to synchronize different data streams
 * Control flow using sequence feature
 * Threshold crossing with stream data
 * Timings in waylay - merging data streams and applying formula
@@ -261,20 +264,16 @@ Now that you have learned more about waylay inference engine programming princip
 ## AI stuff....
 Bayesian Networks, AI ...
 
-* If you are interested to know more about Bayesian Networks, this book is a classic [Bayesian Networks, Probabilistic Reasoning in Intelligent Systems by Judea Paerl](https://www.amazon.com/Probabilistic-Reasoning-Intelligent-Systems-Representation/dp/1558604790). 
+* If you are interested in learning more about Bayesian Networks, this book is a classic [Bayesian Networks, Probabilistic Reasoning in Intelligent Systems by Judea Paerl](https://www.amazon.com/Probabilistic-Reasoning-Intelligent-Systems-Representation/dp/1558604790). 
 * [Artificial Intelligence: A Modern Approach](https://www.amazon.com/Artificial-Intelligence-Modern-Approach-3rd/dp/0136042597), by Peter Norvig, Stuart J. Russell, is an excellent AI book, and has a nice chapter on Probabilistic reasoning and Bayesian Networks.
-* just google...
+* Or just google it.. :)
 
 
 
 
 ![movie](usage/programming_guide/long-movie.gif)
 
-written by Veselin Pizurica
-
-
-
-
+Written by Veselin Pizurica.
 
 
 
