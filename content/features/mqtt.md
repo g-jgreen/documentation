@@ -2,6 +2,7 @@
 title: Using Waylay Broker and MQTT
 description: Learn how to use MQTT, Broker and how to bridge different protocols
 weight: 4
+draft: true
 ---
 
 # Device onboarding and authentication in Waylay
